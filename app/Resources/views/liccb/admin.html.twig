@@ -1,0 +1,25 @@
+{# app/Resources/views/liccb/admin.html.twig #}
+{# Variables: page_title, stylesheet, body, javascript, user_entries#}
+{% extends 'base.html.twig' %}
+
+{% block page_title %}Administrator Portal{% endblock %}
+
+{% block body %}
+	{# Contain whole thing in variable sized scrollable window}
+    {% for user in user_entries %}
+		{# Contain each user entry in dropdown configuration in unordered list#}
+		<div class="tb">
+			{# These spans will be the thing you click next to #}
+			<span>Show</span>
+			<span>Hide</span>
+			<input type="checkbox"/>
+			<table class="collapsible" id ="collapsible1">
+				<tr>
+					<td> {# Find some way to put user information here #} </td>
+				</tr>
+			</table>
+		</div>
+        <h2>{{ entry.title }}</h2>
+        <p>{{ entry.body }}</p>
+    {% endfor %}
+{% endblock %}
