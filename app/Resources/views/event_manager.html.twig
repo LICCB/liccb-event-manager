@@ -1,0 +1,15 @@
+{# app/Resources/views/liccb/admin.html.twig #}
+{# Variables: page_title, stylesheet, body, javascript, user_entries#}
+{% extends 'base.html.twig' %}
+
+{% block page_title %}Event Manager{% endblock %}
+
+{% block body %}
+	{# Contain whole thing in variable sized scrollable window #}
+	<ul>
+		{% for event in event_entries %}
+		{# Contain each user entry in dropdown configuration in unordered list#}
+		<li>{% event.name %}</li>
+    {% endfor %}
+	</ul>
+{% endblock %}

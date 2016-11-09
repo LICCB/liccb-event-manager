@@ -1,0 +1,21 @@
+{# /Resources/views/from_template.html.twig #}
+
+<div>
+    Steps:
+    {% include 'CraueFormFlowBundle:FormFlow:stepList.html.twig' %}
+</div>
+
+{{ form_start(form) }}
+    {{ form_errors(form) }}
+
+    {% if flow.getCurrentStepNumber() == 1 %}
+        <div>
+            This is just gonna be the first step in the form<br />
+            {{ form_row(form.whatever_we_use_here) }}
+        </div>
+    {% endif %}
+
+    {{ form_rest(form) }}
+
+    {% include 'CraueFormFlowBundle:FormFlow:buttons.html.twig' %}
+{{ form_end(form) }}
