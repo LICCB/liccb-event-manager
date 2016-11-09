@@ -13,3 +13,10 @@
 .tb input[type="checkbox"]:checked ~ .collapsible {
     display:table;
 }
+
+#userTable {
+	height:80%; 
+	width:60%;
+	overflow:hidden; 
+	overflow-y:scroll;
+}

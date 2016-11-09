@@ -5,21 +5,22 @@
 {% block page_title %}Administrator Portal{% endblock %}
 
 {% block body %}
-	{# Contain whole thing in variable sized scrollable window}
+	{# Contain whole thing in variable sized scrollable window #}
+	<div class="panel-group" id="accordion">
     {% for user in user_entries %}
 		{# Contain each user entry in dropdown configuration in unordered list#}
-		<div class="tb">
-			{# These spans will be the thing you click next to #}
-			<span>Show</span>
-			<span>Hide</span>
-			<input type="checkbox"/>
-			<table class="collapsible" id ="collapsible1">
-				<tr>
-					<td> {# Find some way to put user information here #} </td>
-				</tr>
-			</table>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					<a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+					{# Titles go here #}
+					Collapsible Group 1</a>
+				</h4>
+			</div>
+			<div id="collapse1" class="panel-collapse collapse in">
+				<div class="panel-body"> {# Text goes here #}</div>
+			</div>
 		</div>
-        <h2>{{ entry.title }}</h2>
-        <p>{{ entry.body }}</p>
     {% endfor %}
+	</div>
 {% endblock %}
