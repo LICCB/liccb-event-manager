@@ -1,0 +1,12 @@
+{# app/Resources/views/liccb/splash.html.twig #}
+{# Variables: page_title, stylesheet, body, javascript #}
+{% extends 'base.html.twig' %}
+
+{% block page_title %}Splash Page{% endblock %}
+
+{% block body %}
+    {% for entry in blog_entries %}
+        <h2>{{ entry.title }}</h2>
+        <p>{{ entry.body }}</p>
+    {% endfor %}
+{% endblock %}
