@@ -4,6 +4,9 @@ parameters:
 #    parameter_name: value
 
 services:
+     AppBundle.form.flow.registration:
+         class: AppBundle\Form\RegistrationFlow
+         parent: craue.form.flow
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
