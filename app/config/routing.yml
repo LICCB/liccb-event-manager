@@ -1,3 +1,6 @@
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation
+register:
+    path:      /register
+    defaults: {_controller: AppBundle:Register:register}
