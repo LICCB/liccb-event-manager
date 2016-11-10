@@ -1,11 +1,13 @@
 <?php
 
-// src/AppBundle/Form/Registration.php
+// src/AppBundle/Form/RegistrationFlow.php
+
+namespace AppBundle\Form;
 
 use Craue\FormFlowBundle\Form\FormFlow;
 use Craue\FormFlowBundle\Form\FormFlowInterface;
 
-class RegistrationVehicleFlow extends FormFlow {
+class RegistrationFlow extends FormFlow {
     protected  function  loadStepsConfig()
     {
         return array(
@@ -28,6 +30,9 @@ class RegistrationVehicleFlow extends FormFlow {
             array(
                 'label' => 'eventDiscovery',
                 'form_type' => 'AppBundle\Form\RegistrationForm',
+            ),
+            array(
+                'label' => 'confirmation',
             ),
         );
     }
