@@ -8,9 +8,9 @@
 			{% block page_title %}Default Page{% endblock %}
 		</title>
 		
-		<% block stylesheet %>
+		{% block stylesheet %}
 			<link href="{{ asset('css/main.css.twig') }}" rel="stylesheet" />
-		<% endblock %>
+		{% endblock %}
 		
 		<!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -22,11 +22,11 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	</head>
 	<body>
-		<% block body %>
-		<% endblock %>
-		
-		<% block javascript %>
-		<% endblock %>
+	{% block body %}
+	{% endblock %}
+
+	{% block javascript %}
+	{% endblock %}
 	</body>
 	<footer>
 	</footer>
