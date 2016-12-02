@@ -1,0 +1,18 @@
+{# app/Resources/views/liccb/splash.html.twig #}
+{# Variables: page_title, stylesheet, body, javascript #}
+{% extends 'base.html.twig' %}
+
+{% block head %}
+	<script src="https://apis.google.com/js/platform.js" async defer></script>
+	<meta name="google-signin-client_id" content="959790488269-dftokkni3vaevk95s77gu6hhsf1nprai.apps.googleusercontent.com">
+	{{parent()}}
+{% endblock %}
+
+{% block page_title %}Splash Page{% endblock %}
+
+{% block body %}
+	<div class="parallax">
+		{# Google sign in button #}
+		<div class="g-signin2" data-onsuccesses="onSignIn"></div>
+	</div>
+{% endblock %}
