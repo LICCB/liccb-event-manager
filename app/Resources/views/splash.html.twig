@@ -4,7 +4,7 @@
 
 {% block head %}
 	<script src="https://apis.google.com/js/platform.js" async defer></script>
-	<meta name="google-signing-client_id" content="959790488269-dftokkni3vaevk95s77gu6hhsf1nprai.apps.googleusercontent.com">
+	<meta name="google-signin-client_id" content="959790488269-dftokkni3vaevk95s77gu6hhsf1nprai.apps.googleusercontent.com">
 	{{parent()}}
 {% endblock %}
 
@@ -14,7 +14,5 @@
 	<div class="parallax">
 		{# Google sign in button #}
 		<div class="g-signin2" data-onsuccesses="onSignIn"></div>
-		{# Anonymous Sign in button #}
-		<a href="whateverURL">Anonymous Login</a>
 	</div>
 {% endblock %}
