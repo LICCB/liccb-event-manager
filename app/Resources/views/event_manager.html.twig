@@ -9,7 +9,7 @@
 	<ul>
 		{% for event in event_entries %}
 		{# Contain each user entry in dropdown configuration in unordered list#}
-		<li>{% event.name %}</li>
-    {% endfor %}
+		<li>{{ event.name }}</li>
+		{% endfor %}
 	</ul>
 {% endblock %}
