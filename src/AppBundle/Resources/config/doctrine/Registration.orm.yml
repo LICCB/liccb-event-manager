@@ -22,6 +22,7 @@ AppBundle\Entity\Registration:
         full_name:
             type: string
         email:
+            unique: TRUE
             type: string
         phone_number:
             type: string
