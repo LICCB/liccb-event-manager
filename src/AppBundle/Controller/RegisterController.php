@@ -11,19 +11,28 @@ class RegisterController extends Controller
 {
     public function registerAction()
     {
-    	$formData = new Registration();
+    	$formData = new Registration(); // Form data class
 
-        $flow = $this->get('AppBundle.form.flow.registration');
+        $flow = $this->get('AppBundle.form.flow.registration'); // Flow service id
 	    $flow->bind($formData);
 
+	    // Form current step
         $form = $flow->createForm();
         if($flow->isValid($form)){
             $flow->saveCurrentStepData($form);
 
             if($flow->nextStep()){
+            	// Form for next step
                 $form = $flow->createForm();
             } else {
-                $flow->reset();
+            	// Flow finished, save to DB
+            	$em = $this->getDoctrine()->getManager();
+	            $em->persist($formData);
+	            $em->flush();
+
+                $flow->reset(); // Remove step data from session
+
+	            return $this->redirect($this->generateUrl('home')); // redirect
             }
         }
 
