@@ -1,0 +1,50 @@
+.tb {
+    margin:10px 0;
+}
+.tb span+span, .collapsible {
+    display:none;
+}
+.tb input[type="checkbox"]:checked ~ span {
+    display:none;
+}
+.tb input[type="checkbox"]:checked ~ span+span{
+    display:inline;
+}
+.tb input[type="checkbox"]:checked ~ .collapsible {
+    display:table;
+}
+
+.parallax { 
+    /* The image used */
+    background-image: url("img_parallax.jpg");
+
+    /* Set a specific height */
+    height: 500px; 
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+a:link, a:visited {
+    background-color: #ced6e2;
+    color: white;
+    padding: 14px 50px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+
+a:hover, a:active {
+    background-color: red;
+}
+
+#userTable {
+	height:80%; 
+	width:60%;
+	overflow:hidden; 
+	overflow-y:scroll;
+}
