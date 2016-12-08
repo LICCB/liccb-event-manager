@@ -1,8 +1,17 @@
 <?php
 
-// src/AppBundle/Entity/RegistrationForm.php
+// src/AppBundle/Entity/Registration.php
 namespace AppBundle\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\ORM\Mapping as ORM;
+
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
+/**
+ * @ORM\Entity
+ * @UniqueEntity(fields={"email"},groups={"flow_registration_step4"})
+ */
 class Registration
 {
 	// Step 1
