@@ -4,3 +4,6 @@ app:
 register:
     path:      /register
     defaults: {_controller: AppBundle:Register:register}
+home:
+    path:      /
+    defaults: {_controller: AppBundle:Index:index}
