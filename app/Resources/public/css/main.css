@@ -42,6 +42,22 @@ a:hover, a:active {
     background-color: red;
 }
 
+body {
+    background-color: #bdd4f9;
+}
+
+#content {
+    width: 80%;
+    margin-left:auto;
+    margin-right:auto;
+    background-color:white;
+    text-align:center;
+}
+
+#sidebar {
+	
+}
+
 #background_container {
     background-repeat:no-repeat;
     background-size:cover;
