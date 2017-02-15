@@ -10,4 +10,3 @@ event_show:
 event_edit:
     path: /event/{id}/edit
     defaults: {_controller: AppBundle:Event:edit}
-    

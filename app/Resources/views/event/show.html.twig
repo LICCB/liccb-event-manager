@@ -2,6 +2,8 @@
 
 {% block body %}
 
-<p>{{ event.name }}</p>
+	<p>{{ event.name }}</p>
+
+	<a href="{{ path('event_edit', {'id': event.id}) }}">Edit</a>
 
 {% endblock %}
