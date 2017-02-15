@@ -42,6 +42,11 @@ a:hover, a:active {
     background-color: red;
 }
 
+#background_container {
+    background-repeat:no-repeat;
+    background-size:cover;
+}
+
 #userTable {
 	height:80%; 
 	width:60%;
