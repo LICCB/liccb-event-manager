@@ -1,0 +1,30 @@
+AppBundle\Entity\OrgEvent:
+    type: entity
+    table: null
+    repositoryClass: AppBundle\Repository\OrgEventRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        eventName:
+            type: string
+            length: 255
+            column: event_name
+        eventType:
+            type: string
+            length: 255
+            column: event_type
+        capacity:
+            type: integer
+        date:
+            type: date
+        signupStart:
+            type: date
+            column: signup_start
+        signupEnd:
+            type: date
+            column: signup_end
+    lifecycleCallbacks: {  }
