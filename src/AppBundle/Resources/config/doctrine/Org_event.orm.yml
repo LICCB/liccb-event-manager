@@ -1,7 +1,7 @@
-AppBundle\Entity\OrgEvent:
+AppBundle\Entity\Org_event:
     type: entity
     table: null
-    repositoryClass: AppBundle\Repository\OrgEventRepository
+    repositoryClass: AppBundle\Repository\Org_eventRepository
     id:
         id:
             type: integer
@@ -9,22 +9,27 @@ AppBundle\Entity\OrgEvent:
             generator:
                 strategy: AUTO
     fields:
-        eventName:
+        orgEventName:
             type: string
             length: 255
-            column: event_name
-        eventType:
+            column: org_event_name
+        orgEventType:
             type: string
             length: 255
-            column: event_type
+            column: org_event_type
         capacity:
             type: integer
         date:
-            type: date
+            type: datetime
         signupStart:
-            type: date
+            type: datetime
             column: signup_start
         signupEnd:
-            type: date
+            type: datetime
             column: signup_end
+        orgEventDescription:
+            type: string
+            length: '1023'
+            nullable: true
+            column: org_event_description
     lifecycleCallbacks: {  }

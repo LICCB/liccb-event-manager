@@ -3,9 +3,9 @@
 namespace AppBundle\Entity;
 
 /**
- * OrgEvent
+ * Org_event
  */
-class OrgEvent
+class Org_event
 {
     /**
      * @var int
@@ -15,12 +15,12 @@ class OrgEvent
     /**
      * @var string
      */
-    private $eventName;
+    private $orgEventName;
 
     /**
      * @var string
      */
-    private $eventType;
+    private $orgEventType;
 
     /**
      * @var int
@@ -42,6 +42,11 @@ class OrgEvent
      */
     private $signupEnd;
 
+    /**
+     * @var string
+     */
+    private $orgEventDescription;
+
 
     /**
      * Get id
@@ -54,51 +59,51 @@ class OrgEvent
     }
 
     /**
-     * Set eventName
+     * Set orgEventName
      *
-     * @param string $eventName
+     * @param string $orgEventName
      *
-     * @return OrgEvent
+     * @return Org_event
      */
-    public function setEventName($eventName)
+    public function setOrgEventName($orgEventName)
     {
-        $this->eventName = $eventName;
+        $this->orgEventName = $orgEventName;
 
         return $this;
     }
 
     /**
-     * Get eventName
+     * Get orgEventName
      *
      * @return string
      */
-    public function getEventName()
+    public function getOrgEventName()
     {
-        return $this->eventName;
+        return $this->orgEventName;
     }
 
     /**
-     * Set eventType
+     * Set orgEventType
      *
-     * @param string $eventType
+     * @param string $orgEventType
      *
-     * @return OrgEvent
+     * @return Org_event
      */
-    public function setEventType($eventType)
+    public function setOrgEventType($orgEventType)
     {
-        $this->eventType = $eventType;
+        $this->orgEventType = $orgEventType;
 
         return $this;
     }
 
     /**
-     * Get eventType
+     * Get orgEventType
      *
      * @return string
      */
-    public function getEventType()
+    public function getOrgEventType()
     {
-        return $this->eventType;
+        return $this->orgEventType;
     }
 
     /**
@@ -106,7 +111,7 @@ class OrgEvent
      *
      * @param integer $capacity
      *
-     * @return OrgEvent
+     * @return Org_event
      */
     public function setCapacity($capacity)
     {
@@ -130,7 +135,7 @@ class OrgEvent
      *
      * @param \DateTime $date
      *
-     * @return OrgEvent
+     * @return Org_event
      */
     public function setDate($date)
     {
@@ -154,7 +159,7 @@ class OrgEvent
      *
      * @param \DateTime $signupStart
      *
-     * @return OrgEvent
+     * @return Org_event
      */
     public function setSignupStart($signupStart)
     {
@@ -178,7 +183,7 @@ class OrgEvent
      *
      * @param \DateTime $signupEnd
      *
-     * @return OrgEvent
+     * @return Org_event
      */
     public function setSignupEnd($signupEnd)
     {
@@ -195,6 +200,30 @@ class OrgEvent
     public function getSignupEnd()
     {
         return $this->signupEnd;
+    }
+
+    /**
+     * Set orgEventDescription
+     *
+     * @param string $orgEventDescription
+     *
+     * @return Org_event
+     */
+    public function setOrgEventDescription($orgEventDescription)
+    {
+        $this->orgEventDescription = $orgEventDescription;
+
+        return $this;
+    }
+
+    /**
+     * Get orgEventDescription
+     *
+     * @return string
+     */
+    public function getOrgEventDescription()
+    {
+        return $this->orgEventDescription;
     }
 }
 
