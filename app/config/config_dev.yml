@@ -32,3 +32,8 @@ monolog:
 
 #swiftmailer:
 #    delivery_address: me@example.com
+
+#Doctrine
+doctrine:
+    dbal:
+        driver: pdo_pgsql
