@@ -4,7 +4,7 @@
 	<div id="content">
 		<h1> Events 2</h1>
 	{% for event in events %}
-		<a href="{{ path('event', {'slug': event.id}) }}">{{ event.orgEventName }}</a>
+		<a href="{{ path('event_show', {'id': event.id}) }}">{{ event.orgEventName }}</a>
 	{% endfor %}
 	</div>
 {% endblock %}
