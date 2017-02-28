@@ -4,3 +4,9 @@ app:
 home:
     path: /
     defaults: {_controller: AppBundle:Index:index}
+event_show:
+    path: /event/{id}
+    defaults: {_controller: AppBundle:Event:show}
+event_edit:
+    path: /event/{id}/edit
+    defaults: {_controller: AppBundle:Event:edit}
