@@ -10,7 +10,7 @@ class IndexController extends Controller
     {
 
     	$eventArray = $this->getDoctrine()
-		    ->getRepository('AppBundle:Event')
+		    ->getRepository('AppBundle:Org_event')
 		    ->findAll();
 
         return $this->render('index.html.twig', array(
