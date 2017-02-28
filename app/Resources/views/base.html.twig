@@ -21,14 +21,21 @@
 			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		{% endblock %}
 		
-		{% block stylesheet %}
-			<link href="{{ asset('public/css/main.css.twig') }}" rel="stylesheet" />
+		{% block stylesheets %}
+			{% stylesheets 'public/css/main.css' filter='cssrewrite' %}
+			     <link href="{{ asset_url }}" rel="stylesheet" />
+			{% endstylesheets %}
 		{% endblock %}
 		
 		
 	</head>
 	<body>
 	{% block body %}
+	{% endblock %}
+	
+	{% block sidebar %}
+		<div id="sidebar">
+		</div>
 	{% endblock %}
 
     {% block javascript %}
