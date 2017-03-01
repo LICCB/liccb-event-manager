@@ -1,0 +1,35 @@
+AppBundle\Entity\Party_participant_list:
+    type: entity
+    table: null
+    repositoryClass: AppBundle\Repository\Party_participant_listRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        partyId:
+            type: integer
+            column: party_id
+        registrantEmail:
+            type: string
+            length: 255
+            column: registrant_email
+        participantFullName:
+            type: string
+            length: 255
+            column: participant_full_name
+        emergencyContactName:
+            type: string
+            length: 255
+            column: emergency_contact_name
+        emergencyContactPhone:
+            type: integer
+            column: emergency_contact_phone
+        participantEmail:
+            type: string
+            length: 255
+            nullable: true
+            column: participant_email
+    lifecycleCallbacks: {  }
