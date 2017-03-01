@@ -1,0 +1,22 @@
+{# app/Resources/views/register.html.twig #}
+{%  extends 'base.html.twig' %}
+{% block stylesheets %}
+    {% stylesheets '@CraueFormFlowBundle/Resources/assets/css/buttons.css' %}
+    <link type="text/css" rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+<div>
+    Steps:
+    {%  include 'CraueFormFlowBundle:FormFlow:stepList.html.twig' %}
+</div>
+{{ form_start(form) }}
+  {{ form_errors(form) }}
+  {{ form_widget(form) }}
+
+  {% include 'CraueFormFlowBundle:FormFlow:buttons.html.twig' %}
+{{ form_end(form) }}
+{% endblock %}

@@ -10,3 +10,6 @@ event_show:
 event_edit:
     path: /event/{id}/edit
     defaults: {_controller: AppBundle:Event:edit}
+register:
+    path:      /register
+    defaults: {_controller: AppBundle:Register:register}
