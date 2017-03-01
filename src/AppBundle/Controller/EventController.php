@@ -21,7 +21,7 @@ class EventController extends Controller
 
     public function editAction(Request $request, $id){
     	$event = $this->getDoctrine()
-		    ->getRepository('AppBundle:Event')
+		    ->getRepository('AppBundle:Org_event')
 		    ->find($id);
 
     	$form = $this->createForm(EventEdit::class, $event);
