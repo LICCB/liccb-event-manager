@@ -11,7 +11,7 @@ class EventController extends Controller
     public function showAction($id)
     {
     	$event = $this->getDoctrine()
-		    ->getRepository('AppBundle:Event')
+		    ->getRepository('AppBundle:Org_event')
 		    ->find($id);
 
         return $this->render('event/show.html.twig', array(

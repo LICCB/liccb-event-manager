@@ -2,7 +2,15 @@
 
 {% block body %}
 
-	<p>{{ event.name }}</p>
+	<h1>{{ event.orgEventName }}</h1>
+	<ul>
+		<li>Type: {{ event.orgEventType }}</li>
+		<li>Capacity: {{ event.capacity }}</li>
+		<li>Date: {{ event.date|date("m/d/Y") }}</li>
+		<li>Signup Start: {{ event.signupStart|date("m/d/Y") }}</li>
+		<li>Signup End: {{ event.signupEnd|date("m/d/Y") }}</li>
+		<li>Event Description: {{ event.orgEventDescription }}</li>
+	</ul>
 
 	<a href="{{ path('event_edit', {'id': event.id}) }}">Edit</a>
 
