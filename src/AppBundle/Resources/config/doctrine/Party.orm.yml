@@ -13,6 +13,9 @@ AppBundle\Entity\Party:
             type: string
             length: 255
             column: registrant_email
+        orgEventId:
+            type: integer
+            column: org_event_id
         numSeats:
             type: integer
             column: num_seats

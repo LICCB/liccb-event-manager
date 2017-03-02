@@ -20,6 +20,11 @@ class Party
     /**
      * @var int
      */
+    private $orgEventId;
+
+    /**
+     * @var int
+     */
     private $numSeats;
 
     /**
@@ -80,6 +85,30 @@ class Party
     public function getRegistrantEmail()
     {
         return $this->registrantEmail;
+    }
+
+    /**
+     * Set orgEventId
+     *
+     * @param integer $orgEventId
+     *
+     * @return Party
+     */
+    public function setOrgEventId($orgEventId)
+    {
+        $this->orgEventId = $orgEventId;
+
+        return $this;
+    }
+
+    /**
+     * Get orgEventId
+     *
+     * @return int
+     */
+    public function getOrgEventId()
+    {
+        return $this->orgEventId;
     }
 
     /**
