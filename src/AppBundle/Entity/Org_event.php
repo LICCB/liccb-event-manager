@@ -225,5 +225,50 @@ class Org_event
     {
         return $this->orgEventDescription;
     }
-}
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $parties;
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->parties = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add party
+     *
+     * @param \AppBundle\Entity\Party $party
+     *
+     * @return Org_event
+     */
+    public function addParty(\AppBundle\Entity\Party $party)
+    {
+        $this->parties[] = $party;
+
+        return $this;
+    }
+
+    /**
+     * Remove party
+     *
+     * @param \AppBundle\Entity\Party $party
+     */
+    public function removeParty(\AppBundle\Entity\Party $party)
+    {
+        $this->parties->removeElement($party);
+    }
+
+    /**
+     * Get parties
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getParties()
+    {
+        return $this->parties;
+    }
+}

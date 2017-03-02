@@ -109,5 +109,50 @@ class Participant
     {
         return $this->comment;
     }
-}
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $party_participant_lists;
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->party_participant_lists = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add partyParticipantList
+     *
+     * @param \AppBundle\Entity\Party_participant_list $partyParticipantList
+     *
+     * @return Participant
+     */
+    public function addPartyParticipantList(\AppBundle\Entity\Party_participant_list $partyParticipantList)
+    {
+        $this->party_participant_lists[] = $partyParticipantList;
+
+        return $this;
+    }
+
+    /**
+     * Remove partyParticipantList
+     *
+     * @param \AppBundle\Entity\Party_participant_list $partyParticipantList
+     */
+    public function removePartyParticipantList(\AppBundle\Entity\Party_participant_list $partyParticipantList)
+    {
+        $this->party_participant_lists->removeElement($partyParticipantList);
+    }
+
+    /**
+     * Get partyParticipantLists
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPartyParticipantLists()
+    {
+        return $this->party_participant_lists;
+    }
+}

@@ -8,6 +8,13 @@ AppBundle\Entity\Registrant:
             id: true
             generator:
                 strategy: AUTO
+    oneToMany:
+        parties:
+            targetEntity: Party
+            mappedBy: registrantEmail
+        party_participant_lists:
+            targetEntity: Party_participant_list
+            mappedBy: registrantEmail
     fields:
         registrantEmail:
             type: string

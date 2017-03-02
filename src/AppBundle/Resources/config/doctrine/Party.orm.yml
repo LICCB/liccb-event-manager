@@ -8,6 +8,17 @@ AppBundle\Entity\Party:
             id: true
             generator:
                 strategy: AUTO
+    manyToOne:
+        registrant:
+            targetEntity: Registrant
+            inversedBy: parties
+        org_event:
+            targetEntity: Org_event
+            inversedBy: parties
+    oneToMany:
+        party_participant_lists:
+            targetEntity: Party_participant_list
+            mappedBy: partyId
     fields:
         registrantEmail:
             type: string

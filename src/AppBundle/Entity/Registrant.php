@@ -428,5 +428,90 @@ class Registrant
     {
         return $this->vehicleCapacity;
     }
-}
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $parties;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $party_participant_lists;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->parties = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->party_participant_lists = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add party
+     *
+     * @param \AppBundle\Entity\Party $party
+     *
+     * @return Registrant
+     */
+    public function addParty(\AppBundle\Entity\Party $party)
+    {
+        $this->parties[] = $party;
+
+        return $this;
+    }
+
+    /**
+     * Remove party
+     *
+     * @param \AppBundle\Entity\Party $party
+     */
+    public function removeParty(\AppBundle\Entity\Party $party)
+    {
+        $this->parties->removeElement($party);
+    }
+
+    /**
+     * Get parties
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getParties()
+    {
+        return $this->parties;
+    }
+
+    /**
+     * Add partyParticipantList
+     *
+     * @param \AppBundle\Entity\Party_participant_list $partyParticipantList
+     *
+     * @return Registrant
+     */
+    public function addPartyParticipantList(\AppBundle\Entity\Party_participant_list $partyParticipantList)
+    {
+        $this->party_participant_lists[] = $partyParticipantList;
+
+        return $this;
+    }
+
+    /**
+     * Remove partyParticipantList
+     *
+     * @param \AppBundle\Entity\Party_participant_list $partyParticipantList
+     */
+    public function removePartyParticipantList(\AppBundle\Entity\Party_participant_list $partyParticipantList)
+    {
+        $this->party_participant_lists->removeElement($partyParticipantList);
+    }
+
+    /**
+     * Get partyParticipantLists
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPartyParticipantLists()
+    {
+        return $this->party_participant_lists;
+    }
+}

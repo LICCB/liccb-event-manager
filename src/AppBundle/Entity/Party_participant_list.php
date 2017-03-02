@@ -196,5 +196,91 @@ class Party_participant_list
     {
         return $this->participantEmail;
     }
-}
+    /**
+     * @var \AppBundle\Entity\Registrant
+     */
+    private $registrant;
 
+    /**
+     * @var \AppBundle\Entity\Party
+     */
+    private $party;
+
+    /**
+     * @var \AppBundle\Entity\Participant
+     */
+    private $participant;
+
+
+    /**
+     * Set registrant
+     *
+     * @param \AppBundle\Entity\Registrant $registrant
+     *
+     * @return Party_participant_list
+     */
+    public function setRegistrant(\AppBundle\Entity\Registrant $registrant = null)
+    {
+        $this->registrant = $registrant;
+
+        return $this;
+    }
+
+    /**
+     * Get registrant
+     *
+     * @return \AppBundle\Entity\Registrant
+     */
+    public function getRegistrant()
+    {
+        return $this->registrant;
+    }
+
+    /**
+     * Set party
+     *
+     * @param \AppBundle\Entity\Party $party
+     *
+     * @return Party_participant_list
+     */
+    public function setParty(\AppBundle\Entity\Party $party = null)
+    {
+        $this->party = $party;
+
+        return $this;
+    }
+
+    /**
+     * Get party
+     *
+     * @return \AppBundle\Entity\Party
+     */
+    public function getParty()
+    {
+        return $this->party;
+    }
+
+    /**
+     * Set participant
+     *
+     * @param \AppBundle\Entity\Participant $participant
+     *
+     * @return Party_participant_list
+     */
+    public function setParticipant(\AppBundle\Entity\Participant $participant = null)
+    {
+        $this->participant = $participant;
+
+        return $this;
+    }
+
+    /**
+     * Get participant
+     *
+     * @return \AppBundle\Entity\Participant
+     */
+    public function getParticipant()
+    {
+        return $this->participant;
+    }
+}

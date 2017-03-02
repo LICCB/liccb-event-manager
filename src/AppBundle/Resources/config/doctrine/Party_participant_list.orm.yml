@@ -8,6 +8,16 @@ AppBundle\Entity\Party_participant_list:
             id: true
             generator:
                 strategy: AUTO
+    manyToOne:
+        registrant:
+            targetEntity: Registrant
+            inversedBy: party_participant_lists
+        party:
+            targetEntity: Party
+            inversedBy: party_participant_lists
+        participant:
+            targetEntity: Participant
+            inversedBy: party_participant_lists
     fields:
         partyId:
             type: integer

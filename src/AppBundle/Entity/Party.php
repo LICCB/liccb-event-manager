@@ -254,5 +254,108 @@ class Party
     {
         return $this->numActuallyAttended;
     }
-}
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $party_participant_lists;
 
+    /**
+     * @var \AppBundle\Entity\Registrant
+     */
+    private $registrant;
+
+    /**
+     * @var \AppBundle\Entity\Org_event
+     */
+    private $org_event;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->party_participant_lists = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add partyParticipantList
+     *
+     * @param \AppBundle\Entity\Party_participant_list $partyParticipantList
+     *
+     * @return Party
+     */
+    public function addPartyParticipantList(\AppBundle\Entity\Party_participant_list $partyParticipantList)
+    {
+        $this->party_participant_lists[] = $partyParticipantList;
+
+        return $this;
+    }
+
+    /**
+     * Remove partyParticipantList
+     *
+     * @param \AppBundle\Entity\Party_participant_list $partyParticipantList
+     */
+    public function removePartyParticipantList(\AppBundle\Entity\Party_participant_list $partyParticipantList)
+    {
+        $this->party_participant_lists->removeElement($partyParticipantList);
+    }
+
+    /**
+     * Get partyParticipantLists
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPartyParticipantLists()
+    {
+        return $this->party_participant_lists;
+    }
+
+    /**
+     * Set registrant
+     *
+     * @param \AppBundle\Entity\Registrant $registrant
+     *
+     * @return Party
+     */
+    public function setRegistrant(\AppBundle\Entity\Registrant $registrant = null)
+    {
+        $this->registrant = $registrant;
+
+        return $this;
+    }
+
+    /**
+     * Get registrant
+     *
+     * @return \AppBundle\Entity\Registrant
+     */
+    public function getRegistrant()
+    {
+        return $this->registrant;
+    }
+
+    /**
+     * Set orgEvent
+     *
+     * @param \AppBundle\Entity\Org_event $orgEvent
+     *
+     * @return Party
+     */
+    public function setOrgEvent(\AppBundle\Entity\Org_event $orgEvent = null)
+    {
+        $this->org_event = $orgEvent;
+
+        return $this;
+    }
+
+    /**
+     * Get orgEvent
+     *
+     * @return \AppBundle\Entity\Org_event
+     */
+    public function getOrgEvent()
+    {
+        return $this->org_event;
+    }
+}
