@@ -8,6 +8,10 @@ AppBundle\Entity\Org_event:
             id: true
             generator:
                 strategy: AUTO
+    oneToMany:
+        parties:
+            targetEntity: Party
+            mappedBy: orgEventId
     fields:
         orgEventName:
             type: string

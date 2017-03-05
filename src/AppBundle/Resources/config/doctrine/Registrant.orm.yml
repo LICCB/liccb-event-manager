@@ -1,0 +1,66 @@
+AppBundle\Entity\Registrant:
+    type: entity
+    table: null
+    repositoryClass: AppBundle\Repository\RegistrantRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    oneToMany:
+        parties:
+            targetEntity: Party
+            mappedBy: registrantEmail
+        party_participant_lists:
+            targetEntity: Party_participant_list
+            mappedBy: registrantEmail
+    fields:
+        registrantEmail:
+            type: string
+            length: 255
+            unique: true
+            column: registrant_email
+        over18:
+            type: boolean
+            column: over_18
+        hasSwimExperience:
+            type: boolean
+            column: has_swim_experience
+        hasBoatExperience:
+            type: boolean
+            column: has_boat_experience
+        hasCprCertification:
+            type: boolean
+            column: has_cpr_certification
+        fullName:
+            type: string
+            length: 255
+            column: full_name
+        phone:
+            type: integer
+        emergencyContactName:
+            type: string
+            length: 255
+            column: emergency_contact_name
+        emergencyContactPhone:
+            type: integer
+            column: emergency_contact_phone
+        participantType:
+            type: string
+            length: 255
+            column: participant_type
+        zip:
+            type: integer
+        isPriorVolunteer:
+            type: boolean
+            column: is_prior_volunteer
+        roleFamiliarity:
+            type: boolean
+            nullable: true
+            column: role_familiarity
+        vehicleCapacity:
+            type: integer
+            nullable: true
+            column: vehicle_capacity
+    lifecycleCallbacks: {  }

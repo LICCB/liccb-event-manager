@@ -1,0 +1,29 @@
+AppBundle\Entity\Participant:
+    type: entity
+    table: null
+    repositoryClass: AppBundle\Repository\ParticipantRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    oneToMany:
+        party_participant_lists:
+            targetEntity: Party_participant_list
+            mappedBy: participantEmail
+    fields:
+        participantEmail:
+            type: string
+            length: 255
+            unique: true
+            column: participant_email
+        fullName:
+            type: string
+            length: 255
+            column: full_name
+        comment:
+            type: string
+            length: '1023'
+            nullable: true
+    lifecycleCallbacks: {  }
