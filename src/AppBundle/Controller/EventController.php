@@ -15,7 +15,7 @@ class EventController extends Controller
 		    ->find($id);
 
         return $this->render('event/show.html.twig', array(
-        'event' => $event
+	        'event' => $event
         ));
     }
 

@@ -12,6 +12,23 @@
 		<li>Event Description: {{ event.orgEventDescription }}</li>
 	</ul>
 
+	<table>
+		<tr>
+			<th>Name</th>
+			<th># Seats</th>
+			<th>Selection Status</th>
+			<th>Selection Status Reason</th>
+		</tr>
+		{% for party in event.Parties %}
+			<tr>
+				<td>{{ party.Registrant.fullName }}</td>
+				<td>{{ party.numSeats }}</td>
+				<td>{{ party.selectionStatus }}</td>
+				<td>{{ party.selectionStatusReason }}</td>
+			</tr>
+		{% endfor %}
+	</table>
+
 	<a href="{{ path('event_edit', {'id': event.id}) }}">Edit</a>
 
 {% endblock %}
