@@ -18,6 +18,10 @@
 			<th># Seats</th>
 			<th>Selection Status</th>
 			<th>Selection Status Reason</th>
+			<th>18+</th>
+			<th>Can Swim?</th>
+			<th>Has Boating Experience</th>
+			<th>Has CPR Certification</th>
 		</tr>
 		{% for party in event.Parties %}
 			<tr>
@@ -25,6 +29,10 @@
 				<td>{{ party.numSeats }}</td>
 				<td>{{ party.selectionStatus }}</td>
 				<td>{{ party.selectionStatusReason }}</td>
+				<td>{{ party.Registrant.over18 ? "Yes" : "No" }}</td>
+				<td>{{ party.Registrant.hasSwimExperience ? 'Yes' : 'No' }}</td>
+				<td>{{ party.Registrant.hasBoatExperience ? 'Yes' : 'No' }}</td>
+				<td>{{ party.Registrant.hasCprCertification ? 'Yes' : 'No' }}</td>
 			</tr>
 		{% endfor %}
 	</table>
