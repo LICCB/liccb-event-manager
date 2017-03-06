@@ -33,7 +33,7 @@ class Party_participant_list
     private $emergencyContactName;
 
     /**
-     * @var int
+     * @var string
      */
     private $emergencyContactPhone;
 
@@ -152,7 +152,7 @@ class Party_participant_list
     /**
      * Set emergencyContactPhone
      *
-     * @param integer $emergencyContactPhone
+     * @param string $emergencyContactPhone
      *
      * @return Party_participant_list
      */
@@ -166,7 +166,7 @@ class Party_participant_list
     /**
      * Get emergencyContactPhone
      *
-     * @return int
+     * @return string
      */
     public function getEmergencyContactPhone()
     {
