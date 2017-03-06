@@ -3,6 +3,7 @@
 namespace AppBundle\Form;
 
 // src/AppBundle/Form/RegistrationForm.php
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -29,6 +30,13 @@ class RegistrationForm extends AbstractType {
 	        case 2:
 		        $builder->add('event_selection', EntityType::class, array(
 			        'class' => 'AppBundle\Entity\Org_event',
+			        'query_builder' => function(EntityRepository $er){
+			        	$now = new \DateTime();
+				        return $er->createQueryBuilder('e')
+					        ->where('e.signupStart <= :today')
+					        ->andWhere('e.signupEnd >= :today')
+					        ->setParameter('today', $now->format('Y-m-d'));
+			        },
 			        'choice_label' => 'orgEventName',
 		        ));
 		        break;
