@@ -44,7 +44,8 @@ AppBundle\Entity\Party_participant_list:
             length: 255
             column: emergency_contact_name
         emergencyContactPhone:
-            type: integer
+            type: string
+            length: 20
             column: emergency_contact_phone
         participantEmail:
             type: string

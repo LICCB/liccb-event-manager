@@ -35,13 +35,15 @@ AppBundle\Entity\Registrant:
             length: 255
             column: full_name
         phone:
-            type: integer
+            type: string
+            length: 20
         emergencyContactName:
             type: string
             length: 255
             column: emergency_contact_name
         emergencyContactPhone:
-            type: integer
+            type: string
+            length: 20
             column: emergency_contact_phone
         participantType:
             type: string

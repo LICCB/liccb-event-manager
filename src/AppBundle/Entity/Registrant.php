@@ -43,7 +43,7 @@ class Registrant
     private $fullName;
 
     /**
-     * @var int
+     * @var string
      */
     private $phone;
 
@@ -53,7 +53,7 @@ class Registrant
     private $emergencyContactName;
 
     /**
-     * @var int
+     * @var string
      */
     private $emergencyContactPhone;
 
@@ -240,7 +240,7 @@ class Registrant
     /**
      * Set phone
      *
-     * @param integer $phone
+     * @param string $phone
      *
      * @return Registrant
      */
@@ -254,7 +254,7 @@ class Registrant
     /**
      * Get phone
      *
-     * @return int
+     * @return string
      */
     public function getPhone()
     {
@@ -288,7 +288,7 @@ class Registrant
     /**
      * Set emergencyContactPhone
      *
-     * @param integer $emergencyContactPhone
+     * @param string $emergencyContactPhone
      *
      * @return Registrant
      */
@@ -302,7 +302,7 @@ class Registrant
     /**
      * Get emergencyContactPhone
      *
-     * @return int
+     * @return string
      */
     public function getEmergencyContactPhone()
     {
