@@ -89,7 +89,6 @@ class Registration
     /**
      * Set eventSelection
      *
-     * @param string $eventSelection
      * @param Org_event $eventSelection
      *
      * @return Registration
@@ -104,7 +103,6 @@ class Registration
     /**
      * Get eventSelection
      *
-     * @return string
      * @return Org_event
      */
     public function getEventSelection()

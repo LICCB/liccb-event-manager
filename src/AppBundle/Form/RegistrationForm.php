@@ -27,10 +27,6 @@ class RegistrationForm extends AbstractType {
 		        ));
 		        break;
 	        case 2:
-		        $builder->add('event_selection', ChoiceType::class, array(
-			        'choices' => array(
-				        'Test1',
-			        ),
 		        $builder->add('event_selection', EntityType::class, array(
 			        'class' => 'AppBundle\Entity\Org_event',
 			        'choice_label' => 'orgEventName',

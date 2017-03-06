@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Craue\FormFlowBundle\Form\FormFlowInterface;
 use AppBundle\Form\RegistrationForm;
 use AppBundle\Entity\Registration;
+use AppBundle\Entity\Registrant;
 use AppBundle\Entity\Party;
 use AppBundle\Entity\Party_participant_list;
 
@@ -29,10 +30,6 @@ class RegisterController extends Controller
             } else {
             	// Flow finished, save to DB
             	$em = $this->getDoctrine()->getManager();
-	            $em->persist($formData);
-
-            	$email = $formData->getEmail();
-
 
 	            // Fill registrant info, might wanna add inherit_data
 	            $registrant = new Registrant();
