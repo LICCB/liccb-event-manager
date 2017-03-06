@@ -3,24 +3,21 @@ AppBundle\Entity\Registrant:
     table: null
     repositoryClass: AppBundle\Repository\RegistrantRepository
     id:
-        id:
-            type: integer
+        registrantEmail:
+            type: string
             id: true
-            generator:
-                strategy: AUTO
+            length: 255
+            column: registrant_email
+
     oneToMany:
         parties:
             targetEntity: Party
-            mappedBy: registrantEmail
+            mappedBy: registrant
         party_participant_lists:
             targetEntity: Party_participant_list
-            mappedBy: registrantEmail
+            mappedBy: registrant
+
     fields:
-        registrantEmail:
-            type: string
-            length: 255
-            unique: true
-            column: registrant_email
         over18:
             type: boolean
             column: over_18
