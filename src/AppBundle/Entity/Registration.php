@@ -7,6 +7,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use AppBundle\Entity\Org_event;
 
 /**
  * @ORM\Entity
@@ -89,6 +90,7 @@ class Registration
      * Set eventSelection
      *
      * @param string $eventSelection
+     * @param Org_event $eventSelection
      *
      * @return Registration
      */
@@ -103,6 +105,7 @@ class Registration
      * Get eventSelection
      *
      * @return string
+     * @return Org_event
      */
     public function getEventSelection()
     {

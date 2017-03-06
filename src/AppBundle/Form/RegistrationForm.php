@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class RegistrationForm extends AbstractType {
 
@@ -30,6 +31,9 @@ class RegistrationForm extends AbstractType {
 			        'choices' => array(
 				        'Test1',
 			        ),
+		        $builder->add('event_selection', EntityType::class, array(
+			        'class' => 'AppBundle\Entity\Org_event',
+			        'choice_label' => 'orgEventName',
 		        ));
 		        break;
 	        case 3:

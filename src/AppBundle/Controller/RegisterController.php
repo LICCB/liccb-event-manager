@@ -6,6 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Craue\FormFlowBundle\Form\FormFlowInterface;
 use AppBundle\Form\RegistrationForm;
 use AppBundle\Entity\Registration;
+use AppBundle\Entity\Party;
+use AppBundle\Entity\Party_participant_list;
 
 class RegisterController extends Controller
 {
@@ -28,6 +30,41 @@ class RegisterController extends Controller
             	// Flow finished, save to DB
             	$em = $this->getDoctrine()->getManager();
 	            $em->persist($formData);
+
+            	$email = $formData->getEmail();
+
+
+	            // Fill registrant info, might wanna add inherit_data
+	            $registrant = new Registrant();
+	            $registrant->setRegistrantEmail($formData->getEmail());
+	            $registrant->setOver18($formData->getOver18());
+	            $registrant->setHasSwimExperience($formData->getCanSwim());
+	            $registrant->setHasBoatExperience($formData->getBoatExperience());
+	            $registrant->setHasCprCertification($formData->getCprCertification());
+	            $registrant->setFullName($formData->getFullName());
+	            $registrant->setPhone($formData->getPhoneNumber());
+	            $registrant->setEmergencyContactName($formData->getEmergencyContactName());
+	            $registrant->setEmergencyContactPhone($formData->getEmergencyContactNumber());
+	            $registrant->setParticipantType($formData->getRegistrationType());
+	            $registrant->setZip(00000);
+	            $registrant->setIsPriorVolunteer(false);
+	            $registrant->setRoleFamiliarity(false);
+	            $registrant->setVehicleCapacity($formData->getBoatSeats());
+
+	            // Fill party info
+	            $party = new Party();
+	            $party->setRegistrant($registrant);
+	            $party->setOrgEvent($formData->getEventSelection());
+	            $party->setNumSeats($formData->getBoatSeats());
+	            //$party->setWantsPairedWithBoater($formData->getPairingBoater() === "");
+	            $party->setWantsPairedWithBoater(false);
+	            $party->setSelectionStatus("unselected");
+	            $party->setSelectionStatusReason("None");
+	            $party->setConfirmedAttending(false);
+	            $party->setNumActuallyAttended(0);
+
+	            $em->persist($registrant);
+	            $em->persist($party);
 	            $em->flush();
 
                 $flow->reset(); // Remove step data from session
