@@ -12,12 +12,21 @@ AppBundle\Entity\Party_participant_list:
         registrant:
             targetEntity: Registrant
             inversedBy: party_participant_lists
+            joinColumn:
+                name: registrant_email
+                referencedColumnName: registrant_email
         party:
             targetEntity: Party
             inversedBy: party_participant_lists
+            joinColumn:
+                name: party_id
+                referencedColumnName: id
         participant:
             targetEntity: Participant
             inversedBy: party_participant_lists
+            joinColumn:
+                name: participant_email
+                referencedColumnName: participant_email
     fields:
         partyId:
             type: integer

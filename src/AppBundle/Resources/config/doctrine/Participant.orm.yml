@@ -3,21 +3,17 @@ AppBundle\Entity\Participant:
     table: null
     repositoryClass: AppBundle\Repository\ParticipantRepository
     id:
-        id:
-            type: integer
+        participantEmail:
+            type: string
             id: true
-            generator:
-                strategy: AUTO
+            length: 255
+            column: participant_email
+
     oneToMany:
         party_participant_lists:
             targetEntity: Party_participant_list
-            mappedBy: participantEmail
+            mappedBy: participant
     fields:
-        participantEmail:
-            type: string
-            length: 255
-            unique: true
-            column: participant_email
         fullName:
             type: string
             length: 255

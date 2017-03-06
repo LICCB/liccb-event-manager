@@ -12,13 +12,19 @@ AppBundle\Entity\Party:
         registrant:
             targetEntity: Registrant
             inversedBy: parties
+            joinColumn:
+                name: registrant_email
+                referencedColumnName: registrant_email
         org_event:
             targetEntity: Org_event
             inversedBy: parties
+            joinColumn:
+                name: org_event_id
+                referencedColumnName: id
     oneToMany:
         party_participant_lists:
             targetEntity: Party_participant_list
-            mappedBy: partyId
+            mappedBy: party
     fields:
         registrantEmail:
             type: string

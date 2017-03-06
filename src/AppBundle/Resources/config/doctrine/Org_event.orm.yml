@@ -11,7 +11,7 @@ AppBundle\Entity\Org_event:
     oneToMany:
         parties:
             targetEntity: Party
-            mappedBy: orgEventId
+            mappedBy: org_event
     fields:
         orgEventName:
             type: string
