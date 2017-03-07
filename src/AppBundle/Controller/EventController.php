@@ -21,15 +21,25 @@ class EventController extends Controller
 	    if($form->isSubmitted() && $form->isValid()){
 	    	$event = $form->getData();
 
-		    if($form->get('update_and_email')->isClicked()){
-			    $parties = $event->getParties();
-			    foreach ($event->getParties() as &$party){
-			    	if($party->getSelectionStatus() == "Approved"){
-			    		// Email them
-			    		$party->setSelectionStatus("Emailed");
-			    		$logger = $this->get('logger');
-			    		$logger->info("Sent email");
-				    }
+		    foreach($event->getParties() as $party){
+			    if($party->getSelectionStatus() == null){
+			    	$party->setSelectionStatus("Emailed"); // Temporary hack
+			    } elseif($form->get('update_and_email')->isClicked() && $party->getSelectionStatus() == "Approved") {
+			    	// Send email
+				    $message = \Swift_Message::newInstance()
+					    ->setSubject("LICBoathouse Event Approval")
+					    ->setFrom('test@test.com')
+					    ->setTo($party->getRegistrantEmail())
+					    ->setBody(
+					    	$this->renderView('email/approved.html.twig', array(
+					    		'name' => $party->getRegistrant()->getFullName(),
+							    'event' => $event,
+						    )),
+						    'text/html'
+					    )
+					    ;
+				    $this->get('mailer')->send($message);
+			    	$party->setSelectionStatus("Emailed");
 			    }
 		    }
 
