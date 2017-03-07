@@ -46,24 +46,32 @@ class RegistrationForm extends AbstractType {
 				        'yes' => true,
 				        'no' => false,
 			        ),
+			        'expanded' => true,
+			        'multiple' => false,
 		        ));
 		        $builder->add('can_swim', ChoiceType::class, array(
 			        'choices' => array(
 				        'yes' => true,
 				        'no' => false,
 			        ),
+			        'expanded' => true,
+			        'multiple' => false,
 		        ));
 		        $builder->add('boat_experience', ChoiceType::class, array(
 			        'choices' => array(
 				        'yes' => true,
 				        'no' => false,
 			        ),
+			        'expanded' => true,
+			        'multiple' => false,
 		        ));
 		        $builder->add('cpr_certification', ChoiceType::class, array(
 			        'choices' => array(
 				        'yes' => true,
 				        'no' => false,
 			        ),
+			        'expanded' => true,
+			        'multiple' => false,4
 		        ));
 		        break;
 	        case 4:
