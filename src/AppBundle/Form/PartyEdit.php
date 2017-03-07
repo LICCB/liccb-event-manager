@@ -20,8 +20,15 @@ class PartyEdit extends AbstractType
 				    'Unselected' => 'Unselected',
 				    'Approved' => 'Approved',
 				    'Denied' => 'Denied',
+				    'Emailed' => 'Emailed',
 			    ),
 			    'label' => false,
+			    'choice_attr' => function($val, $key, $index){
+				    $disabled = false;
+				    if($key == 'Emailed')
+				    	$disabled = true;
+				    return $disabled ? ['disabled' => 'disabled'] : [];
+			    },
 		    ))
 	    ;
     }

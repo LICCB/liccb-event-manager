@@ -29,13 +29,19 @@
 				<tr class="bg-success">
 			{% elseif party.vars.value.selectionStatus == "Denied" %}
 				<tr class="bg-danger">
+			{% elseif party.vars.value.selectionStatus == "Emailed" %}
+				<tr class="bg-info">
 			{% else %}
 				<tr>
 			{% endif %}
-				<td>{{ party.vars.data.Registrant.fullName }}</td>
-				<td>{{ party.vars.value.numSeats }}</td>
+			    <td>{{ party.vars.data.Registrant.fullName }}</td>
+			    <td>{{ party.vars.value.numSeats }}</td>
+			{% if party.vars.data.selectionStatus == "Emailed" %}
+			//	<td>{{ form_row(party.selectionStatus, {'disabled': 'disabled'}) }}</td>
+			{% else %}
 				<td>{{ form_row(party.selectionStatus) }}</td>
-				<td>{{ party.vars.value.selectionStatusReason }}</td>
+			{% endif %}
+			    <td>{{ party.vars.value.selectionStatusReason }}</td>
 				<td>{{ party.vars.data.Registrant.over18 ? "Yes" : "No"}}</td>
 				<td>{{ party.vars.data.Registrant.hasSwimExperience ? "Yes" : "No"}}</td>
 				<td>{{ party.vars.data.Registrant.hasBoatExperience ? "Yes" : "No"}}</td>

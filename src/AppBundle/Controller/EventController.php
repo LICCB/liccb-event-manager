@@ -21,6 +21,19 @@ class EventController extends Controller
 	    if($form->isSubmitted() && $form->isValid()){
 	    	$event = $form->getData();
 
+		    if($form->get('update_and_email')->isClicked()){
+			    $parties = $event->getParties();
+			    foreach ($event->getParties() as &$party){
+			    	if($party->getSelectionStatus() == "Approved"){
+			    		// Email them
+			    		$party->setSelectionStatus("Emailed");
+			    		$logger = $this->get('logger');
+			    		$logger->info("Sent email");
+				    }
+			    }
+		    }
+
+
 	    	$em = $this->getDoctrine()->getManager();
 	    	$em->persist($event);
 	    	$em->flush();

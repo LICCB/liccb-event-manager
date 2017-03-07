@@ -18,7 +18,8 @@ class EventRegistrantsEdit extends AbstractType
 		    ->add('parties', CollectionType::class, array(
 			    'entry_type' => PartyEdit::class,
 		    ))
-		    ->add('Update Approval', SubmitType::class)
+		    ->add('update', SubmitType::class, array('label' => "Updated Approval Status"))
+		    ->add("update_and_email", SubmitType::class, array('label' => "Updated Approved and Email"))
 		    ;
     }
 
