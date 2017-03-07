@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class RegisterController extends Controller
 {
-    public function registerAction()
+    public function registerAction(Request $request)
     {
     	$formData = new Registration(); // Form data class
 
@@ -68,8 +68,8 @@ class RegisterController extends Controller
 
                 $flow->reset(); // Remove step data from session
 
-	            $this->addFlash('name', $registrant->getFullName());
-	            $this->addFlash('eventName', $formData->getEventSelection()->getOrgEventName());
+	            $request->getSession()->set('name', $registrant->getFullName());
+	            $request->getSession()->set('eventName', $formData->getEventSelection()->getOrgEventName());
 	            return $this->redirectToRoute('registerconfirm'); // redirect
             }
         }
@@ -81,8 +81,8 @@ class RegisterController extends Controller
     }
 
     public function confirmAction(Request $request){
-    	$name = $request->getSession()->getFlashBag()->get('name')[0];
-    	$eventName = $request->getSession()->getFlashBag()->get('eventName')[0];
+    	$name = $request->getSession()->get('name');
+    	$eventName = $request->getSession()->get('eventName');
     	return $this->render('register/confirm.html.twig', array(
     		'name' => $name,
 		    'eventName' => $eventName,
