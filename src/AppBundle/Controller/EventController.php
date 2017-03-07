@@ -3,19 +3,36 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Form\EventEdit;
+use AppBundle\Form\EventRegistrantsEdit;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 class EventController extends Controller
 {
-    public function showAction($id)
+    public function showAction(Request $request, $id)
     {
     	$event = $this->getDoctrine()
 		    ->getRepository('AppBundle:Org_event')
 		    ->find($id);
 
+    	$form = $this->createForm(EventRegistrantsEdit::class, $event);
+	    $form->handleRequest($request);
+
+	    if($form->isSubmitted() && $form->isValid()){
+	    	$event = $form->getData();
+
+	    	$em = $this->getDoctrine()->getManager();
+	    	$em->persist($event);
+	    	$em->flush();
+
+	    	return $this->redirectToRoute('event_show', array(
+	    		'id' => $id,
+		    ));
+	    }
+
         return $this->render('event/show.html.twig', array(
-	        'event' => $event
+	        'event' => $event,
+	        'form' => $form->createView(),
         ));
     }
 
