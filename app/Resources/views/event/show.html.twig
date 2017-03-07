@@ -25,7 +25,13 @@
 			<th>Has CPR Certification</th>
 		</tr>
 		{% for party in form.parties %}
-			<tr>
+			{% if party.vars.value.selectionStatus == "Approved" %}
+				<tr class="bg-success">
+			{% elseif party.vars.value.selectionStatus == "Denied" %}
+				<tr class="bg-danger">
+			{% else %}
+				<tr>
+			{% endif %}
 				<td>{{ party.vars.data.Registrant.fullName }}</td>
 				<td>{{ party.vars.value.numSeats }}</td>
 				<td>{{ form_row(party.selectionStatus) }}</td>
