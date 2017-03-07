@@ -9,6 +9,8 @@ use AppBundle\Entity\Registration;
 use AppBundle\Entity\Registrant;
 use AppBundle\Entity\Party;
 use AppBundle\Entity\Party_participant_list;
+use Symfony\Component\HttpFoundation\Request;
+
 
 class RegisterController extends Controller
 {
@@ -55,7 +57,7 @@ class RegisterController extends Controller
 	            $party->setNumSeats($formData->getBoatSeats());
 	            //$party->setWantsPairedWithBoater($formData->getPairingBoater() === "");
 	            $party->setWantsPairedWithBoater(false);
-	            $party->setSelectionStatus("unselected");
+	            $party->setSelectionStatus("Unselected");
 	            $party->setSelectionStatusReason("None");
 	            $party->setConfirmedAttending(false);
 	            $party->setNumActuallyAttended(0);
@@ -66,7 +68,9 @@ class RegisterController extends Controller
 
                 $flow->reset(); // Remove step data from session
 
-	            return $this->redirect($this->generateUrl('home')); // redirect
+	            $this->addFlash('name', $registrant->getFullName());
+	            $this->addFlash('eventName', $formData->getEventSelection()->getOrgEventName());
+	            return $this->redirectToRoute('registerconfirm'); // redirect
             }
         }
 
@@ -74,6 +78,15 @@ class RegisterController extends Controller
             'form' => $form->createView(),
             'flow' => $flow,
         ));
+    }
+
+    public function confirmAction(Request $request){
+    	$name = $request->getSession()->getFlashBag()->get('name')[0];
+    	$eventName = $request->getSession()->getFlashBag()->get('eventName')[0];
+    	return $this->render('register/confirm.html.twig', array(
+    		'name' => $name,
+		    'eventName' => $eventName,
+	    ));
     }
 
 
