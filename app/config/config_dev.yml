@@ -37,3 +37,7 @@ monolog:
 doctrine:
     dbal:
         driver: pdo_pgsql
+
+#swiftmailer
+swiftmailer:
+    disable_delivery: true
