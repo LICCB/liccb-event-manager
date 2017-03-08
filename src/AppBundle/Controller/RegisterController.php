@@ -66,6 +66,20 @@ class RegisterController extends Controller
 	            $em->persist($party);
 	            $em->flush();
 
+	            // Send email now that DB is saved
+	            $message = \Swift_Message::newInstance()
+		            ->setSubject("LICBoathouse Event Registration")
+		            ->setFrom("test@test.com")
+		            ->setTo($party->getRegistrantEmail())
+		            ->setBody(
+		            	$this->renderView('email/registered.html.twig', array(
+		            		'name' => $party->getRegistrant()->getFullName(),
+				            'event' => $formData->getEventSelection(),
+			            )),
+			            'text/html'
+		            )
+		            ;
+
                 $flow->reset(); // Remove step data from session
 
 	            $request->getSession()->set('name', $registrant->getFullName());
