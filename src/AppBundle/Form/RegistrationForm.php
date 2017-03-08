@@ -71,7 +71,7 @@ class RegistrationForm extends AbstractType {
 				        'no' => false,
 			        ),
 			        'expanded' => true,
-			        'multiple' => false,4
+			        'multiple' => false,
 		        ));
 		        break;
 	        case 4:
