@@ -1,7 +1,8 @@
 <h3>Trip schedule changed!</h3>
 <p>
 Hello {{name}},
-
+The event you are registered for: {{event.orgEventName}}, originally scheduled on {{oldEvent.date|date("m/d/Y", false)}} at {{oldEvent.date|date("m/d/Y")}} has been moved.
+The event will now be held on {{event.date|date("m/d/Y", false)}} at {{event.date|date("m/d/Y")}}.
 If you would like to update any of your registration information or cancel the registration completely please visit <a href="{{personalLink}}">this page</a>.
 You will be notified again at this email address with any further updates regarding the trip.
 
