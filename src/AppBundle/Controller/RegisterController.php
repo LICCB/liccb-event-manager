@@ -79,6 +79,7 @@ class RegisterController extends Controller
 			            'text/html'
 		            )
 		            ;
+	            $this->get('mailer')->send($message);
 
                 $flow->reset(); // Remove step data from session
 
