@@ -1,4 +1,12 @@
-{# app/Resources/views/email/approved.html.twig #}
-<H1>REGISTRATION APPROVED</H1>
+<h1>You've been selected!</h1>
+<p>Hello {{name}},</p>
 
-Hi {{ name }} you've been approved for the {{ event.OrgEventName }} event!
+<p>
+You have been selected to participate in {{event.orgEventName}} on {{event.date|date("m/d/Y"|false)}} at {{event.date|date("H:i:s")}}.
+If you would like to cancel your registration, please visit <a href="{{personalLink}}">this page</a>.
+</p>
+
+<p>
+Thanks,<br>
+The LICCB Team
+</p>
