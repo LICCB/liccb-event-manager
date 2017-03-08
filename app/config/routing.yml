@@ -13,3 +13,6 @@ event_edit:
 register:
     path:      /register
     defaults: {_controller: AppBundle:Register:register}
+registerconfirm:
+    path:     /register/confirm
+    defaults: {_controller: AppBundle:Register:confirm}

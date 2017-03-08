@@ -9,10 +9,12 @@ use AppBundle\Entity\Registration;
 use AppBundle\Entity\Registrant;
 use AppBundle\Entity\Party;
 use AppBundle\Entity\Party_participant_list;
+use Symfony\Component\HttpFoundation\Request;
+
 
 class RegisterController extends Controller
 {
-    public function registerAction()
+    public function registerAction(Request $request)
     {
     	$formData = new Registration(); // Form data class
 
@@ -55,7 +57,7 @@ class RegisterController extends Controller
 	            $party->setNumSeats($formData->getBoatSeats());
 	            //$party->setWantsPairedWithBoater($formData->getPairingBoater() === "");
 	            $party->setWantsPairedWithBoater(false);
-	            $party->setSelectionStatus("unselected");
+	            $party->setSelectionStatus("Unselected");
 	            $party->setSelectionStatusReason("None");
 	            $party->setConfirmedAttending(false);
 	            $party->setNumActuallyAttended(0);
@@ -64,9 +66,25 @@ class RegisterController extends Controller
 	            $em->persist($party);
 	            $em->flush();
 
+	            // Send email now that DB is saved
+	            $message = \Swift_Message::newInstance()
+		            ->setSubject("LICBoathouse Event Registration")
+		            ->setFrom("test@test.com")
+		            ->setTo($party->getRegistrantEmail())
+		            ->setBody(
+		            	$this->renderView('email/registered.html.twig', array(
+		            		'name' => $party->getRegistrant()->getFullName(),
+				            'event' => $formData->getEventSelection(),
+			            )),
+			            'text/html'
+		            )
+		            ;
+
                 $flow->reset(); // Remove step data from session
 
-	            return $this->redirect($this->generateUrl('home')); // redirect
+	            $request->getSession()->set('name', $registrant->getFullName());
+	            $request->getSession()->set('eventName', $formData->getEventSelection()->getOrgEventName());
+	            return $this->redirectToRoute('registerconfirm'); // redirect
             }
         }
 
@@ -74,6 +92,15 @@ class RegisterController extends Controller
             'form' => $form->createView(),
             'flow' => $flow,
         ));
+    }
+
+    public function confirmAction(Request $request){
+    	$name = $request->getSession()->get('name');
+    	$eventName = $request->getSession()->get('eventName');
+    	return $this->render('register/confirm.html.twig', array(
+    		'name' => $name,
+		    'eventName' => $eventName,
+	    ));
     }
 
 
