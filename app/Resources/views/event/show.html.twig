@@ -41,7 +41,7 @@
 			{% else %}
 				<td>{{ form_row(party.selectionStatus) }}</td>
 			{% endif %}
-			    <td>{{ party.vars.value.selectionStatusReason }}</td>
+			    <td>{{ form_row(party.selectionStatusReason) }}</td>
 				<td>{{ party.vars.data.Registrant.over18 ? "Yes" : "No"}}</td>
 				<td>{{ party.vars.data.Registrant.hasSwimExperience ? "Yes" : "No"}}</td>
 				<td>{{ party.vars.data.Registrant.hasBoatExperience ? "Yes" : "No"}}</td>
