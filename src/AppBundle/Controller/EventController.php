@@ -8,43 +8,60 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 $testStrategy1 = array(
-	//Weights:
-	// -1 = Mandatory
-	// 0 = Not Considered
-	// 1 - 10 = weighting value
-		"over18" => True,
-		"over18W" => -1,
-		"swimExperience" => True,
-		"swimExperienceW" => -1
-		"boatExperience" => True,
-		"boatExperienceW" => 5,
-		"CPR" => True,
-		"CPRw" => 0
-		"participationType" => "volunteer"
-		"participationTypeW" => 10
+	//Weight
+	"over18" => True,
+	"over18W" => -1,
+	"swimExperience" => True,
+	"swimExperienceW" => -1,
+	"boatExperience" => True,
+	"boatExperienceW" => 5,
+	"CPR" => True,
+	"CPRW" => 0,
+	"participantType" => "volunteer",
+	"participantTypeW" => 10
 	);
 
 function apply_strategy($answers, $strategy) {
-		$mandatory = array_keys($strategy, 1);
-		$niceToHave = array_keys($strategy, 2);
+	$reference = array(
+		"over18W" => "over18",
+		"swimExperienceW" => "swimExperience",
+		"boatExperienceW" => "boatExperience",
+		"CPRW" => "CPR",
+		"participantTypeW" => "participantType"
+	);
+	
+		
+	$mandatoryWeights = array_keys($strategy, -1);
+	$score = 0;
+		
+	foreach ($answers as $key => $value) {
+		echo "value: ".$value."\n";
+		echo "stratval: ".$strategy[$key]."\n";
+		if ($value == $strategy[$key])
+		{
+			echo "weight: ".$strategy[$key."W"]."\n";
+			if($strategy[$key."W"] != -1)
+			{
+				$score+= $strategy[$key."W"];
+			}
+		}	
+	}
+	foreach ($mandatoryWeights as $key) 
+	{
+		//echo $strategy[$reference[$key]];
+		//echo $answers[$reference[$key]];
+		if ($strategy[$reference[$key]] != $answers[$reference[$key]]) 
+		{
+			$score = 0;
+		}
+		}
+	return $score;
+}
+
+$tempScoreArray = array();
+
+
 				
-		$score = 1;
-		$nSum = 0;
-		$nCount = count($niceToHave);
-		
-		foreach ($mandatory as $key) { 
-			$score*= $answers[$key];
-		};
-		
-		foreach ($niceToHave as $key) {
-			$nSum += $answers[$key]; 
-		};
-		if ($nCount > 0)
-			$score += 4 * ($nSum/$nCount);
-		
-		return $score;
-}		
-		
 class EventController extends Controller
 {
 
@@ -70,10 +87,11 @@ class EventController extends Controller
 				"boatExperience" => $registrant->getHasBoatExperience(),
 				"CPR" => $registrant->getHasCprCertification(), 
 				"participantType" => $registrant->getParticipantType()
-				)
+				);
 				
-				$score = 
-				
+				$score = apply_strategy($answers, $testStrategy1);
+				$email = $registrant->getRegistrantEmail();
+				$tempScoreArray[$email] = $score;
 				
 				
 			    if($party->getSelectionStatus() == null){

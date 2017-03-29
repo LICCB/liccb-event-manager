@@ -1,63 +1,76 @@
 <?php
 	{ // Strategies
-
+	/*
 	$strategy1 = array(
 		"18" => 0,
 		"Swim" => 0,
 		"Experience" => 2,
 		"CPR" => 2
 	);
-	
+	*/
 	$testStrategy1 = array(
 	//Weight
 		"over18" => True,
 		"over18W" => -1,
 		"swimExperience" => True,
-		"swimExperienceW" => -1
+		"swimExperienceW" => -1,
 		"boatExperience" => True,
 		"boatExperienceW" => 5,
 		"CPR" => True,
-		"CPRw" => 0
-		"participationType" => "volunteer"
-		"participationTypeW" => 10
+		"CPRW" => 0,
+		"participantType" => "volunteer",
+		"participantTypeW" => 10
 	);
 	
-	$answers1 = array (
+	//echo $testStrategy1["CPR"."w"];
+	
+	$testAnswers1 = array (
 		"over18" => True,
 		"swimExperience" => True,
 		"boatExperience" => True,
 		"CPR" => False,
-		"participantType" => "participant"
-		
+		"participantType" => "volunteer"
 	);
 	
 	function improved_apply_strategy($answers, $strategy) {
+		$reference = array(
+			"over18W" => "over18",
+			"swimExperienceW" => "swimExperience",
+			"boatExperienceW" => "boatExperience",
+			"CPRW" => "CPR",
+			"participantTypeW" => "participantType"
+		);
 		
 		
-		// Need a way to prioritize 0 or False answers
+		$mandatoryWeights = array_keys($strategy, -1);
+		$score = 0;
 		
-		// Need a way to improve weighting beyond just Nice and Mandatory. 
-		
-		//
-		
-		
-		$score = 1;
-		$nSum = 0;
-		$nCount = count($niceToHave);
-		
-		foreach ($mandatory as $key) { 
-			$score*= $answers[$key];
-		};
-		
-		foreach ($niceToHave as $key) {
-			$nSum += $answers[$key]; 
-		};
-		if ($nCount > 0)
-			$score += 4 * ($nSum/$nCount);
-		
+		foreach ($answers as $key => $value) {
+			echo "value: ".$value."\n";
+			echo "stratval: ".$strategy[$key]."\n";
+			if ($value == $strategy[$key])
+			{
+				echo "weight: ".$strategy[$key."W"]."\n";
+				if($strategy[$key."W"] != -1)
+				{
+					$score+= $strategy[$key."W"];
+				}
+			}	
+		}
+		foreach ($mandatoryWeights as $key) 
+		{
+			//echo $strategy[$reference[$key]];
+			//echo $answers[$reference[$key]];
+			if ($strategy[$reference[$key]] != $answers[$reference[$key]]) 
+			{
+				$score = 0;
+			}
+		}
 		return $score;
 	}
 	
+	$testscore = improved_apply_strategy($testAnswers1, $testStrategy1);
+	echo $testscore;
 	
 	$strategy2 = array(
 		"18" => 1,
@@ -147,6 +160,8 @@
 		return $score;
 	}
 	
+
+	/*
 	{ // a1 scores
 	$a1score1 = apply_strategy($answers1, $strategy1);
 	
@@ -202,4 +217,6 @@
 	echo "a3: s1: $a3score1, s2: $a3score2, s3: $a3score3, s4: $a3score4 \n";
 	echo "a4: s1: $a4score1, s2: $a4score2, s3: $a4score3, s4: $a4score4 \n";
 	echo "a5: s1: $a5score1, s2: $a5score2, s3: $a5score3, s4: $a5score4 \n";
+	*/
+
 ?>
