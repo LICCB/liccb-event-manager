@@ -1,4 +1,6 @@
 <?php
+	{ // Strategies
+
 	$strategy1 = array(
 		"18" => 0,
 		"Swim" => 0,
@@ -27,7 +29,9 @@
 		"CPR" => 0
 	);	
 	
+	}
 	
+	{ // Answers
 	$answers1 = array (
 		"18" => 1,
 		"Swim" => 1,
@@ -57,20 +61,29 @@
 	);	
 	
 	$answers5 = array (
-		"18" => 0,
-		"Swim" => 0,
-		"Experience" => 0,
-		"CPR" => 0
+		"18" => 1,
+		"Swim" => 1,
+		"Experience" => 1,
+		"CPR" => 1
 	);	
+	}
+	
 	function apply_strategy($answers, $strategy) {
 		$mandatory = array_keys($strategy, 1);
 		$niceToHave = array_keys($strategy, 2);
+		
+		// Need a way to prioritize 0 or False answers
+		
+		// Need a way to improve weighting beyond just Nice and Mandatory. 
+		
+		//
+		
 		
 		$score = 1;
 		$nSum = 0;
 		$nCount = count($niceToHave);
 		
-		foreach ($mandatory as $key) {
+		foreach ($mandatory as $key) { 
 			$score*= $answers[$key];
 		};
 		
