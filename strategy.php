@@ -8,6 +8,57 @@
 		"CPR" => 2
 	);
 	
+	$testStrategy1 = array(
+	//Weight
+		"over18" => True,
+		"over18W" => -1,
+		"swimExperience" => True,
+		"swimExperienceW" => -1
+		"boatExperience" => True,
+		"boatExperienceW" => 5,
+		"CPR" => True,
+		"CPRw" => 0
+		"participationType" => "volunteer"
+		"participationTypeW" => 10
+	);
+	
+	$answers1 = array (
+		"over18" => True,
+		"swimExperience" => True,
+		"boatExperience" => True,
+		"CPR" => False,
+		"participantType" => "participant"
+		
+	);
+	
+	function improved_apply_strategy($answers, $strategy) {
+		
+		
+		// Need a way to prioritize 0 or False answers
+		
+		// Need a way to improve weighting beyond just Nice and Mandatory. 
+		
+		//
+		
+		
+		$score = 1;
+		$nSum = 0;
+		$nCount = count($niceToHave);
+		
+		foreach ($mandatory as $key) { 
+			$score*= $answers[$key];
+		};
+		
+		foreach ($niceToHave as $key) {
+			$nSum += $answers[$key]; 
+		};
+		if ($nCount > 0)
+			$score += 4 * ($nSum/$nCount);
+		
+		return $score;
+	}
+	
+	
 	$strategy2 = array(
 		"18" => 1,
 		"Swim" => 1,

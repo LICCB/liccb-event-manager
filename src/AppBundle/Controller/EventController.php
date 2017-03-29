@@ -7,8 +7,47 @@ use AppBundle\Form\EventRegistrantsEdit;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
+$testStrategy1 = array(
+	//Weights:
+	// -1 = Mandatory
+	// 0 = Not Considered
+	// 1 - 10 = weighting value
+		"over18" => True,
+		"over18W" => -1,
+		"swimExperience" => True,
+		"swimExperienceW" => -1
+		"boatExperience" => True,
+		"boatExperienceW" => 5,
+		"CPR" => True,
+		"CPRw" => 0
+		"participationType" => "volunteer"
+		"participationTypeW" => 10
+	);
+
+function apply_strategy($answers, $strategy) {
+		$mandatory = array_keys($strategy, 1);
+		$niceToHave = array_keys($strategy, 2);
+				
+		$score = 1;
+		$nSum = 0;
+		$nCount = count($niceToHave);
+		
+		foreach ($mandatory as $key) { 
+			$score*= $answers[$key];
+		};
+		
+		foreach ($niceToHave as $key) {
+			$nSum += $answers[$key]; 
+		};
+		if ($nCount > 0)
+			$score += 4 * ($nSum/$nCount);
+		
+		return $score;
+}		
+		
 class EventController extends Controller
 {
+
     public function showAction(Request $request, $id)
     {
     	$event = $this->getDoctrine()
@@ -22,6 +61,21 @@ class EventController extends Controller
 	    	$event = $form->getData();
 
 		    foreach($event->getParties() as $party){
+				
+				//Putting scoring here for now, should probably move it to a separate scoreAction function to apply to a new button on page
+				$registrant = $party->getRegistrant();
+				$answers = array(
+				"over18" => $registrant->getOver18(),
+				"swimExperience" => $registrant->getHasSwimExperience(),
+				"boatExperience" => $registrant->getHasBoatExperience(),
+				"CPR" => $registrant->getHasCprCertification(), 
+				"participantType" => $registrant->getParticipantType()
+				)
+				
+				$score = 
+				
+				
+				
 			    if($party->getSelectionStatus() == null){
 			    	$party->setSelectionStatus("Emailed"); // Temporary hack
 			    } elseif($form->get('update_and_email')->isClicked() && $party->getSelectionStatus() == "Approved") {
@@ -59,6 +113,7 @@ class EventController extends Controller
         ));
     }
 
+	
     public function editAction(Request $request, $id){
     	$event = $this->getDoctrine()
 		    ->getRepository('AppBundle:Org_event')
