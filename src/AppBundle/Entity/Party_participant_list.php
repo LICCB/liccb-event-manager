@@ -8,12 +8,12 @@ namespace AppBundle\Entity;
 class Party_participant_list
 {
     /**
-     * @var int
+     * @var integer
      */
     private $id;
 
     /**
-     * @var int
+     * @var integer
      */
     private $partyId;
 
@@ -42,11 +42,26 @@ class Party_participant_list
      */
     private $participantEmail;
 
+    /**
+     * @var \AppBundle\Entity\Registrant
+     */
+    private $registrant;
+
+    /**
+     * @var \AppBundle\Entity\Party
+     */
+    private $party;
+
+    /**
+     * @var \AppBundle\Entity\Participant
+     */
+    private $participant;
+
 
     /**
      * Get id
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
@@ -70,7 +85,7 @@ class Party_participant_list
     /**
      * Get partyId
      *
-     * @return int
+     * @return integer
      */
     public function getPartyId()
     {
@@ -196,21 +211,6 @@ class Party_participant_list
     {
         return $this->participantEmail;
     }
-    /**
-     * @var \AppBundle\Entity\Registrant
-     */
-    private $registrant;
-
-    /**
-     * @var \AppBundle\Entity\Party
-     */
-    private $party;
-
-    /**
-     * @var \AppBundle\Entity\Participant
-     */
-    private $participant;
-
 
     /**
      * Set registrant

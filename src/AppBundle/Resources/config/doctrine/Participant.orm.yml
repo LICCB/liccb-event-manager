@@ -22,4 +22,12 @@ AppBundle\Entity\Participant:
             type: string
             length: '1023'
             nullable: true
+        numEventsInvited:
+            type: integer
+            nullable: true
+            column: num_events_invited
+        numEventsAttended:
+            type: integer
+            nullable: true
+            column: num_events_attended
     lifecycleCallbacks: {  }

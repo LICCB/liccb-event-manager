@@ -8,32 +8,27 @@ namespace AppBundle\Entity;
 class Registrant
 {
     /**
-     * @var int
-     */
-    private $id;
-
-    /**
      * @var string
      */
     private $registrantEmail;
 
     /**
-     * @var bool
+     * @var boolean
      */
     private $over18;
 
     /**
-     * @var bool
+     * @var boolean
      */
     private $hasSwimExperience;
 
     /**
-     * @var bool
+     * @var boolean
      */
     private $hasBoatExperience;
 
     /**
-     * @var bool
+     * @var boolean
      */
     private $hasCprCertification;
 
@@ -63,34 +58,42 @@ class Registrant
     private $participantType;
 
     /**
-     * @var int
+     * @var integer
      */
     private $zip;
 
     /**
-     * @var bool
+     * @var boolean
      */
     private $isPriorVolunteer;
 
     /**
-     * @var bool
+     * @var boolean
      */
     private $roleFamiliarity;
 
     /**
-     * @var int
+     * @var integer
      */
     private $vehicleCapacity;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $parties;
 
     /**
-     * Get id
-     *
-     * @return int
+     * @var \Doctrine\Common\Collections\Collection
      */
-    public function getId()
+    private $party_participant_lists;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
     {
-        return $this->id;
+        $this->parties = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->party_participant_lists = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -134,7 +137,7 @@ class Registrant
     /**
      * Get over18
      *
-     * @return bool
+     * @return boolean
      */
     public function getOver18()
     {
@@ -158,7 +161,7 @@ class Registrant
     /**
      * Get hasSwimExperience
      *
-     * @return bool
+     * @return boolean
      */
     public function getHasSwimExperience()
     {
@@ -182,7 +185,7 @@ class Registrant
     /**
      * Get hasBoatExperience
      *
-     * @return bool
+     * @return boolean
      */
     public function getHasBoatExperience()
     {
@@ -206,7 +209,7 @@ class Registrant
     /**
      * Get hasCprCertification
      *
-     * @return bool
+     * @return boolean
      */
     public function getHasCprCertification()
     {
@@ -350,7 +353,7 @@ class Registrant
     /**
      * Get zip
      *
-     * @return int
+     * @return integer
      */
     public function getZip()
     {
@@ -374,7 +377,7 @@ class Registrant
     /**
      * Get isPriorVolunteer
      *
-     * @return bool
+     * @return boolean
      */
     public function getIsPriorVolunteer()
     {
@@ -398,7 +401,7 @@ class Registrant
     /**
      * Get roleFamiliarity
      *
-     * @return bool
+     * @return boolean
      */
     public function getRoleFamiliarity()
     {
@@ -422,29 +425,11 @@ class Registrant
     /**
      * Get vehicleCapacity
      *
-     * @return int
+     * @return integer
      */
     public function getVehicleCapacity()
     {
         return $this->vehicleCapacity;
-    }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $parties;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $party_participant_lists;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->parties = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->party_participant_lists = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
