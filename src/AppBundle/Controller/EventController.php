@@ -67,7 +67,7 @@ class EventController extends Controller
 
     public function showAction(Request $request, $id)
     {
-		global $tempScoreArray
+		global $tempScoreArray;
 		
     	$event = $this->getDoctrine()
 		    ->getRepository('AppBundle:Org_event')
