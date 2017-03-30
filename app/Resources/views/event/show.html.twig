@@ -49,7 +49,7 @@
 				<td>{{ party.vars.data.Registrant.hasSwimExperience ? "Yes" : "No"}}</td>
 				<td>{{ party.vars.data.Registrant.hasBoatExperience ? "Yes" : "No"}}</td>
 				<td>{{ party.vars.data.Registrant.hasCprCertification ? "Yes" : "No"}}</td>
-				<td>{{ scores[party.vars.data.Registrant.registrantEmail] }}</td>
+				<td>{{ party.vars.data.selectionScore }}</td>
 			</tr>
 		{% endfor %}
 	</table>

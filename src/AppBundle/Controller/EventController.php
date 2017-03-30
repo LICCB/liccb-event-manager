@@ -54,21 +54,16 @@ function apply_strategy($answers, $strategy) {
 		{
 			$score = 0;
 		}
-		}
+	}
+	echo $score;
 	return $score;
 }
-
-$tempScoreArray = array();
-
-
 				
 class EventController extends Controller
 {
 
     public function showAction(Request $request, $id)
     {
-		global $tempScoreArray;
-		
     	$event = $this->getDoctrine()
 		    ->getRepository('AppBundle:Org_event')
 		    ->find($id);
@@ -91,10 +86,8 @@ class EventController extends Controller
 				"participantType" => $registrant->getParticipantType()
 				);
 				
-				$score = apply_strategy($answers, $testStrategy1);
-				$email = $registrant->getRegistrantEmail();
-				$tempScoreArray[$email] = $score;
-				
+				$score = apply_strategy($answers, $testStrategy1);	
+				$party->setSelectionScore($score);
 				
 			    if($party->getSelectionStatus() == null){
 			    	$party->setSelectionStatus("Emailed"); // Temporary hack
@@ -129,8 +122,7 @@ class EventController extends Controller
 
         return $this->render('event/show.html.twig', array(
 	        'event' => $event,
-	        'form' => $form->createView(),
-			'scores' => $tempScoreArray,
+	        'form' => $form->createView()
         ));
     }
 
