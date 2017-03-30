@@ -87,7 +87,7 @@ class EventController extends Controller
 				);
 				
 				$score = apply_strategy($answers, $testStrategy1);	
-				$party->setSelectionScore($score);
+				$party->setSelectionScore(10);				
 				
 			    if($party->getSelectionStatus() == null){
 			    	$party->setSelectionStatus("Emailed"); // Temporary hack
@@ -126,8 +126,13 @@ class EventController extends Controller
         ));
     }
 
+	public function scoreAction(Request $request, $id)
+	{
+		
+	}
 	
-    public function editAction(Request $request, $id){
+    public function editAction(Request $request, $id)
+	{
     	$event = $this->getDoctrine()
 		    ->getRepository('AppBundle:Org_event')
 		    ->find($id);
