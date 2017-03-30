@@ -17,4 +17,17 @@ class IndexController extends Controller
         	'events' => $eventArray,
         ));
     }
+	
+	public function updateAction)()
+	{
+		
+		$eventArray = $this->getDoctrine()
+			->getRepository('AppBundle:Org_event')
+		    ->findAll();
+			
+		foreach ($eventArray as $event) 
+		{
+			
+		}
+	}
 }
