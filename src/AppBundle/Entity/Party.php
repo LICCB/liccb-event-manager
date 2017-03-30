@@ -8,7 +8,7 @@ namespace AppBundle\Entity;
 class Party
 {
     /**
-     * @var int
+     * @var integer
      */
     private $id;
 
@@ -18,19 +18,24 @@ class Party
     private $registrantEmail;
 
     /**
-     * @var int
+     * @var integer
      */
     private $orgEventId;
 
     /**
-     * @var int
+     * @var integer
      */
     private $numSeats;
 
     /**
-     * @var bool
+     * @var boolean
      */
     private $wantsPairedWithBoater;
+
+    /**
+     * @var integer
+     */
+    private $selectionScore;
 
     /**
      * @var string
@@ -43,20 +48,42 @@ class Party
     private $selectionStatusReason;
 
     /**
-     * @var bool
+     * @var boolean
      */
     private $confirmedAttending;
 
     /**
-     * @var int
+     * @var integer
      */
     private $numActuallyAttended;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $party_participant_lists;
+
+    /**
+     * @var \AppBundle\Entity\Registrant
+     */
+    private $registrant;
+
+    /**
+     * @var \AppBundle\Entity\Org_event
+     */
+    private $org_event;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->party_participant_lists = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
@@ -104,7 +131,7 @@ class Party
     /**
      * Get orgEventId
      *
-     * @return int
+     * @return integer
      */
     public function getOrgEventId()
     {
@@ -128,7 +155,7 @@ class Party
     /**
      * Get numSeats
      *
-     * @return int
+     * @return integer
      */
     public function getNumSeats()
     {
@@ -152,11 +179,35 @@ class Party
     /**
      * Get wantsPairedWithBoater
      *
-     * @return bool
+     * @return boolean
      */
     public function getWantsPairedWithBoater()
     {
         return $this->wantsPairedWithBoater;
+    }
+
+    /**
+     * Set selectionScore
+     *
+     * @param integer $selectionScore
+     *
+     * @return Party
+     */
+    public function setSelectionScore($selectionScore)
+    {
+        $this->selectionScore = $selectionScore;
+
+        return $this;
+    }
+
+    /**
+     * Get selectionScore
+     *
+     * @return integer
+     */
+    public function getSelectionScore()
+    {
+        return $this->selectionScore;
     }
 
     /**
@@ -224,7 +275,7 @@ class Party
     /**
      * Get confirmedAttending
      *
-     * @return bool
+     * @return boolean
      */
     public function getConfirmedAttending()
     {
@@ -248,33 +299,11 @@ class Party
     /**
      * Get numActuallyAttended
      *
-     * @return int
+     * @return integer
      */
     public function getNumActuallyAttended()
     {
         return $this->numActuallyAttended;
-    }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $party_participant_lists;
-
-    /**
-     * @var \AppBundle\Entity\Registrant
-     */
-    private $registrant;
-
-    /**
-     * @var \AppBundle\Entity\Org_event
-     */
-    private $org_event;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->party_participant_lists = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**

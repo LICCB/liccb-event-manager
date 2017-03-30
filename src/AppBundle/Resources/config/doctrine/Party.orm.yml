@@ -39,6 +39,10 @@ AppBundle\Entity\Party:
         wantsPairedWithBoater:
             type: boolean
             column: wants_paired_with_boater
+        selectionScore:
+            type: integer
+            column: selection_score
+            nullable: true
         selectionStatus:
             type: string
             length: 255
