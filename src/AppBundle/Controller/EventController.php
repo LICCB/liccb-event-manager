@@ -128,6 +128,7 @@ class EventController extends Controller
         return $this->render('event/show.html.twig', array(
 	        'event' => $event,
 	        'form' => $form->createView(),
+			'scores' => global $tempScoreArray,
         ));
     }
 
