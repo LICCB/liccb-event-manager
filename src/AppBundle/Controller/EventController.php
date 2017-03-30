@@ -29,7 +29,6 @@ function apply_strategy($answers, $strategy) {
 		"CPRW" => "CPR",
 		"participantTypeW" => "participantType"
 	);
-	
 		
 	$mandatoryWeights = array_keys($strategy, -1);
 	$score = 0;
@@ -58,7 +57,7 @@ function apply_strategy($answers, $strategy) {
 	echo $score;
 	return $score;
 }
-				
+
 class EventController extends Controller
 {
 
@@ -75,19 +74,6 @@ class EventController extends Controller
 	    	$event = $form->getData();
 
 		    foreach($event->getParties() as $party){
-				
-				//Putting scoring here for now, should probably move it to a separate scoreAction function to apply to a new button on page
-				$registrant = $party->getRegistrant();
-				$answers = array(
-				"over18" => $registrant->getOver18(),
-				"swimExperience" => $registrant->getHasSwimExperience(),
-				"boatExperience" => $registrant->getHasBoatExperience(),
-				"CPR" => $registrant->getHasCprCertification(), 
-				"participantType" => $registrant->getParticipantType()
-				);
-				
-				$score = apply_strategy($answers, $testStrategy1);	
-				$party->setSelectionScore(10);				
 				
 			    if($party->getSelectionStatus() == null){
 			    	$party->setSelectionStatus("Emailed"); // Temporary hack
@@ -110,13 +96,12 @@ class EventController extends Controller
 			    }
 		    }
 
-
 	    	$em = $this->getDoctrine()->getManager();
 	    	$em->persist($event);
 	    	$em->flush();
 
 	    	return $this->redirectToRoute('event_show', array(
-	    		'id' => $id,
+	    		'id' => $id
 		    ));
 	    }
 
@@ -128,8 +113,45 @@ class EventController extends Controller
 
 	public function scoreAction(Request $request, $id)
 	{
+		$event = $this->getDoctrine()
+			->getRepository('AppBundle:Org_event')
+			->find($id);
+
+    	$form = $this->createForm(EventRegistrantsEdit::class, $event);
+	    $form->handleRequest($request);
 		
+		if($form->isSubmitted() && $form->isValid())
+		{
+	    	$event = $form->getData();
+		
+			foreach($event->getParties() as $party){
+				$registrant = $party->getRegistrant();
+					$answers = array(
+						"over18" => $registrant->getOver18(),
+						"swimExperience" => $registrant->getHasSwimExperience(),
+						"boatExperience" => $registrant->getHasBoatExperience(),
+						"CPR" => $registrant->getHasCprCertification(), 
+						"participantType" => $registrant->getParticipantType()
+					);
+				$score = apply_strategy($answers, $testStrategy1);	
+				$party->setSelectionScore(10);	
+			}
+
+	    	$em = $this->getDoctrine()->getManager();
+	    	$em->persist($event);
+	    	$em->flush();			
+		
+			return $this->redirectToRoute('event_show', array(
+				'id' => $id
+			));
+		}
+		
+		return $this->render('event/show.html.twig', array(
+			'event' => $event,
+			'form' => $form->createView()
+        ));
 	}
+			
 	
     public function editAction(Request $request, $id)
 	{

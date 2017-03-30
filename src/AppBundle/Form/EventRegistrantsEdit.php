@@ -15,6 +15,7 @@ class EventRegistrantsEdit extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 	    $builder
+			->add('score', SubmitType::class, array('label' => "Apply Strategy"))
 		    ->add('parties', CollectionType::class, array(
 			    'entry_type' => PartyEdit::class,
 		    ))
