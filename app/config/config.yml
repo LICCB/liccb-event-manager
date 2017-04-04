@@ -95,6 +95,11 @@ hwi_oauth:
     firewall_names: [main]
     connect:
         account_connector: app.provider.oauth
+    http_client:
+        timeout: 5
+    fosub:
+        properties:
+            google: googleID
     resource_owners:
         google:
             type:           google
