@@ -30,13 +30,12 @@ security:
             logout:    true
             logout:
                 path:   /logout
-                target: /
+                target: /login
             anonymous: true
 
             oauth:
                 failure_path: /login
                 login_path:   /login
-                check_path:   /login_check
                 provider: fos_userbundle
                 resource_owners:
                     google: "/login/check-google"
@@ -53,4 +52,6 @@ security:
 
     access_control:
             - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-            - { path: ^/admin/, role: ROLE_ADMIN }
+            - { path: ^/connect, role: IS_AUTHENTICATED_ANONYMOUSLY }
+            - { path: ^/, role: IS_AUTHENTICATED_FULLY }
+
