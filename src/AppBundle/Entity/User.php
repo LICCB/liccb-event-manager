@@ -45,4 +45,18 @@ class User extends BaseUser
 	public function getGoogleID(){
 		return $this->googleID;
 	}
+
+	/**
+	 * Set googleID
+	 *
+	 * @param string $googleID
+	 *
+	 * @return User
+	 */
+	public function setGoogleID($googleID)
+	{
+		$this->googleID = $googleID;
+
+		return $this;
+	}
 }
