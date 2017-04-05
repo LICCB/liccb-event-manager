@@ -9,6 +9,10 @@ AppBundle\Entity\Strategy:
             length: 255
             column: name
     fields:
+        owner:
+            type: string
+            length: 255
+            column: owner
         over18:
             type: boolean
             column: over_18
@@ -27,10 +31,10 @@ AppBundle\Entity\Strategy:
         boatExperienceW:
             type: integer
             column: boat_experience_w
-        Cpr:
+        cpr:
             type: boolean
             column: cpr
-        CprW:
+        cprW:
             type: integer
             column: cpr_w
         participantType:
