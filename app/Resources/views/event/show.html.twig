@@ -11,8 +11,32 @@
 		<li>Signup End: {{ event.signupEnd|date("m/d/Y") }}</li>
 		<li>Event Description: {{ event.orgEventDescription }}</li>
 	</ul>
-
+	
+	<a href="{{ path('event_edit', {'id': event.id}) }}">Edit</a>
 	{{ form_start(form) }}
+	<div class="panel-group" id="accordion">
+		<button class="accordion">Selection Strategy</button>
+		<div class="panel">
+			<table>
+				<select>
+					<option value="" disabled selected>Select a Strategy...</option>
+					{#
+					{% for strategy in form.strategies %}	
+						<option value = "{{strategy.id}}"> {{strategy.name}} </option>
+					{% endfor %}
+					#}
+				</select>
+				{{ form_row(form.score)}}
+				<tr>
+					<th> Property Name</th>
+					<th> Expected Answer </th>
+					<th> Weight </th>
+					<th> Mantadory </th>
+				</tr>
+			</table>
+		</div>
+	</div>
+
 	<table>
 		<tr>
 			<th>Name</th>
@@ -23,6 +47,7 @@
 			<th>Can Swim?</th>
 			<th>Has Boating Experience</th>
 			<th>Has CPR Certification</th>
+			<th>Evaluation</th>
 		</tr>
 		{% for party in form.parties %}
 			{% if party.vars.value.selectionStatus == "Approved" %}
@@ -37,7 +62,7 @@
 			    <td>{{ party.vars.data.Registrant.fullName }}</td>
 			    <td>{{ party.vars.value.numSeats }}</td>
 			{% if party.vars.data.selectionStatus == "Emailed" %}
-			//	<td>{{ form_row(party.selectionStatus, {'disabled': 'disabled'}) }}</td>
+				<td>{{ form_row(party.selectionStatus, {'disabled': 'disabled'}) }}</td>
 			{% else %}
 				<td>{{ form_row(party.selectionStatus) }}</td>
 			{% endif %}
@@ -46,11 +71,29 @@
 				<td>{{ party.vars.data.Registrant.hasSwimExperience ? "Yes" : "No"}}</td>
 				<td>{{ party.vars.data.Registrant.hasBoatExperience ? "Yes" : "No"}}</td>
 				<td>{{ party.vars.data.Registrant.hasCprCertification ? "Yes" : "No"}}</td>
+				<td>{{ party.vars.value.selectionScore }}</td>
 			</tr>
 		{% endfor %}
 	</table>
 	{{ form_end(form) }}
 
-	<a href="{{ path('event_edit', {'id': event.id}) }}">Edit</a>
+{% endblock %}
 
+{% block javascript %}
+	<script>
+		var acc = document.getElementsByClassName("accordion");
+		acc[0].onclick = function(){
+			/* Toggle between adding and removing the "active" class,
+			to highlight the button that controls the panel */
+			this.classList.toggle("active");
+	
+			/* Toggle between hiding and showing the active panel */
+			var panel = this.nextElementSibling;
+			if (panel.style.display === "block") {
+				panel.style.display = "none";
+			} else {
+				panel.style.display = "block";
+			}
+		}
+	</script>
 {% endblock %}

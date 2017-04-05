@@ -21,6 +21,15 @@ google_login:
 home:
     path: /
     defaults: {_controller: AppBundle:Index:index}
+single_registrant:
+    path: /registrants/{id}
+    defaults: {_controller: AppBundle:SingleRegistrant:registrant}
+registrants:
+    path: /registrants
+    defaults: {_controller: AppBundle:RegistrantManagement:registrants}
+splash:
+    path: /splash
+    defaults: {_controller: AppBundle:Splash:splash}
 event_show:
     path: /event/{id}
     defaults: {_controller: AppBundle:Event:show}
@@ -33,3 +42,6 @@ register:
 registerconfirm:
     path:     /register/confirm
     defaults: {_controller: AppBundle:Register:confirm}
+calendar:
+    path:      /calendar
+    defaults: {_controller: AppBundle:Calendar:calendar}
