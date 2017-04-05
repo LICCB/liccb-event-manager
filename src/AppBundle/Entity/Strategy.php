@@ -326,5 +326,43 @@ class Strategy
     {
         return $this->participantTypeW;
     }
-}
+    /**
+     * @var string
+     */
+    private $owner;
 
+    /**
+     * @var boolean
+     */
+    private $cpr;
+
+    /**
+     * @var integer
+     */
+    private $cprW;
+
+
+    /**
+     * Set owner
+     *
+     * @param string $owner
+     *
+     * @return Strategy
+     */
+    public function setOwner($owner)
+    {
+        $this->owner = $owner;
+
+        return $this;
+    }
+
+    /**
+     * Get owner
+     *
+     * @return string
+     */
+    public function getOwner()
+    {
+        return $this->owner;
+    }
+}
