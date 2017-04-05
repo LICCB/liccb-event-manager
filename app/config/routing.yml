@@ -16,3 +16,6 @@ register:
 registerconfirm:
     path:     /register/confirm
     defaults: {_controller: AppBundle:Register:confirm}
+calendar:
+    path:      /calendar
+    defaults: {_controller: AppBundle:Calendar:calendar}
