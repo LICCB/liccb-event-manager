@@ -37,34 +37,52 @@ class LookbackController extends Controller
 		$em->flush();
 		*/
 
+		$em = $this->getDoctrine()->getManager();
+
 		$registrant = new Registrant();
-		$form = $this->createFormBuilder($registrant)
+		$form = $this->createFormBuilder($participant)
 			->add('fullName', TextType::class)
 			->add('search', SubmitType::class, array('label' => 'Search'))
 			->getForm();
 
-		//$form->handleRequest($request);
+		$form->handleRequest($request);
 
 		if ($form->isSubmitted() && $form->isValid()) {
 			$registrant_name = $form->getData()->getFullName();
 
-			$repository = $this->getDoctrine()->getRepository('AppBundle:Registrant');
-			$query = $repository->createQueryBuilder('p')
-						->where('p.fullName LIKE :name')
+			$registrantRepository = $this
+				->getDoctrine()
+				->getRepository('AppBundle:Registrant');
+
+			/*$participantRepository = $this
+				->getDoctrine()
+				->getRepository('AppBundle:Participant');*/
+
+
+			$query = $registrantRepository->createQueryBuilder('p')
+						->where('LOWER(p.fullName) LIKE LOWER(:name)')
 						->setParameter('name', '%'.$registrant_name.'%')
 						->getQuery();
 
 			$registrants = $query->getResult();
 
-			return $this->render('lookback/search_results.html.twig');
-			/*
 			return new Response(
-				'<html><body><p>hello</p></body></html>'
+				'<html></body>
+					<p>email: '.$registrants[0]->getRegistrantEmail().'</p>
+					<p>event name: '.$registrants[0]->getParties()[0]->getOrgEvent()->getOrgEventName().'</p>
+				</body></html>'
 			);
-			*/
+
+			/*return $this->render('lookback/search_results.html.twig', array(
+				'form' => $form->createView(),
+			));*/
+		} else {
+			return $this->render('lookback/search_results.html.twig', array(
+				'form' => $form->createView(),
+			));
 		}
 
-		//return $this->render('lookback/search_results.html.twig',);
+		
 
 		
 
