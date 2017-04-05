@@ -124,18 +124,21 @@ class EventController extends Controller
 		{
 	    	$event = $form->getData();
 		
-			foreach($event->getParties() as $party){
-			if ($form->get('score')->isClicked()) {
-				$registrant = $party->getRegistrant();
-					$answers = array(
-						"over18" => $registrant->getOver18(),
-						"swimExperience" => $registrant->getHasSwimExperience(),
-						"boatExperience" => $registrant->getHasBoatExperience(),
-						"CPR" => $registrant->getHasCprCertification(), 
-						"participantType" => $registrant->getParticipantType()
-					);
-				$score = apply_strategy($answers, $testStrategy1);	
-				$party->setSelectionScore(10);	
+			foreach($event->getParties() as $party)
+			{
+				if ($form->get('score')->isClicked()) 
+				{
+					$registrant = $party->getRegistrant();
+						$answers = array(
+							"over18" => $registrant->getOver18(),
+							"swimExperience" => $registrant->getHasSwimExperience(),
+							"boatExperience" => $registrant->getHasBoatExperience(),
+							"CPR" => $registrant->getHasCprCertification(), 
+							"participantType" => $registrant->getParticipantType()
+						);
+					$score = apply_strategy($answers, $testStrategy1);	
+					$party->setSelectionScore($score);	
+				}
 			}
 
 	    	$em = $this->getDoctrine()->getManager();

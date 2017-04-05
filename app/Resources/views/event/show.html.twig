@@ -13,7 +13,7 @@
 	</ul>
 	
 	<a href="{{ path('event_edit', {'id': event.id}) }}">Edit</a>
-	
+	{{ form_start(form) }}
 	<div class="panel-group" id="accordion">
 		<button class="accordion">Selection Strategy</button>
 		<div class="panel">
@@ -27,6 +27,7 @@
 		#}
 		</select>
 		
+		{{ form_row(form.score)}}
 
 			<table>
 				<tr>
@@ -38,8 +39,7 @@
 			</table>
 		</div>
 	</div>
-	
-	{{ form_start(form) }}
+
 	<table>
 		<tr>
 			<th>Name</th>
@@ -79,8 +79,6 @@
 		{% endfor %}
 	</table>
 	{{ form_end(form) }}
-
-
 
 {% endblock %}
 
