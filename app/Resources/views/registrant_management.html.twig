@@ -1,0 +1,55 @@
+{# app/Resources/views/liccb/user_management.html.twig #}
+{# Variables: page_title, stylesheet, body, javascript, user_entries#}
+{% extends 'base.html.twig' %}
+
+{% block page_title %}Registrant Management{% endblock %}
+
+{% block body %}
+	{# Contain whole thing in variable sized scrollable window #}
+	<div class="panel-group" id="accordion">
+    {% for registrant in registrants %}
+		{# Contain each user entry in dropdown configuration in unordered list#}
+		<button class="accordion">{{ registrant.fullName }}</button>
+		<div class="panel">
+			<table>
+				<tr>
+				<td>Over 18: {{ registrant.over18 }}</td>
+				<td>Has Swimming Experience: {{ registrant.hasSwimExperience }}</td>
+				<td>Has Boating Experience: {{ registrant.hasBoatExperience }}</td>
+				</tr>
+				<tr>
+				<td>Phone Number: {{ registrant.phone }}</td>
+				<td>Emergency Contact: {{ registrant.emergencyContactName }}</td>
+				<td>Emergency Contact Number: {{ registrant.emergencyContactPhone }}</td>
+				</tr>
+				<tr>
+				<td><a href="registrants/{{ registrant.registrantEmail }}">Registrant Page</a></td>
+				</tr>
+			</table>
+		</div>
+    {% endfor %}
+	</div>
+{% endblock %}
+
+{% block javascript %}
+	<script>
+		var acc = document.getElementsByClassName("accordion");
+		var i;
+
+		for (i = 0; i < acc.length; i++) {
+			acc[i].onclick = function(){
+				/* Toggle between adding and removing the "active" class,
+				to highlight the button that controls the panel */
+				this.classList.toggle("active");
+	
+				/* Toggle between hiding and showing the active panel */
+				var panel = this.nextElementSibling;
+				if (panel.style.display === "block") {
+					panel.style.display = "none";
+				} else {
+				panel.style.display = "block";
+				}
+			}
+		}
+	</script>
+{% endblock %}
