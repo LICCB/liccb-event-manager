@@ -1,6 +1,23 @@
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation
+
+# FOS User routes
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
+
+# HWIOAuth routes
+hwi_oauth_redirect:
+    resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
+    prefix: /connect
+
+hwi_oauth_login:
+    resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
+    prefix: /login
+
+google_login:
+    path: /login/check-google
+
 home:
     path: /
     defaults: {_controller: AppBundle:Index:index}
