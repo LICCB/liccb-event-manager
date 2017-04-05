@@ -1,0 +1,7 @@
+{% extends '@FOSUser/layout.html.twig' %}
+
+{% block fos_user_content %}
+	<a href="{{ path('hwi_oauth_service_redirect', {'service': 'google' }) }}">
+		<span>Google</span>
+	</a>
+{% endblock %}
