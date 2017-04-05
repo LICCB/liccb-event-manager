@@ -8,11 +8,6 @@ namespace AppBundle\Entity;
 class Participant
 {
     /**
-     * @var int
-     */
-    private $id;
-
-    /**
      * @var string
      */
     private $participantEmail;
@@ -27,15 +22,27 @@ class Participant
      */
     private $comment;
 
+    /**
+     * @var integer
+     */
+    private $numEventsInvited;
 
     /**
-     * Get id
-     *
-     * @return int
+     * @var integer
      */
-    public function getId()
+    private $numEventsAttended;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $party_participant_lists;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
     {
-        return $this->id;
+        $this->party_participant_lists = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -109,17 +116,53 @@ class Participant
     {
         return $this->comment;
     }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $party_participant_lists;
 
     /**
-     * Constructor
+     * Set numEventsInvited
+     *
+     * @param integer $numEventsInvited
+     *
+     * @return Participant
      */
-    public function __construct()
+    public function setNumEventsInvited($numEventsInvited)
     {
-        $this->party_participant_lists = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->numEventsInvited = $numEventsInvited;
+
+        return $this;
+    }
+
+    /**
+     * Get numEventsInvited
+     *
+     * @return integer
+     */
+    public function getNumEventsInvited()
+    {
+        return $this->numEventsInvited;
+    }
+
+    /**
+     * Set numEventsAttended
+     *
+     * @param integer $numEventsAttended
+     *
+     * @return Participant
+     */
+    public function setNumEventsAttended($numEventsAttended)
+    {
+        $this->numEventsAttended = $numEventsAttended;
+
+        return $this;
+    }
+
+    /**
+     * Get numEventsAttended
+     *
+     * @return integer
+     */
+    public function getNumEventsAttended()
+    {
+        return $this->numEventsAttended;
     }
 
     /**

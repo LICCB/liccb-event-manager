@@ -8,7 +8,7 @@ namespace AppBundle\Entity;
 class Org_event
 {
     /**
-     * @var int
+     * @var integer
      */
     private $id;
 
@@ -23,7 +23,7 @@ class Org_event
     private $orgEventType;
 
     /**
-     * @var int
+     * @var integer
      */
     private $capacity;
 
@@ -47,11 +47,23 @@ class Org_event
      */
     private $orgEventDescription;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $parties;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->parties = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
@@ -123,7 +135,7 @@ class Org_event
     /**
      * Get capacity
      *
-     * @return int
+     * @return integer
      */
     public function getCapacity()
     {
@@ -224,18 +236,6 @@ class Org_event
     public function getOrgEventDescription()
     {
         return $this->orgEventDescription;
-    }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $parties;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->parties = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**

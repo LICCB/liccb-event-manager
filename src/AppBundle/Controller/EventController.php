@@ -7,8 +7,62 @@ use AppBundle\Form\EventRegistrantsEdit;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
+$testStrategy1 = array(
+	//Weight
+	"id" => 1,
+	"name" => "Test Strategy 1",
+	"over18" => True,
+	"over18W" => -1,
+	"swimExperience" => True,
+	"swimExperienceW" => -1,
+	"boatExperience" => True,
+	"boatExperienceW" => 5,
+	"CPR" => True,
+	"CPRW" => 0,
+	"participantType" => "volunteer",
+	"participantTypeW" => 10
+	);
+
+function apply_strategy($answers, $strategy) {
+	$reference = array(
+		"over18W" => "over18",
+		"swimExperienceW" => "swimExperience",
+		"boatExperienceW" => "boatExperience",
+		"CPRW" => "CPR",
+		"participantTypeW" => "participantType"
+	);
+		
+	$mandatoryWeights = array_keys($strategy, -1);
+	$score = 0;
+		
+	foreach ($answers as $key => $value) {
+		echo "value: ".$value."\n";
+		echo "stratval: ".$strategy[$key]."\n";
+		if ($value == $strategy[$key])
+		{
+			echo "weight: ".$strategy[$key."W"]."\n";
+			if($strategy[$key."W"] != -1)
+			{
+				$score+= $strategy[$key."W"];
+			}
+		}	
+	}
+	foreach ($mandatoryWeights as $key) 
+	{
+		//echo $strategy[$reference[$key]];
+		//echo $answers[$reference[$key]];
+		if ($strategy[$reference[$key]] != $answers[$reference[$key]]) 
+		{
+			$score = 0;
+		}
+	}
+	echo $score;
+	return $score;
+}
+
 class EventController extends Controller
 {
+
     public function showAction(Request $request, $id)
     {
     	$event = $this->getDoctrine()
@@ -22,6 +76,7 @@ class EventController extends Controller
 	    	$event = $form->getData();
 
 		    foreach($event->getParties() as $party){
+				
 			    if($party->getSelectionStatus() == null){
 			    	$party->setSelectionStatus("Emailed"); // Temporary hack
 			    } elseif($form->get('update_and_email')->isClicked() && $party->getSelectionStatus() == "Approved") {
@@ -43,23 +98,72 @@ class EventController extends Controller
 			    }
 		    }
 
-
 	    	$em = $this->getDoctrine()->getManager();
 	    	$em->persist($event);
 	    	$em->flush();
 
 	    	return $this->redirectToRoute('event_show', array(
-	    		'id' => $id,
+	    		'id' => $id
 		    ));
 	    }
-
+		
         return $this->render('event/show.html.twig', array(
 	        'event' => $event,
-	        'form' => $form->createView(),
+	        'form' => $form->createView()
         ));
+		
     }
 
-    public function editAction(Request $request, $id){
+	public function scoreAction(Request $request, $id)
+	{
+		$event = $this->getDoctrine()
+			->getRepository('AppBundle:Org_event')
+			->find($id);
+
+    	$form = $this->createForm(EventRegistrantsEdit::class, $event);
+	    $form->handleRequest($request);
+		
+		if($form->isSubmitted() && $form->isValid())
+		{
+	    	$event = $form->getData();
+			if ($form->get('score')->isClicked()) 
+			{
+		
+			foreach($event->getParties() as $party)
+			{
+
+					$registrant = $party->getRegistrant();
+						$answers = array(
+							"over18" => $registrant->getOver18(),
+							"swimExperience" => $registrant->getHasSwimExperience(),
+							"boatExperience" => $registrant->getHasBoatExperience(),
+							"CPR" => $registrant->getHasCprCertification(), 
+							"participantType" => $registrant->getParticipantType()
+						);
+					$score = apply_strategy($answers, $testStrategy1);	
+					$party->setSelectionScore($score);	
+				}
+			}
+
+	    	$em = $this->getDoctrine()->getManager();
+	    	$em->persist($event);
+	    	$em->flush();			
+		
+			return $this->redirectToRoute('event_show', array(
+				'id' => $id
+			));
+		}
+		/*
+		return $this->render('event/show.html.twig', array(
+			'event' => $event,
+			'form' => $form->createView()
+        ));
+		*/
+	}
+			
+	
+    public function editAction(Request $request, $id)
+	{
     	$event = $this->getDoctrine()
 		    ->getRepository('AppBundle:Org_event')
 		    ->find($id);
