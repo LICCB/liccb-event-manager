@@ -59,4 +59,13 @@ class User extends BaseUser
 
 		return $this;
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function setEmail($email)
+	{
+		parent::setUsername($email);
+		return parent::setEmail($email);
+	}
 }

@@ -10,5 +10,5 @@ AppBundle\Entity\User:
     fields:
         googleID:
             type: string
-            nullable: false
+            nullable: true
             column: google_id
