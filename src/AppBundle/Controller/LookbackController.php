@@ -24,18 +24,19 @@ class LookbackController extends Controller
 
 		/*
 		$event = new Org_event();
-		$event->setOrgEventName("Row Across the Pacific");
+		$event->setOrgEventName("Atlantic Crossing");
 		$event->setOrgEventType("boating");
-		$event->setCapacity(10);
-		$event->setDate(new \DateTime("2017-06-12"));
-		$event->setSignupStart(new \DateTime("2017-03-01"));
-		$event->setSignupEnd(new \DateTime("2017-04-15"));
-		$event->setOrgEventDescription("[description] don't drown");
+		$event->setCapacity(20);
+		$event->setDate(new \DateTime("2017-08-17"));
+		$event->setSignupStart(new \DateTime("2017-04-01"));
+		$event->setSignupEnd(new \DateTime("2017-07-11"));
+		$event->setOrgEventDescription("beware of sharks");
 		
 		$em = $this->getDoctrine()->getManager();
 		$em->persist($event);
 		$em->flush();
 		*/
+		
 
 		$em = $this->getDoctrine()->getManager();
 
