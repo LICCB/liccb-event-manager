@@ -16,3 +16,6 @@ register:
 registerconfirm:
     path:     /register/confirm
     defaults: {_controller: AppBundle:Register:confirm}
+lookback:
+    path:      /lookback
+    defaults: {_controller: AppBundle:Lookback:lookback}

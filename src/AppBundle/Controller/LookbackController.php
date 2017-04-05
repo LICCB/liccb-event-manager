@@ -6,6 +6,9 @@ use AppBundle\Form\EventRegistrantsEdit;
 
 use Symfony\Component\HttpFoundation\Response; /* remove when I update to template */
 
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
 use AppBundle\Entity\Org_event;
 use AppBundle\Entity\Registrant;
 use AppBundle\Entity\Party;
@@ -34,26 +37,34 @@ class LookbackController extends Controller
 		$em->flush();
 		*/
 
-		$participant = new Participant();
-		$form-> $this->createFormBuilder($participant)
-			->add('nameSearch', TextType::class)
+		$registrant = new Registrant();
+		$form = $this->createFormBuilder($registrant)
+			->add('fullName', TextType::class)
 			->add('search', SubmitType::class, array('label' => 'Search'))
 			->getForm();
 
-		$form->handleRequest($request);
+		//$form->handleRequest($request);
 
 		if ($form->isSubmitted() && $form->isValid()) {
-			$participant_name = $form->getData()->getFullName();
+			$registrant_name = $form->getData()->getFullName();
 
-			$repository = $em->getRepository('AppBundle:Participant');
+			$repository = $this->getDoctrine()->getRepository('AppBundle:Registrant');
 			$query = $repository->createQueryBuilder('p')
-						->where('p.full_name LIKE :name')
-						->setParameter('name', '%'.$participant_name.'%');
+						->where('p.fullName LIKE :name')
+						->setParameter('name', '%'.$registrant_name.'%')
+						->getQuery();
 
-			$participants = $query->getResult();
+			$registrants = $query->getResult();
+
+			return $this->render('lookback/search_results.html.twig');
+			/*
+			return new Response(
+				'<html><body><p>hello</p></body></html>'
+			);
+			*/
 		}
 
-		return $this->render('lookback/search_results.html.twig',)
+		//return $this->render('lookback/search_results.html.twig',);
 
 		
 
