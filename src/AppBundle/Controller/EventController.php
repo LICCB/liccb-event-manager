@@ -9,6 +9,8 @@ use Symfony\Component\HttpFoundation\Request;
 
 $testStrategy1 = array(
 	//Weight
+	"id" => 1,
+	"name" => "Test Strategy 1",
 	"over18" => True,
 	"over18W" => -1,
 	"swimExperience" => True,
@@ -104,11 +106,12 @@ class EventController extends Controller
 	    		'id' => $id
 		    ));
 	    }
-
+		
         return $this->render('event/show.html.twig', array(
 	        'event' => $event,
 	        'form' => $form->createView()
         ));
+		
     }
 
 	public function scoreAction(Request $request, $id)
@@ -123,11 +126,12 @@ class EventController extends Controller
 		if($form->isSubmitted() && $form->isValid())
 		{
 	    	$event = $form->getData();
+			if ($form->get('score')->isClicked()) 
+			{
 		
 			foreach($event->getParties() as $party)
 			{
-				if ($form->get('score')->isClicked()) 
-				{
+
 					$registrant = $party->getRegistrant();
 						$answers = array(
 							"over18" => $registrant->getOver18(),
@@ -149,11 +153,12 @@ class EventController extends Controller
 				'id' => $id
 			));
 		}
-		
+		/*
 		return $this->render('event/show.html.twig', array(
 			'event' => $event,
 			'form' => $form->createView()
         ));
+		*/
 	}
 			
 	
