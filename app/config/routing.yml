@@ -52,6 +52,11 @@ registerconfirm:
     path:     /register/confirm
     defaults: {_controller: AppBundle:Register:confirm}
 
+# Event admin page
+admin_home:
+    path: /admin/
+    defaults: {_controller: AppBundle:Admin:index}
+
 # Calendar pages
 calendar:
     path:      /calendar
