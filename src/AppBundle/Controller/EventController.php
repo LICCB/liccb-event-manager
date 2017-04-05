@@ -125,6 +125,7 @@ class EventController extends Controller
 	    	$event = $form->getData();
 		
 			foreach($event->getParties() as $party){
+			if ($form->get('score')->isClicked()) {
 				$registrant = $party->getRegistrant();
 					$answers = array(
 						"over18" => $registrant->getOver18(),
