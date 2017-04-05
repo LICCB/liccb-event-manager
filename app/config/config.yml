@@ -80,3 +80,31 @@ doctrine_migrations:
     namespace: AppBundle\Migrations
     table_name: migration_versions
     name: Application Migrations
+
+# FOSUser config
+fos_user:
+    db_driver: orm
+    firewall_name: main
+    user_class: AppBundle\Entity\User
+    from_email:
+        address: "%mailer_user%"
+        sender_name: "%mailer_user%"
+
+# HWI OAuth Config
+hwi_oauth:
+    firewall_names: [main]
+    connect:
+        account_connector: app.provider.oauth
+    http_client:
+        timeout: 5
+    fosub:
+        properties:
+            google: googleID
+    resource_owners:
+        google:
+            type:           google
+            client_id:      "***REMOVED***"
+            client_secret:  "***REMOVED***"
+            scope:              "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile"
+            paths:
+                email: email
