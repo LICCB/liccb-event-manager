@@ -40,7 +40,7 @@ class LookbackController extends Controller
 		$em = $this->getDoctrine()->getManager();
 
 		$registrant = new Registrant();
-		$form = $this->createFormBuilder($participant)
+		$form = $this->createFormBuilder($registrant)
 			->add('fullName', TextType::class)
 			->add('search', SubmitType::class, array('label' => 'Search'))
 			->getForm();
@@ -66,16 +66,16 @@ class LookbackController extends Controller
 
 			$registrants = $query->getResult();
 
-			return new Response(
+			/*return new Response(
 				'<html></body>
 					<p>email: '.$registrants[0]->getRegistrantEmail().'</p>
 					<p>event name: '.$registrants[0]->getParties()[0]->getOrgEvent()->getOrgEventName().'</p>
 				</body></html>'
-			);
+			);*/
 
-			/*return $this->render('lookback/search_results.html.twig', array(
-				'form' => $form->createView(),
-			));*/
+			return $this->render('lookback_search_results.html.twig', array(
+				'registrants' => $registrants,
+			));
 		} else {
 			return $this->render('lookback/search_results.html.twig', array(
 				'form' => $form->createView(),
