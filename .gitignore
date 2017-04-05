@@ -18,3 +18,5 @@
 app/DoctrineMigrations/
 
 web/error_log
+
+*.php~
