@@ -272,3 +272,4 @@ class Org_event
         return $this->parties;
     }
 }
+

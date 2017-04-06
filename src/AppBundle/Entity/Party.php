@@ -388,3 +388,4 @@ class Party
         return $this->org_event;
     }
 }
+
