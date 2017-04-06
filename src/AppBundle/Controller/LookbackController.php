@@ -41,20 +41,12 @@ class LookbackController extends Controller
 				->getDoctrine()
 				->getRepository('AppBundle:Participant');*/
 
-
 			$query = $registrantRepository->createQueryBuilder('p')
 						->where('LOWER(p.fullName) LIKE LOWER(:name)')
 						->setParameter('name', '%'.$registrant_name.'%')
 						->getQuery();
 
 			$registrants = $query->getResult();
-
-			/*return new Response(
-				'<html></body>
-					<p>email: '.$registrants[0]->getRegistrantEmail().'</p>
-					<p>event name: '.$registrants[0]->getParties()[0]->getOrgEvent()->getOrgEventName().'</p>
-				</body></html>'
-			);*/
 
 			return $this->render('lookback_search_results.html.twig', array(
 				'registrants' => $registrants,
@@ -64,19 +56,5 @@ class LookbackController extends Controller
 				'form' => $form->createView(),
 			));
 		}
-
-		
-
-		
-
-		/*
-		$form = $this->createForm(EventRegistrantsEdit::class, $event);
-	    $form->handleRequest($request);
-
-        return $this->render('event/show.html.twig', array(
-	        'event' => $event,
-	        'form' => $form->createView(),
-        ));
-		*/
     }
 }
