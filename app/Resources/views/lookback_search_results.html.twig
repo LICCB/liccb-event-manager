@@ -13,29 +13,28 @@
 		<div class="panel">
 			<table>
 				<tr>
-					<td># Events applied to:</td>
+					<td># Events applied to: {{ registrant.getNumTimesApplied() }}</td>
 				</tr>
 				<tr>
-					<td># Events invited to:</td>
+					<td># Events invited to: {{ registrant.getNumTimesInvited() }}</td>
 				</tr>
 				<tr>
-					<td># Events confimed attending:</td>
+					<td># Events confimed attending: {{ registrant.getNumTimesConfirmed() }}</td>
 				</tr>
 				<tr>
-					<td># Events attended:</td>
+					<td># Events attended: {{ registrant.getNumTimesAttended() }}</td>
 				</tr>
 				<tr>
 					<td>Administrative comments:</td>
 				</tr>
 				<tr>
-					<td><a href="registrants/{{ registrant.registrantEmail }}">Registrant Page</a></td>
+					<td><a href="registrants/{{ registrant.getRegistrantEmail() }}">Registrant Page</a></td>
 				</tr>
 			</table>
-		</div>
-		{% set parties = registrant.getParties() %}
-		{% for party in parties %}
-			{% set event = party.getOrgEvent() %}
-			<div class="panel">
+			{% set parties = registrant.getParties() %}
+			{% set numParties = parties|length %}
+			{% for party in parties %}
+				{% set event = party.getOrgEvent() %}
 				<table>
 					<tr>
 						<td>Event: {{ event.getOrgEventName() }}</td>
@@ -47,32 +46,9 @@
 						<td># party members attended: {{ party.getNumActuallyAttended() }}</td>
 					</tr>
 				</table>
-			</div>
-			{#<div class="panel">
-				<table>
-					<tr>
-					<td>Over 18: {{ registrant.over18 }}</td>
-					<td>Has Swimming Experience: {{ registrant.hasSwimExperience }}</td>
-					<td>Has Boating Experience: {{ registrant.hasBoatExperience }}</td>
-					</tr>
-					<tr>
-					<td>Phone Number: {{ registrant.phone }}</td>
-					<td>Emergency Contact: {{ registrant.emergencyContactName }}</td>
-					<td>Emergency Contact Number: {{ registrant.emergencyContactPhone }}</td>
-					</tr>
-					<tr>
-					<td><a href="registrants/{{ registrant.registrantEmail }}">Registrant Page</a></td>
-					</tr>
-					<tr>
-						<td>Test 1</td>
-						<td>Test 2</td>
-						<td>Test 3</td>
-					</tr>
-				</table>
-			</div>#}
-		{% endfor %}
-		<br />
-    {% endfor %}
+			{% endfor %}
+		</div>
+	{% endfor %}
 	</div>
 {% endblock %}
 
@@ -88,14 +64,12 @@
 				this.classList.toggle("active");
 	
 				/* Toggle between hiding and showing the active panel */
-				var panel1 = this.nextElementSibling;
-				var panel2 = panel1.nextElementSibling;
-				if (panel1.style.display === "block") {
-					panel1.style.display = "none";
-					panel2.style.display = "none";
+
+				var panel = this.nextElementSibling;
+				if (panel.style.display === "block") {
+					panel.style.display = "none";
 				} else {
-					panel1.style.display = "block";
-					panel2.style.display = "block";
+					panel.style.display = "block";
 				}
 			}
 		}

@@ -20,24 +20,6 @@ class LookbackController extends Controller
 {
     public function lookbackAction(Request $request)
     {
-		/* currently testing with static page before using forms and templates */
-
-		/*
-		$event = new Org_event();
-		$event->setOrgEventName("Atlantic Crossing");
-		$event->setOrgEventType("boating");
-		$event->setCapacity(20);
-		$event->setDate(new \DateTime("2017-08-17"));
-		$event->setSignupStart(new \DateTime("2017-04-01"));
-		$event->setSignupEnd(new \DateTime("2017-07-11"));
-		$event->setOrgEventDescription("beware of sharks");
-		
-		$em = $this->getDoctrine()->getManager();
-		$em->persist($event);
-		$em->flush();
-		*/
-		
-
 		$em = $this->getDoctrine()->getManager();
 
 		$registrant = new Registrant();
