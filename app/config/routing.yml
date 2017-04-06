@@ -7,6 +7,12 @@ home:
 event_show:
     path: /event/{id}
     defaults: {_controller: AppBundle:Event:show}
+event_score:
+    path: /event/{id}/score
+    defaults: {_controller: AppBundle:Event:score}
+event_strategy:
+    path: /event/{id}/strategy
+    defaults: {_controller: AppBundle:Event:strategy}
 event_edit:
     path: /event/{id}/edit
     defaults: {_controller: AppBundle:Event:edit}
@@ -16,3 +22,15 @@ register:
 registerconfirm:
     path:     /register/confirm
     defaults: {_controller: AppBundle:Register:confirm}
+calendar:
+    path:      /calendar
+    defaults: {_controller: AppBundle:Calendar:calendar}
+registrants:
+    path: /registrants
+    defaults: {_controller: AppBundle:RegistrantManagement:registrants}
+single_registrant:
+    path: /registrants/{id}
+    defaults: {_controller: AppBundle:SingleRegistrant:registrant}
+splash:
+    path: /splash
+    defaults: {_controller: AppBundle:Splash:splash}
