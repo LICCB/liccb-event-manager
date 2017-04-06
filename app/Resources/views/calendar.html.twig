@@ -113,14 +113,43 @@
             for (i = 0; i < calendars.length; i++) {
               var calendar = calendars[i];
 			  calendarIds.push(calendar.id)
-			  console.log(calendar.id)
             }
           } else {
-            appendPre('No upcoming events found.');
+            console.log("No calendars found")
           }
         });
+		
+		createEventList(5);
       }
 
+	  function createEventList(num_events) {
+		for(i=0; i<calendarIds.length; i++){
+			console.log(calendarIds[i]);
+			gapi.client.calendar.events.list({
+				'calendarId': calendarIds[i],
+				'maxResults': num_events
+			}).then(function(response){
+				if(response.result.items.length > 0){
+					console.log(response.result.items)
+				}
+				else{
+					console.log("Response is empty")
+				}
+			});
+		}
+	  }
+	  
+	  function postEvents(str) {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("txtHint").innerHTML = this.responseText;
+            }
+        };
+        xmlhttp.open("GET", "gethint.php?q=" + str, true);
+        xmlhttp.send();
+		
+		}
     </script>
 
     <script async defer src="https://apis.google.com/js/api.js"
