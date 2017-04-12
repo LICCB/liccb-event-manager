@@ -13,6 +13,11 @@ class Strategy
     private $name;
 
     /**
+     * @var string
+     */
+    private $owner;
+
+    /**
      * @var boolean
      */
     private $over18;
@@ -45,12 +50,12 @@ class Strategy
     /**
      * @var boolean
      */
-    private $Cpr;
+    private $cpr;
 
     /**
      * @var integer
      */
-    private $CprW;
+    private $cprW;
 
     /**
      * @var string
@@ -85,6 +90,30 @@ class Strategy
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set owner
+     *
+     * @param string $owner
+     *
+     * @return Strategy
+     */
+    public function setOwner($owner)
+    {
+        $this->owner = $owner;
+
+        return $this;
+    }
+
+    /**
+     * Get owner
+     *
+     * @return string
+     */
+    public function getOwner()
+    {
+        return $this->owner;
     }
 
     /**
@@ -240,7 +269,7 @@ class Strategy
      */
     public function setCpr($cpr)
     {
-        $this->Cpr = $cpr;
+        $this->cpr = $cpr;
 
         return $this;
     }
@@ -252,7 +281,7 @@ class Strategy
      */
     public function getCpr()
     {
-        return $this->Cpr;
+        return $this->cpr;
     }
 
     /**
@@ -264,7 +293,7 @@ class Strategy
      */
     public function setCprW($cprW)
     {
-        $this->CprW = $cprW;
+        $this->cprW = $cprW;
 
         return $this;
     }
@@ -276,7 +305,7 @@ class Strategy
      */
     public function getCprW()
     {
-        return $this->CprW;
+        return $this->cprW;
     }
 
     /**
@@ -326,43 +355,5 @@ class Strategy
     {
         return $this->participantTypeW;
     }
-    /**
-     * @var string
-     */
-    private $owner;
-
-    /**
-     * @var boolean
-     */
-    private $cpr;
-
-    /**
-     * @var integer
-     */
-    private $cprW;
-
-
-    /**
-     * Set owner
-     *
-     * @param string $owner
-     *
-     * @return Strategy
-     */
-    public function setOwner($owner)
-    {
-        $this->owner = $owner;
-
-        return $this;
-    }
-
-    /**
-     * Get owner
-     *
-     * @return string
-     */
-    public function getOwner()
-    {
-        return $this->owner;
-    }
 }
+

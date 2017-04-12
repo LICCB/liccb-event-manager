@@ -33,9 +33,22 @@ class RegisterController extends Controller
             	// Flow finished, save to DB
             	$em = $this->getDoctrine()->getManager();
 
+				// see if registrant already exists
+				$registrant = $this->getDoctrine()
+					->getRepository('AppBundle:Registrant')
+					->find(strtolower($formData->getEmail()));
+
+				if (!$registrant) {
+					$registrant = new Registrant();
+					$registrant->setNumTimesApplied(0);
+					$registrant->setNumTimesInvited(0);
+					$registrant->setNumTimesConfirmed(0);
+					$registrant->setNumTimesAttended(0);
+				}
+
 	            // Fill registrant info, might wanna add inherit_data
-	            $registrant = new Registrant();
-	            $registrant->setRegistrantEmail($formData->getEmail());
+				// updating information if registrant already existed
+	            $registrant->setRegistrantEmail(strtolower($formData->getEmail()));
 	            $registrant->setOver18($formData->getOver18());
 	            $registrant->setHasSwimExperience($formData->getCanSwim());
 	            $registrant->setHasBoatExperience($formData->getBoatExperience());
@@ -46,6 +59,7 @@ class RegisterController extends Controller
 	            $registrant->setEmergencyContactPhone($formData->getEmergencyContactNumber());
 	            $registrant->setParticipantType($formData->getRegistrationType());
 	            $registrant->setZip(00000);
+				$registrant->setNumTimesApplied($registrant->getNumTimesApplied() + 1);
 	            $registrant->setIsPriorVolunteer(false);
 	            $registrant->setRoleFamiliarity(false);
 	            $registrant->setVehicleCapacity($formData->getBoatSeats());

@@ -51,6 +51,23 @@ AppBundle\Entity\Registrant:
             column: participant_type
         zip:
             type: integer
+        numTimesApplied:
+            type: integer
+            column: num_times_applied
+        numTimesInvited:
+            type: integer
+            column: num_times_invited
+        numTimesConfirmed:
+            type: integer
+            column: num_times_confirmed
+        numTimesAttended:
+            type: integer
+            column: num_times_attended
+        comments:
+            type: string
+            length: 2047
+            nullable: true
+            column: comments
         isPriorVolunteer:
             type: boolean
             column: is_prior_volunteer
