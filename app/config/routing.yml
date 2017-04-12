@@ -60,6 +60,11 @@ admin_volunteers_add:
     path: /admin/volunteers/add
     defaults: {_controller: AppBundle:Volunteers:add}
 
+# Permission Pages
+permission_edit:
+    path: /admin/permission/edit
+    defaults: {_controller: AppBundle:Permission:edit}
+
 # Calendar pages
 calendar:
     path:      /calendar
