@@ -32,4 +32,18 @@ class Permission extends Base {
 		return false;
 	}
 
+	public function setRolesFromArray(\Doctrine\Common\Collections\ArrayCollection $roles)
+	{
+		$rolesArr = array();
+		foreach ($roles as $role){
+			$rolesArr[] = strtoupper($role->getRole());
+		}
+
+		return $this->setRoles($rolesArr);
+	}
+
+	public function getRolesFromArray(){
+		return new \Doctrine\Common\Collections\ArrayCollection($this->getRoles());
+	}
+
 }
