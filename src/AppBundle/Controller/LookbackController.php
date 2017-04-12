@@ -24,7 +24,7 @@ class LookbackController extends Controller
 
 		$registrant = new Registrant();
 		$form = $this->createFormBuilder($registrant)
-			->add('fullName', TextType::class)
+			->add('fullName', TextType::class, array('label' => 'Name'))
 			->add('search', SubmitType::class, array('label' => 'Search'))
 			->getForm();
 
@@ -48,11 +48,11 @@ class LookbackController extends Controller
 
 			$registrants = $query->getResult();
 
-			return $this->render('lookback_search_results.html.twig', array(
+			return $this->render('lookback/search_results.html.twig', array(
 				'registrants' => $registrants,
 			));
 		} else {
-			return $this->render('lookback/search_results.html.twig', array(
+			return $this->render('lookback/search_page.html.twig', array(
 				'form' => $form->createView(),
 			));
 		}
