@@ -5,7 +5,11 @@
 {% block page_title %}Lookback Search Results{% endblock %}
 
 {% block body %}
-	<h1>Lookback Search Results</h1>
+	<h1>Lookback Search</h1>
+
+	{{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
 
 	{# Contain whole thing in variable sized scrollable window #}
 	<div class="panel-group" id="accordion">
@@ -33,12 +37,12 @@
 				<table>
 					<tr>
 						<td class="event-name"><h4>Event: {{ event.getOrgEventName() }}</h4></td>
+						<td>Event Type: {{ event.getOrgEventType() }}</td>
 						<td>Date: {{ event.getDate().format('M d, Y') }}</td>
-						<td></td>
 					</tr>
 					<tr>
 						<td>Party Size: {{ party.getNumSeats() }}</td>
-						<td># party members confirmed: {{ party.getConfirmedAttending() }}</td>
+						<td>Party confirmed attending: {% if party.getConfirmedAttending() %}yes{% else %}no{% endif %}</td>
 						<td># party members attended: {{ party.getNumActuallyAttended() }}</td>
 					</tr>
 				</table>
