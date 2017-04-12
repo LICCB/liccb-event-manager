@@ -77,6 +77,33 @@
 	</table>
 	{{ form_end(form) }}
 
+	<h3>Attendance</h3>
+
+	{{ form_start(attendance_form) }}
+		<table>
+		<tr>
+			<th>Name</th>
+			<th># Seats</th>
+			<th># Attended</th>
+		</tr>
+		{% for party in attendance_form.parties %}
+			{% if party.vars.value.selectionStatus == "Approved" %}
+				<tr class="bg-success">
+			{% elseif party.vars.value.selectionStatus == "Denied" %}
+				<tr class="bg-danger">
+			{% elseif party.vars.value.selectionStatus == "Emailed" %}
+				<tr class="bg-info">
+			{% else %}
+				<tr>
+			{% endif %}
+			    <td>{{ party.vars.data.Registrant.fullName }}</td>
+			    <td>{{ party.vars.value.numSeats }}</td>
+				<td>{{ form_row(party.numActuallyAttended) }}</td>
+			</tr>
+		{% endfor %}
+	</table>
+	{{ form_end(attendance_form) }}
+
 {% endblock %}
 
 {% block javascript %}

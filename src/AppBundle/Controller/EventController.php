@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Form\EventEdit;
 use AppBundle\Form\EventRegistrantsEdit;
+use AppBundle\Form\EventAttendance;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -72,6 +73,9 @@ class EventController extends Controller
     	$form = $this->createForm(EventRegistrantsEdit::class, $event);
 	    $form->handleRequest($request);
 
+		$attendanceForm = $this->createForm(EventAttendance::class, $event);
+	    $attendanceForm->handleRequest($request);
+
 	    if($form->isSubmitted() && $form->isValid()){
 	    	$event = $form->getData();
 
@@ -107,9 +111,78 @@ class EventController extends Controller
 		    ));
 	    }
 		
+		if($attendanceForm->isSubmitted() && $attendanceForm->isValid()){
+	    	$formEvents = $attendanceForm->getData();
+
+			foreach($event->getParties() as $party) {
+				foreach($formEvents->getParties() as $formParty) {
+					if ($formParty->getId() == $party->getId()) {
+						$party->setNumActuallyAttended($formParty->getNumActuallyAttended());
+						break;
+					}
+				}
+			}
+
+			/* wouldn't it be better to fetch it from the DB and then just update the # attended? */
+
+			/*foreach($event->getParties() as $party){
+			    if($party->getSelectionStatus() == null){
+			    	$party->setSelectionStatus("Unselected"); // Temporary hack
+			    } elseif($form->get('update_and_email')->isClicked() && $party->getSelectionStatus() == "Approved") {
+			    	// Send email
+				    $message = \Swift_Message::newInstance()
+					    ->setSubject("LICBoathouse Event Approval")
+					    ->setFrom('test@test.com')
+					    ->setTo($party->getRegistrantEmail())
+					    ->setBody(
+					    	$this->renderView('email/approved.html.twig', array(
+					    		'name' => $party->getRegistrant()->getFullName(),
+							    'event' => $event,
+						    )),
+						    'text/html'
+					    )
+					    ;
+				    $this->get('mailer')->send($message);
+			    	$party->setSelectionStatus("Emailed");
+			    }
+		    }*/
+
+		    /*foreach($event->getParties() as $party){
+				
+			    if($party->getSelectionStatus() == null){
+			    	$party->setSelectionStatus("Emailed"); // Temporary hack
+			    } elseif($form->get('update_and_email')->isClicked() && $party->getSelectionStatus() == "Approved") {
+			    	// Send email
+				    $message = \Swift_Message::newInstance()
+					    ->setSubject("LICBoathouse Event Approval")
+					    ->setFrom('test@test.com')
+					    ->setTo($party->getRegistrantEmail())
+					    ->setBody(
+					    	$this->renderView('email/approved.html.twig', array(
+					    		'name' => $party->getRegistrant()->getFullName(),
+							    'event' => $event,
+						    )),
+						    'text/html'
+					    )
+					    ;
+				    $this->get('mailer')->send($message);
+			    	$party->setSelectionStatus("Emailed");
+			    }
+		    }*/
+
+	    	$em = $this->getDoctrine()->getManager();
+	    	$em->persist($event);
+	    	$em->flush();
+
+	    	return $this->redirectToRoute('event_show', array(
+	    		'id' => $id
+		    ));
+	    }
+		
         return $this->render('event/show.html.twig', array(
 	        'event' => $event,
-	        'form' => $form->createView()
+	        'form' => $form->createView(),
+			'attendance_form' => $attendanceForm->createView()
         ));
 		
     }
