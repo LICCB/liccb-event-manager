@@ -7,12 +7,3 @@ AppBundle\Entity\Permission:
             type: integer
             generator:
                 strategy: AUTO
-    fields:
-        name:
-            column: name
-            type:   string
-            length: 255
-            unique: true
-        roles:
-            column: roles
-            type:   array
