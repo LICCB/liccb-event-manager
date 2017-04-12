@@ -103,8 +103,8 @@ hwi_oauth:
     resource_owners:
         google:
             type:           google
-            client_id:      "709467830059-0204pe5aos60hqgnu2bf1gn0erv4hkr2.apps.googleusercontent.com"
-            client_secret:  "sBCiGgL4Q8cQ1E7r3xTkWOii"
+            client_id:      "%google_client_id%"
+            client_secret:  "%google_client_secret%"
             scope:              "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile"
             paths:
                 email: email
