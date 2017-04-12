@@ -30,9 +30,12 @@
 				<tr>
 					<td> Over 18? </td>
 					<td> 
+					
+						{{ form_row(strategy_form.strategies.over18)}}
 						<select name="over18">	
 							<option value=1> True </option>
 							<option value=0> False </option>
+							
 						</select>
 					</td>
 					<td> <input type="number" min="-1" max="10"> </td>
