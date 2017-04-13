@@ -118,6 +118,11 @@ class EventController extends Controller
 				foreach($formEvents->getParties() as $formParty) {
 					if ($formParty->getId() == $party->getId()) {
 						$party->setNumActuallyAttended($formParty->getNumActuallyAttended());
+
+						if($party->getSelectionStatus() == null){
+			    			$party->setSelectionStatus("Emailed"); // Temporary hack
+			    		}
+						//$party->setSelectionStatus($formParty->setSelectionStatus());
 						break;
 					}
 				}
