@@ -98,7 +98,8 @@
 			{% endif %}
 			    <td>{{ party.vars.data.Registrant.fullName }}</td>
 			    <td>{{ party.vars.value.numSeats }}</td>
-				<td>{{ form_row(party.numActuallyAttended) }}</td>
+				<td>{{ form_row(party.numActuallyAttended,
+					{'attr': { 'min': 0, 'max': party.vars.value.numSeats }}) }}</td>
 			</tr>
 		{% endfor %}
 	</table>
