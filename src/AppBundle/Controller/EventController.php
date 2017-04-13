@@ -22,27 +22,24 @@ function apply_strategy($answers, $strategy) {
 		$score = 0;
 		
 		foreach ($answers as $key => $value) {
-			//echo "value: ".$value."\n";
-			//echo "stratval: ".$strategy[$key]."\n";
 			if ($value == $strategy[$key])
 			{
-				//echo "weight: ".$strategy[$key."W"]."\n";
 				if($strategy[$key."W"] != -1)
 				{
 					$score+= $strategy[$key."W"];
 				}
 			}	
 		}
-		foreach ($mandatoryWeights as $key) 
+		if (sizeOf($mandatoryWeights) <= 0)
 		{
-		//echo $strategy[$reference[$key]];
-		//echo $answers[$reference[$key]];
-			if ($strategy[$reference[$key]] != $answers[$reference[$key]]) 
+			foreach ($mandatoryWeights as $key) 
 			{
-				$score = 0;
+				if ($strategy[$reference[$key]] != $answers[$reference[$key]]) 
+				{
+					$score = 0;
+				}
 			}
 		}
-		//echo $score;
 		return $score;
 	}
 	
@@ -55,10 +52,6 @@ class EventController extends Controller
 		    ->getRepository('AppBundle:Org_event')
 		    ->find($id);
 			
-		$strategies = $this->getDoctrine()
-			->getRepository('AppBundle:Strategy')
-			->findAll();
-			
     	$registrantsForm = $this->createForm(EventRegistrantsEdit::class, $event);
 	    $registrantsForm->handleRequest($request);
 		
@@ -66,14 +59,20 @@ class EventController extends Controller
 			'action' => $this->generateUrl('event_score', array('id' => $id,)),
 			'method' => 'POST',
 		));
+		
 	    $score_form->handleRequest($request);
 		
 		$strategy_form = $this->createForm(EventStrategies::class, array(
 			'action' => $this->generateUrl('event_strategy', array('id' =>$id,)),
 			'method' => 'POST',
 		));
-		$strategy_form->handleRequest($request);
 		
+		$strategy_form->handleRequest($request);
+		/*
+		$data = $strategy_form->getData();
+		$strategy = $data['strategies'];
+		$strategy_id_temp = $strategy->getId();
+		*/
 
 	    if($registrantsForm->isSubmitted() && $registrantsForm->isValid()){
 	    	$event = $registrantsForm->getData();
@@ -99,7 +98,7 @@ class EventController extends Controller
 				    $this->get('mailer')->send($message);
 			    	$party->setSelectionStatus("Emailed");
 			    }
-		    }
+			}
 
 	    	$em = $this->getDoctrine()->getManager();
 	    	$em->persist($event);
@@ -115,7 +114,6 @@ class EventController extends Controller
 	        'form' => $registrantsForm->createView(),
 			'score_form' => $score_form->createView(),
 			'strategy_form' => $strategy_form->createView(),
-			'strategies' => $strategies
         ));
 		
     }
@@ -131,15 +129,7 @@ class EventController extends Controller
 			
 		$registrantsForm = $this->createForm(EventRegistrantsEdit::class, $event);
 	    $registrantsForm->handleRequest($request);
-		
-		$strategies = $this->getDoctrine()
-			->getRepository('AppBundle:Strategy')
-			->findAll();
 				
-		$the_strategy = $this->getDoctrine()
-			->getRepository('AppBundle:Strategy')
-			-find($strategy_id);
-
     	$score_form = $this->createForm(EventScoring::class, $event, array(
 			'action' => $this->generateUrl('event_score', array('id' => $id,)),
 			'method' => 'POST',
@@ -155,36 +145,28 @@ class EventController extends Controller
 		if($score_form->isSubmitted() && $score_form->isValid())
 		{
 	    	$event = $registrantsForm->getData();
-			$data = $score_form->getData();
-			$strategy = $data['strategies'];
+			$strategy_data = $strategy_form->getData();
+			$strategy = $strategy_data;
+			//$logger->info($strategy_data['name']);
+			/*
+			** Trying to grab strategy from form in order to apply this strategy to scoring algorithm **
 			
-			$strategy.setName(data['name']);
-			
-			$strategy.setOver18(data['over18']);
-			$strategy.setOver18W(data['over18W']);
-			if (data['over18Required'])
-				$strategy.setOver18W(-1);
-			//$strategy.setOver18Required(data['over18Required']);
-			
-			$strategy.setOver18(data['swimExpereince']);
-			$strategy.setOver18W(data['swimExpereinceW']);
-			//$strategy.setOver18Required(data['swimExpereinceRequired']);
-			
-			$strategy.setOver18(data['boatExperience']);
-			$strategy.setOver18W(data['boatExperienceW']);
-			//$strategy.setOver18Required(data['boatExperienceRequired']);
-			
-			$strategy.setOver18(data['Cpr']);
-			$strategy.setOver18W(data['CprW']);
-			//$strategy.setOver18Required(data['CprRequired']);
-			
-			$strategy.setOver18(data['participantType']);
-			$strategy.setOver18W(data['participantTypeW']);
-			//$strategy.setOver18Required(data['participantTypeRequired']);
-			
-			if ($score_form->get('score')->isClicked()) 
-			{
-				
+			$testStrategy1 = array(
+				"id" => $strategy->getId(),
+				"name" => $strategy->getName(),
+				"over18" => $strategy->getOver18(),
+				"over18W" => $strategy->getOver18W(),
+				"swimExperience" => $strategy->getSwimExperience(),
+				"swimExperienceW" => $strategy->getSwimExperienceW(),
+				"boatExperience" => $strategy->getBoatExperience(),
+				"boatExperienceW" => $strategy->getBoatExperienceW(),
+				"cpr" => $strategy->getCpr(),
+				"cprW" => $strategy->getCprW(),
+				"participantType" => $strategy->getParticipantType(),
+				"participantTypeW" => $strategy->getParticipantTypeW(),
+
+			);
+			*/
 		
 			foreach($event->getParties() as $party)
 			{
@@ -196,32 +178,32 @@ class EventController extends Controller
 							"boatExperience" => $registrant->getHasBoatExperience(),
 							"cpr" => $registrant->getHasCprCertification(), 
 							"participantType" => $registrant->getParticipantType()
-						);
+					);
+					
 					$testStrategy1 = array(
-						//Weight
 						"id" => 1,
 						"name" => "Test Strategy 1",
-						"over18" => True,
-						"over18W" => -1,
-						"swimExperience" => True,
-						"swimExperienceW" => -1,
-						"boatExperience" => True,
+						"over18" => true,
+						"over18W" => 1,
+						"swimExperience" => true,
+						"swimExperienceW" => 4,
+						"boatExperience" => true,
 						"boatExperienceW" => 5,
-						"cpr" => True,
-						"cprW" => 0,
+						"cpr" => true,
+						"cprW" => 7,
 						"participantType" => "volunteer",
-						"participantTypeW" => 10
+						"participantTypeW" => 4,
 					);
+		
+
 					$score = apply_strategy($answers, $testStrategy1);	
 					$logger->info('Blah');
 					$logger->info($score);
 					$party->setSelectionScore($score);	
-				}
 			}
 
 	    	$em = $this->getDoctrine()->getManager();
 	    	$em->persist($event);
-			$em->persist($strategy);
 	    	$em->flush();			
 		
 			return $this->redirectToRoute('event_show', array(
@@ -234,12 +216,11 @@ class EventController extends Controller
 			'form' => $registrantsForm->createView(),
 			'score_form' => $score_form->createView(),
 			'strategy_form' => $strategy_form->createView(),
-			'strategies' => $strategies
         ));
 		
 	}
 			
-	public function strategyAction(Request $request, $id, $strategyId) {
+	public function strategyAction(Request $request, $id) {
 			
 		$event = $this->getDoctrine()
 			->getRepository('AppBundle:Org_event')
@@ -264,10 +245,50 @@ class EventController extends Controller
 		));
 		$strategy_form->handleRequest($request);
 		
+		$data = $score_form->getData();
+		$strategy = $data['strategies'];
+			
+		$strategy->setName(data['name']);
+		
+		$strategy->setOver18(data['over18']);
+		$strategy->setOver18W(data['over18W']);
+		if (data['over18Required'])
+			$strategy->setOver18W(-1);
+		//$strategy->setOver18Required(data['over18Required']);
+		
+		$strategy->setSwimExperience(data['swimExpereince']);
+		$strategy->setSwimExperienceW(data['swimExpereinceW']);
+		if (data['over18Required'])
+			$strategy->setSwimExperienceW(-1);
+		//$strategy->setOver18Required(data['swimExpereinceRequired']);
+		
+		$strategy->setBoatExpereince(data['boatExperience']);
+		$strategy->setBoatExperienceW(data['boatExperienceW']);
+		if (data['over18Required'])
+			$strategy->setBoatExperienceW(-1);
+		//$strategy->setOver18Required(data['boatExperienceRequired']);
+		
+		$strategy->setCpr(data['Cpr']);
+		$strategy->setCprW(data['CprW']);
+		if (data['over18Required'])
+			$strategy->setCprW(-1);
+		//$strategy->setOver18Required(data['CprRequired']);
+		
+		$strategy->setParticipantType(data['participantType']);
+		$strategy->setParticipantTypeW(data['participantTypeW']);
+		if (data['participantTypeRequired'])
+			$strategy->setParticipantTypeW(-1);
+		//$strategy->setOver18Required(data['participantTypeRequired']);
+	
+		
 		if($strategy_form->isSubmitted() && $strategy_form->isValid())
 		{
 			$strategy = $strategy_form->getData();
 		}
+		
+			$em = $this->getDoctrine()->getManager();
+			$em->persist($strategy);
+	    	$em->flush();	
 		
 		return $this->render('event/show.html.twig', array(
 			'event' => $event,
