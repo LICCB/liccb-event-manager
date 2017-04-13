@@ -2,35 +2,33 @@
 
 namespace AppBundle\Form;
 
-use AppBundle\Entity\Org_event;
+use AppBundle\Entity\Party;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class EventAttendance extends AbstractType
+class PartyAttendanceEdit extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 	    $builder
-		    ->add('parties', CollectionType::class, array(
-			    'entry_type' => PartyEditAttendance::class,
-		    ))
-		    ->add('update', SubmitType::class, array('label' => "Update Attendance"))
-		    ;
+			->add('numActuallyAttended', NumberType::class, array(
+				'label' => false));
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
 	    $resolver->setDefaults(array(
-	    	'data_class' => Org_event::class,
+	    	'data_class' => Party::class,
 	    ));
     }
 
     public function getBlockPrefix()
     {
-        return 'app_bundle_event_attendance';
+        return 'app_bundle_party_attendance_edit';
     }
 }

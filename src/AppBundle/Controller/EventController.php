@@ -4,7 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Form\EventEdit;
 use AppBundle\Form\EventRegistrantsEdit;
-use AppBundle\Form\EventAttendance;
+use AppBundle\Form\EventAttendanceEdit;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -75,7 +75,7 @@ class EventController extends Controller
     	$form = $this->createForm(EventRegistrantsEdit::class, $event);
 	    $form->handleRequest($request);
 
-		$attendanceForm = $this->createForm(EventAttendance::class, $event);
+		$attendanceForm = $this->createForm(EventAttendanceEdit::class, $event);
 	    $attendanceForm->handleRequest($request);
 
 	    if($form->isSubmitted() && $form->isValid()){
