@@ -55,6 +55,10 @@ class EventController extends Controller
 		    ->getRepository('AppBundle:Org_event')
 		    ->find($id);
 			
+		$strategies = $this->getDoctrine()
+			->getRepository('AppBundle:Strategy')
+			->findAll();
+			
     	$registrantsForm = $this->createForm(EventRegistrantsEdit::class, $event);
 	    $registrantsForm->handleRequest($request);
 		
@@ -110,7 +114,8 @@ class EventController extends Controller
 	        'event' => $event,
 	        'form' => $registrantsForm->createView(),
 			'score_form' => $score_form->createView(),
-			'strategy_form' => $strategy_form->createView()
+			'strategy_form' => $strategy_form->createView(),
+			'strategies' => $strategies
         ));
 		
     }
@@ -126,6 +131,14 @@ class EventController extends Controller
 			
 		$registrantsForm = $this->createForm(EventRegistrantsEdit::class, $event);
 	    $registrantsForm->handleRequest($request);
+		
+		$strategies = $this->getDoctrine()
+			->getRepository('AppBundle:Strategy')
+			->findAll();
+				
+		$the_strategy = $this->getDoctrine()
+			->getRepository('AppBundle:Strategy')
+			-find($strategy_id);
 
     	$score_form = $this->createForm(EventScoring::class, $event, array(
 			'action' => $this->generateUrl('event_score', array('id' => $id,)),
@@ -142,8 +155,36 @@ class EventController extends Controller
 		if($score_form->isSubmitted() && $score_form->isValid())
 		{
 	    	$event = $registrantsForm->getData();
+			$data = $score_form->getData();
+			$strategy = $data['strategies'];
+			
+			$strategy.setName(data['name']);
+			
+			$strategy.setOver18(data['over18']);
+			$strategy.setOver18W(data['over18W']);
+			if (data['over18Required'])
+				$strategy.setOver18W(-1);
+			//$strategy.setOver18Required(data['over18Required']);
+			
+			$strategy.setOver18(data['swimExpereince']);
+			$strategy.setOver18W(data['swimExpereinceW']);
+			//$strategy.setOver18Required(data['swimExpereinceRequired']);
+			
+			$strategy.setOver18(data['boatExperience']);
+			$strategy.setOver18W(data['boatExperienceW']);
+			//$strategy.setOver18Required(data['boatExperienceRequired']);
+			
+			$strategy.setOver18(data['Cpr']);
+			$strategy.setOver18W(data['CprW']);
+			//$strategy.setOver18Required(data['CprRequired']);
+			
+			$strategy.setOver18(data['participantType']);
+			$strategy.setOver18W(data['participantTypeW']);
+			//$strategy.setOver18Required(data['participantTypeRequired']);
+			
 			if ($score_form->get('score')->isClicked()) 
 			{
+				
 		
 			foreach($event->getParties() as $party)
 			{
@@ -180,6 +221,7 @@ class EventController extends Controller
 
 	    	$em = $this->getDoctrine()->getManager();
 	    	$em->persist($event);
+			$em->persist($strategy);
 	    	$em->flush();			
 		
 			return $this->redirectToRoute('event_show', array(
@@ -191,7 +233,8 @@ class EventController extends Controller
 			'event' => $event,
 			'form' => $registrantsForm->createView(),
 			'score_form' => $score_form->createView(),
-			'strategy_form' => $strategy_form->createView()
+			'strategy_form' => $strategy_form->createView(),
+			'strategies' => $strategies
         ));
 		
 	}
@@ -201,6 +244,10 @@ class EventController extends Controller
 		$event = $this->getDoctrine()
 			->getRepository('AppBundle:Org_event')
 			->find($id);
+			
+		$strategies = $this->getDoctrine()
+			->getRepository('AppBundle:Strategy')
+			->findAll();	
 			
 		$registrantsForm = $this->createForm(EventRegistrantsEdit::class, $event);
 	    $registrantsForm->handleRequest($request);

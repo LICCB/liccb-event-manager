@@ -20,6 +20,8 @@
 		<div class="panel">
 			{{ form_start(strategy_form) }}
 				{{ form_row(strategy_form.strategies) }}
+				{{ form_row(strategy_form.name) }}
+				
 			<table>
 				<tr>
 					<th> Property Name</th>
@@ -29,63 +31,36 @@
 				</tr>
 				<tr>
 					<td> Over 18? </td>
-					<td> 
-					
-						{{ form_row(strategy_form.strategies.over18)}}
-						<select name="over18">	
-							<option value=1> True </option>
-							<option value=0> False </option>
-							
-						</select>
-					</td>
-					<td> <input type="number" min="-1" max="10"> </td>
-					<td> <input type="checkbox"> </td>
+					<td> {{ form_row(strategy_form.over18)}} </td>
+					<td> {{ form_row(strategy_form.over18W) }} </td>
+					<td> {{ form_row(strategy_form.over18Required) }}</td>
 				</tr>
 				<tr>
 					<td> Swim Experience? </td>
-					<td>
-						<select name="swimExperience">	
-							<option value=1> True </option>
-							<option value=0> False </option>
-						</select>
-					</td>
-					<td> <input type="number" min="-1" max="10"> </td>
-					<td> <input type="checkbox"> </td>
+					<td> {{ form_row(strategy_form.swimExperience)}} </td>
+					<td> {{ form_row(strategy_form.swimExperienceW)}} </td>
+					<td> {{ form_row(strategy_form.swimExperienceRequired) }}</td>
 				</tr>
 				<tr>
 					<td> Boat Experience? </td>
-					<td>
-						<select name="boatExperience">	
-							<option value=1> True </option>
-							<option value=0> False </option>
-						</select>
-					</td>
-					<td> <input type="number" min="-1" max="10"> </td>
-					<td> <input type="checkbox"> </td>
+					<td> {{ form_row(strategy_form.boatExperience) }} </td>
+					<td> {{ form_row(strategy_form.boatExperienceW) }} </td>
+					<td> {{ form_row(strategy_form.boatExperienceRequired) }}</td>
 				</tr>	
 				<tr>
 					<td> CPR Certified? </td>
-					<td>	
-						<select name="cpr">	
-							<option value=1> True </option>
-							<option value=0> False </option>
-						</select>
-					</td>
-					<td> <input type="number" min="-1" max="10"> </td>
-					<td> <input type="checkbox"> </td>
+					<td> {{ form_row(strategy_form.Cpr) }} </td>
+					<td> {{ form_row(strategy_form.CprW) }} </td>
+					<td> {{ form_row(strategy_form.CprRequired) }}</td>
 				</tr>
 				<tr>
 					<td> Volunteer or Public Participant? </td>
-					<td> 	
-						<select name="participantType">	
-							<option value="volunteer"> Volunteer</option>
-							<option value="participant"> Participant </option>
-						</select> 
-					</td>
-					<td> <input type="number" min="-1" max="10"> </td>
-					<td> <input type="checkbox"> </td>
+					<td> {{ form_row(strategy_form.participantType) }} </td>
+					<td> {{ form_row(strategy_form.participantTypeW) }} </td>
+					<td> {{ form_row(strategy_form.participantTypeRequired) }}</td>
 				</tr>				
 			</table>
+			
 			{{ form_end(strategy_form) }}
 			{{ form_start(score_form) }}	
 			{{ form_end(score_form) }}	
