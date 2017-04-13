@@ -17,29 +17,29 @@ function apply_strategy($answers, $strategy) {
 			"cprW" => "cpr",
 			"participantTypeW" => "participantType"
 		);
-		
-		$mandatoryWeights = array_keys($strategy, -1);
-		$score = 0;
+
+		$score = floatval(0.0001);
+		$weightSum = floatval(0.0001);
+
 		
 		foreach ($answers as $key => $value) {
 			if ($value == $strategy[$key])
 			{
 				if($strategy[$key."W"] != -1)
 				{
-					$score+= $strategy[$key."W"];
+					$score+= floatval($strategy[$key."W"]);
 				}
-			}	
-		}
-		if (sizeOf($mandatoryWeights) <= 0)
-		{
-			foreach ($mandatoryWeights as $key) 
-			{
-				if ($strategy[$reference[$key]] != $answers[$reference[$key]]) 
+				$weightSum += floatval($strategy[$key."W"]);
+			} else {
+				if ($strategy[$key."W"] == -1)
 				{
 					$score = 0;
-				}
+					break;
+				}	
 			}
 		}
+		
+		$score = floatval($score/ $weightSum);
 		return $score;
 	}
 	
@@ -184,15 +184,15 @@ class EventController extends Controller
 						"id" => 1,
 						"name" => "Test Strategy 1",
 						"over18" => true,
-						"over18W" => 1,
+						"over18W" => -1,
 						"swimExperience" => true,
-						"swimExperienceW" => 4,
+						"swimExperienceW" => 10,
 						"boatExperience" => true,
-						"boatExperienceW" => 5,
+						"boatExperienceW" => 10,
 						"cpr" => true,
-						"cprW" => 7,
+						"cprW" => 10,
 						"participantType" => "volunteer",
-						"participantTypeW" => 4,
+						"participantTypeW" => 10,
 					);
 		
 
