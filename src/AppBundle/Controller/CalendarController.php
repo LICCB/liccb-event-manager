@@ -16,7 +16,7 @@ class CalendarController extends Controller
         $request = $this->container->get('request');
         $data = $this->get("request")->getContent();
         if(!empty($data)){
-			$params = json_decode($data, true);
+			$params = json_decode($data, true, 4);
 		}
     }
 }
