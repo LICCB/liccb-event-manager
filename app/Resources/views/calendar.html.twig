@@ -89,7 +89,8 @@
      */
     function handleSignoutClick(event) {
 		gapi.auth2.getAuthInstance().signOut();
-		/* Add functionality to empty pre here */
+		var body_location = document.getElementById("calendar_information");
+		body_location.innerHTML = '';
     }
 
     /**
@@ -103,6 +104,8 @@
 		 *Create form to add elements to for calendars
 		 */
 		var calendar_form = document.createElement("form");
+		calendar_form.name = "calendar_form";
+		/* calendar_form.onsubmit="return selectCalendars()"; */
 		
         gapi.client.calendar.calendarList.list({
           'maxResults': 10
@@ -117,27 +120,47 @@
               var calendar = calendars[i];
 			  calendarIds.push(calendar.id);
 			  
+			  linebreak1 = document.createElement("br");
+			  linebreak2 = document.createElement("br");
+			  
 			  /*Create label for checkbox input*/
 			  var inputLabel = document.createElement('label');
 			  inputLabel.setAttribute('for', calendar.id + '_input');
 			  inputLabel.setAttribute('class', 'calendar-label');
 			  
 			  /* Text to labels */
-			  var inputLabelText = document.createTextNode(calender.id);
+			  var inputLabelText = document.createTextNode(calendar.id);
 			  inputLabel.appendChild(inputLabelText);
 			  
 			  /* Create button for the calendar */
-			  var calendarInput = document.creatElement('input');
+			  var calendarInput = document.createElement('input');
 			  calendarInput.className = 'calendar-input';
 			  calendarInput.setAttribute('class', 'calendar-input');
 			  calendarInput.setAttribute('id', calendar.id + '_input');
-			  calendarInput.setAttribute('name', 'calendar-select');
+			  calendarInput.setAttribute('name', calendar.id + '_name');
 			  calendarInput.setAttribute('type', 'checkbox');
 			  calendarInput.setAttribute('value', calendar.id);
 			  
 			  calendar_form.appendChild(inputLabel);
+			  calendar_form.appendChild(linebreak1);
 			  calendar_form.appendChild(calendarInput);
+			  calendar_form.appendChild(linebreak2);
             }
+			
+			/*
+			 * Create and add the submit button and calendar form to the page itself
+			 */
+			var submitButton = document.createElement('input');
+			submitButton.setAttribute('type', 'button');
+			submitButton.setAttribute('name', 'Submit');
+			submitButton.setAttribute('value', 'Submit');
+			submitButton.setAttribute('onclick', 'selectCalendars()');
+			calendar_form.appendChild(submitButton);
+			
+			var body_location = document.getElementById("calendar_information");
+			body_location.innerHTML = '';
+			
+			body_location.appendChild(calendar_form);
           } else {
             console.log("No calendars found")
           }
@@ -146,6 +169,13 @@
 		createEventList(5);
     }
 	
+	function selectCalendars(){
+		for(i=0; i<calendarIds.length; i++){
+			var input_name = calendarIds[i] + '_name';
+			var input_value = document.forms["calendar_form"][input_name].value;
+			console.log(input_value);
+		}
+	}
 	
 	/*
 	* Unpacks a list of events associated with the calendars
@@ -169,20 +199,7 @@
 		}
 	  }
 	  
-	  $(document).ready(function(){
-		$("#submit-button").click(function(){
-			$.ajax({  
-				type: "POST",  
-				url: "/calendar/update",  
-				data: '{ "data" : 'test' }',
-				success: function(response) {
-					console.log(response);              
-				},
-				contentType: "application/json",
-				dataType: 'json'
-			}); 
-		});
-	  });
+
 	
     </script>
 
