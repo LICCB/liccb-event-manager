@@ -48,6 +48,6 @@ class PartyEditAttendance extends AbstractType
 
     public function getBlockPrefix()
     {
-        return 'app_bundle_party_edit';
+        return 'app_bundle_party_edit_attendance';
     }
 }

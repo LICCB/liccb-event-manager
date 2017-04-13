@@ -31,6 +31,6 @@ class EventAttendance extends AbstractType
 
     public function getBlockPrefix()
     {
-        return 'app_bundle_event_registrants';
+        return 'app_bundle_event_attendance';
     }
 }
