@@ -10,4 +10,13 @@ class CalendarController extends Controller
     {
         return $this->render('calendar.html.twig',);
     }
+	
+	public function updateAction()
+    {
+        $request = $this->container->get('request');
+        $data = $this->get("request")->getContent();
+        if(!empty($data)){
+			$params = json_decode($data, true);
+		}
+    }
 }

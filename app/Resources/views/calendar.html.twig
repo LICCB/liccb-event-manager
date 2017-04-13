@@ -2,6 +2,11 @@
 {# Variables: page_title, stylesheet, body, javascript, user_entries#}
 {% extends 'base.html.twig' %}
 
+{% block head %}
+	{{ parent() }}
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+{% endblock %}
+
 {% block page_title %}Google Calendar API Quickstart{% endblock %}
 
 {% block body %}
@@ -121,7 +126,12 @@
 		
 		createEventList(5);
       }
-
+		
+		/*
+		* Unpacks a list of events associated with the calendars
+		* supplied by previous function. Logs results. Only takes
+		* up to num_events events from the calendar
+		*/
 	  function createEventList(num_events) {
 		for(i=0; i<calendarIds.length; i++){
 			console.log(calendarIds[i]);
@@ -139,17 +149,21 @@
 		}
 	  }
 	  
-	  function postEvents(str) {
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                document.getElementById("txtHint").innerHTML = this.responseText;
-            }
-        };
-        xmlhttp.open("GET", "gethint.php?q=" + str, true);
-        xmlhttp.send();
-		
-		}
+	  $(document).ready(function(){
+		$("#submit-button").click(function(){
+			$.ajax({  
+				type: "POST",  
+				url: "/calendar/update",  
+				data: '{ "data" : 'test' }',
+				success: function(response) {
+					console.log(response);              
+				},
+				contentType: "application/json",
+				dataType: 'json'
+			}); 
+		});
+	  });
+	
     </script>
 
     <script async defer src="https://apis.google.com/js/api.js"

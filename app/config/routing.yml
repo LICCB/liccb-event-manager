@@ -19,3 +19,6 @@ registerconfirm:
 calendar:
     path:      /calendar
     defaults: {_controller: AppBundle:Calendar:calendar}
+calendarpost:
+    path:      /calendar/update
+    defaults: {_controller: AppBundle:Calendar:update}
