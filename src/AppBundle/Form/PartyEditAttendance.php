@@ -18,25 +18,6 @@ class PartyEditAttendance extends AbstractType
 	    $builder
 			->add('numActuallyAttended', NumberType::class, array(
 				'label' => false));
-		    /*->add('selectionStatus', ChoiceType::class, array(
-			    'choices' => array(
-				    'Unselected' => 'Unselected',
-				    'Approved' => 'Approved',
-				    'Denied' => 'Denied',
-				    'Emailed' => 'Emailed',
-			    ),
-			    'label' => false,
-			    'choice_attr' => function($val, $key, $index){
-				    $disabled = false;
-				    if($key == 'Emailed')
-				    	$disabled = true;
-				    return $disabled ? ['disabled' => 'disabled'] : [];
-			    },
-		    ))
-		    ->add('selectionStatusReason', TextType::class, array(
-		    	'label' => false,
-		    ))
-	    ;*/
     }
 
     public function configureOptions(OptionsResolver $resolver)
