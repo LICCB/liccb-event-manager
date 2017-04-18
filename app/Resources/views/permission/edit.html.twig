@@ -5,10 +5,10 @@
 	<h1>Permission Matrix</h1>
 	{{ form_start(form) }}
 
-	{#{% for permission in form.permissions %}
-		{{ form_row(permission.rolesFromArray) }}
-	{% endfor %} #}
-	{{ form_widget(form) }}
+	{% for permission in form.permissions %}
+		{{ form_row(permission.rolesFromArray, {'label': permission.vars.value.name}) }}
+
+	{% endfor %}
 	{{ form_end(form) }}
 
 {% endblock %}

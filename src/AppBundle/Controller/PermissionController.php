@@ -14,17 +14,27 @@ class PermissionController extends Controller
     public function editAction(Request $request)
     {
 
-    	$permission = $this->getDoctrine()
+    	$permissions = $this->getDoctrine()
 		    ->getRepository('AppBundle:Permission')
-		    ->find(1);
-    	$data = $permission;
+		    ->findAll();
+    	$data = array(
+    		'permissions' => $permissions
+	    );
 
-        $form = $this->createForm(PermissionRoles::class, $data);
+        $form = $this->createForm(PermissionRolesMatrix::class, $data);
         $form->handleRequest($request);
 
         if($form->isSubmitted()){
         	$data = $form->getData();
-        	// Do things
+
+        	$permissions = $data['permissions'];
+        	$em = $this->getDoctrine()->getManager();
+        	foreach ($permissions as $permission){
+        		$em->persist($permission);
+	        }
+	        $em->flush();
+
+	        return $this->redirectToRoute('permission_edit'); // Redirect
         }
 
         return $this->render('permission/edit.html.twig', array(
