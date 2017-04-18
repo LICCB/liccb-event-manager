@@ -8,6 +8,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\AppBundle;
 use Symfony\Component\Security\Core\Role\RoleInterface;
 
 class PermissionRole implements RoleInterface
@@ -24,12 +25,32 @@ class PermissionRole implements RoleInterface
 	protected $name;
 
 	/**
+	 * @var integer
+	 */
+	protected $permission_id;
+
+	/**
+	 * @var AppBundle\Entity\Permission
+	 */
+	protected $permission;
+
+	/**
 	 * PermissionRole constructor.
 	 * @param $name
+	 * @param $perm_id
 	 */
-	function __construct($name)
+	public function __construct($name, $perm_id)
 	{
 		$this->name = $name;
+		$this->permission_id = $perm_id;
+	}
+
+	public function getPermissionId(){
+		return $this->permission_id;
+	}
+
+	public function getPermission(){
+		return $this->permission;
 	}
 
 	/**

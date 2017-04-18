@@ -15,7 +15,21 @@ use FOS\UserBundle\Model\Group as Base; // Extend group because it does what we 
  */
 class Permission extends Base {
 
+	/**
+	 * @var mixed
+	 */
 	protected $id;
+
+	/**
+	 * @var \Doctrine\Common\Collections\Collection
+	 */
+	protected $permissionRoles;
+
+	public function __construct($name, array $roles = array())
+	{
+		parent::__construct($name, $roles);
+		$this->permissionRoles = new \Doctrine\Common\Collections\ArrayCollection();
+	}
 
 	/**
 	 * Returns true or false whether a set of roles contains a valid permission role
@@ -34,6 +48,8 @@ class Permission extends Base {
 
 	public function setRolesFromArray(\Doctrine\Common\Collections\ArrayCollection $roles)
 	{
+		$this->permissionRoles = $roles;
+
 		$rolesArr = array();
 		foreach ($roles as $role){
 			$rolesArr[] = strtoupper($role->getRole());
@@ -43,7 +59,7 @@ class Permission extends Base {
 	}
 
 	public function getRolesFromArray(){
-		return new \Doctrine\Common\Collections\ArrayCollection($this->getRoles());
+		return $this->permissionRoles;
 	}
 
 }

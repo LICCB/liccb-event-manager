@@ -7,3 +7,7 @@ AppBundle\Entity\Permission:
             type: integer
             generator:
                 strategy: AUTO
+    oneToMany:
+        permissionRoles:
+            targetEntity: PermissionRole
+            mappedBy: permission
