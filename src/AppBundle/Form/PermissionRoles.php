@@ -18,6 +18,7 @@ class PermissionRoles extends AbstractType
 			    'choice_label' => 'name',
 			    'expanded' => true,
 			    'multiple' => true,
+			    'label' => false,
 		    ));
     }
 
