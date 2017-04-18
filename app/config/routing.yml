@@ -6,6 +6,11 @@ app:
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
 
+# Groups import
+fos_user_group:
+    resource: "@FOSUserBundle/Resources/config/routing/group.xml"
+    prefix: /admin/groups
+
 # HWIOAuth routes
 hwi_oauth_redirect:
     resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
