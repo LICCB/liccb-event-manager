@@ -13,7 +13,7 @@ class PermissionRoles extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 	    $builder
-		    ->add('rolesFromArray', EntityType::class, array(
+		    ->add('roles', EntityType::class, array(
 		    	'class' => 'AppBundle\Entity\PermissionRole',
 			    'choice_label' => 'name',
 			    'expanded' => true,
@@ -24,9 +24,9 @@ class PermissionRoles extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-	    $resolver->setDefaults(array(
+	    /**$resolver->setDefaults(array(
 	    	'data_class' => Permission::class
-	    ));
+	    ));*/
     }
 
     public function getBlockPrefix()
