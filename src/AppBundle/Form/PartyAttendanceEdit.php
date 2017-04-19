@@ -20,11 +20,13 @@ class PartyAttendanceEdit extends AbstractType
 				'label' => false,
                 /* 'attr' => array('min' => 0)  min/max moved to twig page */
                 ))
-            ->add('thumbsUp', ChoiceType::class, array(
+            ->add('thumbs', ChoiceType::class, array(
                 'label' => false,
+                'required' => false,
                 'choices' => array(
-                    'Up' => true,
-                    'Down' => false,
+                    '' => "",
+                    'Up' => "Up",
+                    'Down' => "Down",
                 )
             ));
     }

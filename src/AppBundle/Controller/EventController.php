@@ -119,6 +119,7 @@ class EventController extends Controller
 				foreach($formEvents->getParties() as $formParty) {
 					if ($formParty->getId() == $party->getId()) {
 						$party->setNumActuallyAttended($formParty->getNumActuallyAttended());
+						$party->setThumbs($formParty->getThumbs());
 						break;
 					}
 				}
