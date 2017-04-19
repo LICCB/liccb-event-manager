@@ -10,4 +10,9 @@ class CalendarController extends Controller
     {
         return $this->render('calendar.html.twig',);
     }
+	
+	public function updateAction ()
+	{
+		
+	}
 }

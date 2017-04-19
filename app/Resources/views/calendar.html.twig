@@ -123,6 +123,23 @@
 
     </script>
 
+	<script>
+	$(document).ready(function(){
+		$("#submit-button").click(function(){
+			$.ajax({  
+				type: "POST",  
+				url: "/registerTransaction",  
+				data: { "data" : 'test' },
+				success: function(response) {
+					console.log(response);              
+				},
+				contentType: "application/json",
+				dataType: 'json'
+			}); 
+		});
+	});
+	</script>
+	
     <script async defer src="https://apis.google.com/js/api.js"
       onload="this.onload=function(){};handleClientLoad()"
       onreadystatechange="if (this.readyState === 'complete') this.onload()">
