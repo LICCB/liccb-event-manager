@@ -58,14 +58,9 @@ class Party
     private $numActuallyAttended;
 
     /**
-     * @var boolean
+     * @var string
      */
-    private $thumbsUp;
-
-    /**
-     * @var boolean
-     */
-    private $thumbsDown;
+    private $thumbs;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -317,51 +312,27 @@ class Party
     }
 
     /**
-     * Set thumbsUp
+     * Set thumbs
      *
-     * @param boolean $thumbsUp
+     * @param string $thumbs
      *
      * @return Party
      */
-    public function setThumbsUp($thumbsUp)
+    public function setThumbs($thumbs)
     {
-        $this->thumbsUp = $thumbsUp;
+        $this->thumbs = $thumbs;
 
         return $this;
     }
 
     /**
-     * Get thumbsUp
+     * Get thumbs
      *
-     * @return boolean
+     * @return string
      */
-    public function getThumbsUp()
+    public function getThumbs()
     {
-        return $this->thumbsUp;
-    }
-
-    /**
-     * Set thumbsDown
-     *
-     * @param boolean $thumbsDown
-     *
-     * @return Party
-     */
-    public function setThumbsDown($thumbsDown)
-    {
-        $this->thumbsDown = $thumbsDown;
-
-        return $this;
-    }
-
-    /**
-     * Get thumbsDown
-     *
-     * @return boolean
-     */
-    public function getThumbsDown()
-    {
-        return $this->thumbsDown;
+        return $this->thumbs;
     }
 
     /**
