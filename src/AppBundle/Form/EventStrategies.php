@@ -117,7 +117,7 @@ class EventStrategies extends AbstractType
 				'label' => false,
 				'required' => false,
 			))
-	
+			->add('applyStrategy', SubmitType::class, array('label' => "Apply Strategy"))
 			->add('updateStrategy', SubmitType::class, array('label' => "Update"))
 			->add('newStrategy', SubmitType::class, array('label' => "Create New"));
     }

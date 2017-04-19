@@ -55,12 +55,14 @@ class EventController extends Controller
     	$registrantsForm = $this->createForm(EventRegistrantsEdit::class, $event);
 	    $registrantsForm->handleRequest($request);
 		
+		/*
 		$score_form = $this->createForm(EventScoring::class, $event, array(
 			'action' => $this->generateUrl('event_score', array('id' => $id,)),
 			'method' => 'POST',
 		));
 		
 	    $score_form->handleRequest($request);
+		*/
 		
 		$strategy_form = $this->createForm(EventStrategies::class, array(
 			'action' => $this->generateUrl('event_strategy', array('id' =>$id,)),
@@ -122,18 +124,23 @@ class EventController extends Controller
 	{
 		$logger = $this->get('logger');
 		$logger->info('test');
-				
+		
+		// Retrieve the event data from the database
 		$event = $this->getDoctrine()
 			->getRepository('AppBundle:Org_event')
 			->find($id);
 			
+		// create the registrants form, same as showAction
 		$registrantsForm = $this->createForm(EventRegistrantsEdit::class, $event);
 	    $registrantsForm->handleRequest($request);
-				
+		
+		// create the scoreForm
     	$score_form = $this->createForm(EventScoring::class, $event, array(
 			'action' => $this->generateUrl('event_score', array('id' => $id,)),
 			'method' => 'POST',
 		));
+		
+		// create 
 	    $score_form->handleRequest($request);
 		
 		$strategy_form = $this->createForm(EventStrategies::class, array(
@@ -221,29 +228,39 @@ class EventController extends Controller
 	}
 			
 	public function strategyAction(Request $request, $id) {
-			
+		
+		// grab event from DB
 		$event = $this->getDoctrine()
 			->getRepository('AppBundle:Org_event')
 			->find($id);
-			
+		
+		// grab strategies from DB
 		$strategies = $this->getDoctrine()
 			->getRepository('AppBundle:Strategy')
 			->findAll();	
 			
+		// create the registrants form
 		$registrantsForm = $this->createForm(EventRegistrantsEdit::class, $event);
 	    $registrantsForm->handleRequest($request);
-
+		
+		
+		/* Might not need score form at all
     	$score_form = $this->createForm(EventScoring::class, $event, array(
 			'action' => $this->generateUrl('event_score', array('id' => $id,)),
 			'method' => 'POST',
 		));
 	    $score_form->handleRequest($request);
 		
+		*/
+		
+		// create the strategy form
 		$strategy_form = $this->createForm(EventStrategies::class, $event, array(
 			'action' => $this->generateUrl('event_strategy', array('id' =>$id,)),
 			'method' => 'POST',
 		));
 		$strategy_form->handleRequest($request);
+		
+		// This is all supposed to pre-populate the strategy data, doesn't work RN
 		
 		$data = $score_form->getData();
 		$strategy = $data['strategies'];
@@ -254,33 +271,30 @@ class EventController extends Controller
 		$strategy->setOver18W(data['over18W']);
 		if (data['over18Required'])
 			$strategy->setOver18W(-1);
-		//$strategy->setOver18Required(data['over18Required']);
 		
 		$strategy->setSwimExperience(data['swimExpereince']);
 		$strategy->setSwimExperienceW(data['swimExpereinceW']);
 		if (data['over18Required'])
 			$strategy->setSwimExperienceW(-1);
-		//$strategy->setOver18Required(data['swimExpereinceRequired']);
 		
 		$strategy->setBoatExpereince(data['boatExperience']);
 		$strategy->setBoatExperienceW(data['boatExperienceW']);
 		if (data['over18Required'])
 			$strategy->setBoatExperienceW(-1);
-		//$strategy->setOver18Required(data['boatExperienceRequired']);
 		
 		$strategy->setCpr(data['Cpr']);
 		$strategy->setCprW(data['CprW']);
 		if (data['over18Required'])
 			$strategy->setCprW(-1);
-		//$strategy->setOver18Required(data['CprRequired']);
 		
 		$strategy->setParticipantType(data['participantType']);
 		$strategy->setParticipantTypeW(data['participantTypeW']);
 		if (data['participantTypeRequired'])
 			$strategy->setParticipantTypeW(-1);
-		//$strategy->setOver18Required(data['participantTypeRequired']);
-	
 		
+		// End form pre-populate	
+		
+		// Check form is submitted
 		if($strategy_form->isSubmitted() && $strategy_form->isValid())
 		{
 			$strategy = $strategy_form->getData();
