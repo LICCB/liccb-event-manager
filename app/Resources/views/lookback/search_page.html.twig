@@ -1,0 +1,12 @@
+{# app/Resources/views/lookback/search_page.html.twig #}
+{# Variables: page_title, stylesheet, body, javascript, user_entries#}
+{% extends 'base.html.twig' %}
+
+{% block page_title %}Lookback Search{% endblock %}
+
+{% block body %}
+    </h1>Search Registrant History</h>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+{% endblock %}

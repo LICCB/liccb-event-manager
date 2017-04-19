@@ -63,6 +63,31 @@ class Registrant
     private $zip;
 
     /**
+     * @var integer
+     */
+    private $numTimesApplied;
+
+    /**
+     * @var integer
+     */
+    private $numTimesInvited;
+
+    /**
+     * @var integer
+     */
+    private $numTimesConfirmed;
+
+    /**
+     * @var integer
+     */
+    private $numTimesAttended;
+
+    /**
+     * @var string
+     */
+    private $comments;
+
+    /**
      * @var boolean
      */
     private $isPriorVolunteer;
@@ -361,6 +386,126 @@ class Registrant
     }
 
     /**
+     * Set numTimesApplied
+     *
+     * @param integer $numTimesApplied
+     *
+     * @return Registrant
+     */
+    public function setNumTimesApplied($numTimesApplied)
+    {
+        $this->numTimesApplied = $numTimesApplied;
+
+        return $this;
+    }
+
+    /**
+     * Get numTimesApplied
+     *
+     * @return integer
+     */
+    public function getNumTimesApplied()
+    {
+        return $this->numTimesApplied;
+    }
+
+    /**
+     * Set numTimesInvited
+     *
+     * @param integer $numTimesInvited
+     *
+     * @return Registrant
+     */
+    public function setNumTimesInvited($numTimesInvited)
+    {
+        $this->numTimesInvited = $numTimesInvited;
+
+        return $this;
+    }
+
+    /**
+     * Get numTimesInvited
+     *
+     * @return integer
+     */
+    public function getNumTimesInvited()
+    {
+        return $this->numTimesInvited;
+    }
+
+    /**
+     * Set numTimesConfirmed
+     *
+     * @param integer $numTimesConfirmed
+     *
+     * @return Registrant
+     */
+    public function setNumTimesConfirmed($numTimesConfirmed)
+    {
+        $this->numTimesConfirmed = $numTimesConfirmed;
+
+        return $this;
+    }
+
+    /**
+     * Get numTimesConfirmed
+     *
+     * @return integer
+     */
+    public function getNumTimesConfirmed()
+    {
+        return $this->numTimesConfirmed;
+    }
+
+    /**
+     * Set numTimesAttended
+     *
+     * @param integer $numTimesAttended
+     *
+     * @return Registrant
+     */
+    public function setNumTimesAttended($numTimesAttended)
+    {
+        $this->numTimesAttended = $numTimesAttended;
+
+        return $this;
+    }
+
+    /**
+     * Get numTimesAttended
+     *
+     * @return integer
+     */
+    public function getNumTimesAttended()
+    {
+        return $this->numTimesAttended;
+    }
+
+    /**
+     * Set comments
+     *
+     * @param string $comments
+     *
+     * @return Registrant
+     */
+    public function setComments($comments)
+    {
+        $this->comments = $comments;
+
+        return $this;
+    }
+
+    /**
+     * Get comments
+     *
+     * @return string
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
      * Set isPriorVolunteer
      *
      * @param boolean $isPriorVolunteer
@@ -500,3 +645,4 @@ class Registrant
         return $this->party_participant_lists;
     }
 }
+

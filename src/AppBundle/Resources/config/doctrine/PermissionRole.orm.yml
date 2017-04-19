@@ -1,0 +1,25 @@
+# src/AppBundle/Resources/config/doctrine/Permission.orm.yml
+AppBundle\Entity\PermissionRole:
+    type: entity
+    table: permission_role
+    id:
+        id:
+           type: integer
+           generator:
+               strategy: AUTO
+    manyToOne:
+        permission:
+            targetEntity: Permission
+            inversedBy: permissionRoles
+            joinColumn:
+                name: permission_id
+                referencedColumnName: id
+    fields:
+        name:
+            column: name
+            type:   string
+            length: 255
+            unique: true
+        permission_id:
+            column: permission_id
+            type: integer
