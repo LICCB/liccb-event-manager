@@ -32,7 +32,7 @@ class PartyEdit extends AbstractType
 			    },
 		    ))
 		    ->add('selectionStatusReason', TextType::class, array(
-		    	'label' => false,
+		    	'label' => false, 'required' => false
 		    ))
 	    ;
     }

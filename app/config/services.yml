@@ -7,6 +7,9 @@ services:
      AppBundle.form.flow.registration:
          class: AppBundle\Form\RegistrationFlow
          parent: craue.form.flow
+     app.provider.oauth:
+         class: AppBundle\Security\Core\User\OAuthUserProvider
+         arguments: ["@fos_user.user_manager",{google: googleID}]
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]

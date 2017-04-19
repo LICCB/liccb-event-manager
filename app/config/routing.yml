@@ -61,3 +61,8 @@ calendar:
 lookback:
     path:      /lookback
     defaults: {_controller: AppBundle:Lookback:lookback}
+
+# Calendar pages
+calendar:
+    path:      /calendar
+    defaults: {_controller: AppBundle:Calendar:calendar}

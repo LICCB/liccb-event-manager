@@ -1,0 +1,20 @@
+{# app/Resources/views/liccb/single_registrant.html.twig #}
+{# Variables: page_title, stylesheet, body, javascript, user_entries#}
+{% extends 'base.html.twig' %}
+
+{% block page_title %}Registrant Viewer{% endblock %}
+
+{% block body %}
+	<table>
+		<tr>
+		<td>Over 18: {{ registrant.over18 }}</td>
+		<td>Has Swimming Experience: {{ registrant.hasSwimExperience }}</td>
+		<td>Has Boating Experience: {{ registrant.hasBoatExperience }}</td>
+		</tr>
+		<tr>
+		<td>Phone Number: {{ registrant.phone }}</td>
+		<td>Emergency Contact: {{ registrant.emergencyContactName }}</td>
+		<td>Emergency Contact Number: {{ registrant.emergencyContactPhone }}</td>
+		</tr>
+	</table>
+{% endblock %}
