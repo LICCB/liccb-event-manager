@@ -85,6 +85,7 @@
 			<th>Name</th>
 			<th># Seats</th>
 			<th># Attended</th>
+			<th>Thumbs Up/Down</th>
 		</tr>
 		{% for party in attendance_form.parties %}
 			{% if party.vars.value.selectionStatus == "Approved" %}
@@ -100,6 +101,7 @@
 			    <td>{{ party.vars.value.numSeats }}</td>
 				<td>{{ form_row(party.numActuallyAttended,
 					{'attr': { 'min': 0, 'max': party.vars.value.numSeats }}) }}</td>
+				<td>{{ form_row(party.thumbsUp) }}</td>
 			</tr>
 		{% endfor %}
 	</table>

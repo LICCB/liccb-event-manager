@@ -19,7 +19,14 @@ class PartyAttendanceEdit extends AbstractType
 			->add('numActuallyAttended', IntegerType::class, array(
 				'label' => false,
                 /* 'attr' => array('min' => 0)  min/max moved to twig page */
-                ));
+                ))
+            ->add('thumbsUp', ChoiceType::class, array(
+                'label' => false,
+                'choices' => array(
+                    'Up' => true,
+                    'Down' => false,
+                )
+            ));
     }
 
     public function configureOptions(OptionsResolver $resolver)
