@@ -11,67 +11,54 @@
     {{ form_widget(form) }}
     {{ form_end(form) }}
 
-	{# Contain whole thing in variable sized scrollable window #}
-	<div class="panel-group" id="accordion">
-    {% for registrant in registrants %}
-		{# Contain each user entry in dropdown configuration in unordered list#}
-		<button class="accordion">{{ registrant.getfullName() }}</button>
-		<div class="panel">
-			<table>
-				<tr>
-					<td># Events applied to: {{ registrant.getNumTimesApplied() }}</td>
-					<td># Events invited to: {{ registrant.getNumTimesInvited() }}</td>
-				</tr>
-				<tr>
-					<td># Events confimed attending: {{ registrant.getNumTimesConfirmed() }}</td>
-					<td># Events attended: {{ registrant.getNumTimesAttended() }}</td>
-				<tr>
-					<td>Administrative comments:</td>
-					<td><a href="registrants/{{ registrant.getRegistrantEmail() }}">Registrant Page</a></td>
-				</tr>
-			</table>
+	{% set collapseId = 0 %}
+
+	<table>
+		<tr>
+			<th>Name</th>
+			<th># Events Registered To</th>
+			<th># Events Selected To</th>
+			<th># Events Attended</th>
+			<th># Administrative Comments</th>
+			<th>Link to Registrant</th>
+			<th>Events Attended</th>
+		</tr>
+		{% for registrant in registrants %}
+			<tr>
+				<td>{{ registrant.getfullName() }}</td>
+				<td>{{ registrant.getNumTimesApplied() }}</td>
+				<td>{{ registrant.getNumTimesInvited() }}</td>
+				<td>{{ registrant.getNumTimesAttended() }}</td>
+				<td><button>TODO: comments</button></td>
+				<td><a href="registrants/{{ registrant.getRegistrantEmail() }}">Registrant Page</a></td>
+				<td><button data-toggle="collapse" data-target=".collapse{{ collapseId }}">Expand</button></td>
+			</tr>
+
+			<tr class="collapse{{ collapseId }} collapse">
+				<td></td>
+				<th class="event-name">Event</th>
+				<th>Event Type</th>
+				<th>Date</th>
+				<th>Party Size</th>
+				<th>Party confirmed attending</th>
+				<th># party members attended</th>
+			</tr>
+			
 			{% set parties = registrant.getParties() %}
 			{% set numParties = parties|length %}
 			{% for party in parties %}
 				{% set event = party.getOrgEvent() %}
-				<table>
-					<tr>
-						<td class="event-name"><h4>Event: {{ event.getOrgEventName() }}</h4></td>
-						<td>Event Type: {{ event.getOrgEventType() }}</td>
-						<td>Date: {{ event.getDate().format('M d, Y') }}</td>
+					<tr class="collapse{{ collapseId }} collapse">
+						<td></td>
+						<td>{{ event.getOrgEventName() }}</td>
+						<td>{{ event.getOrgEventType() }}</td>
+						<td>{{ event.getDate().format('M d, Y') }}</td>
+						<td>{{ party.getNumSeats() }}</td>
+						<td>{% if party.getConfirmedAttending() %}yes{% else %}no{% endif %}</td>
+						<td>{{ party.getNumActuallyAttended() }}</td>
 					</tr>
-					<tr>
-						<td>Party Size: {{ party.getNumSeats() }}</td>
-						<td>Party confirmed attending: {% if party.getConfirmedAttending() %}yes{% else %}no{% endif %}</td>
-						<td># party members attended: {{ party.getNumActuallyAttended() }}</td>
-					</tr>
-				</table>
 			{% endfor %}
-		</div>
-	{% endfor %}
-	</div>
-{% endblock %}
-
-{% block javascript %}
-	<script>
-		var acc = document.getElementsByClassName("accordion");
-		var i;
-
-		for (i = 0; i < acc.length; i++) {
-			acc[i].onclick = function(){
-				/* Toggle between adding and removing the "active" class,
-				to highlight the button that controls the panel */
-				this.classList.toggle("active");
-	
-				/* Toggle between hiding and showing the active panel */
-
-				var panel = this.nextElementSibling;
-				if (panel.style.display === "block") {
-					panel.style.display = "none";
-				} else {
-					panel.style.display = "block";
-				}
-			}
-		}
-	</script>
+			{% set collapseId = collapseId + 1 %}
+		{% endfor %}
+	</table>
 {% endblock %}
