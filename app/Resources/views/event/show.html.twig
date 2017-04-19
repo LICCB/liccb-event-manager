@@ -13,41 +13,73 @@
 	</ul>
 	
 	<a href="{{ path('event_edit', {'id': event.id}) }}">Edit</a>
-	{{ form_start(form) }}
+
 	<div class="panel-group" id="accordion">
 		<button class="accordion">Selection Strategy</button>
+		
 		<div class="panel">
+			{{ form_start(strategy_form) }}
+				{{ form_row(strategy_form.strategies) }}
+				{{ form_row(strategy_form.name) }}
+				
 			<table>
-				<select>
-					<option value="" disabled selected>Select a Strategy...</option>
-					{#
-					{% for strategy in form.strategies %}	
-						<option value = "{{strategy.id}}"> {{strategy.name}} </option>
-					{% endfor %}
-					#}
-				</select>
-				{{ form_row(form.score)}}
 				<tr>
 					<th> Property Name</th>
 					<th> Expected Answer </th>
 					<th> Weight </th>
 					<th> Mantadory </th>
 				</tr>
+				<tr>
+					<td> Over 18? </td>
+					<td> {{ form_row(strategy_form.over18)}} </td>
+					<td> {{ form_row(strategy_form.over18W) }} </td>
+					<td> {{ form_row(strategy_form.over18Required) }}</td>
+				</tr>
+				<tr>
+					<td> Swim Experience? </td>
+					<td> {{ form_row(strategy_form.swimExperience)}} </td>
+					<td> {{ form_row(strategy_form.swimExperienceW)}} </td>
+					<td> {{ form_row(strategy_form.swimExperienceRequired) }}</td>
+				</tr>
+				<tr>
+					<td> Boat Experience? </td>
+					<td> {{ form_row(strategy_form.boatExperience) }} </td>
+					<td> {{ form_row(strategy_form.boatExperienceW) }} </td>
+					<td> {{ form_row(strategy_form.boatExperienceRequired) }}</td>
+				</tr>	
+				<tr>
+					<td> CPR Certified? </td>
+					<td> {{ form_row(strategy_form.Cpr) }} </td>
+					<td> {{ form_row(strategy_form.CprW) }} </td>
+					<td> {{ form_row(strategy_form.CprRequired) }}</td>
+				</tr>
+				<tr>
+					<td> Volunteer or Public Participant? </td>
+					<td> {{ form_row(strategy_form.participantType) }} </td>
+					<td> {{ form_row(strategy_form.participantTypeW) }} </td>
+					<td> {{ form_row(strategy_form.participantTypeRequired) }}</td>
+				</tr>				
 			</table>
+			
+			{{ form_end(strategy_form) }}
+			{{ form_start(score_form) }}	
+			{{ form_end(score_form) }}	
+
 		</div>
 	</div>
 
-	<table>
+	{{ form_start(form) }}
+	<table id="Registrant_Table">
 		<tr>
-			<th>Name</th>
-			<th># Seats</th>
+			<th onClick="sortTable(0)">Name</th>
+			<th onClick="sortTable(1)"># Seats</th>
 			<th>Selection Status</th>
 			<th>Selection Status Reason</th>
 			<th>18+</th>
 			<th>Can Swim?</th>
 			<th>Has Boating Experience</th>
 			<th>Has CPR Certification</th>
-			<th>Evaluation</th>
+			<th onClick="sortTable(8)">Evaluation</th>
 		</tr>
 		{% for party in form.parties %}
 			{% if party.vars.value.selectionStatus == "Approved" %}
@@ -94,6 +126,63 @@
 			} else {
 				panel.style.display = "block";
 			}
+		}
+	</script>
+	
+	<script>
+		function sortTable(n) {
+		  var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+		  table = document.getElementById("Registrant_Table");
+		  switching = true;
+		  //Set the sorting direction to ascending:
+		  dir = "asc"; 
+		  /*Make a loop that will continue until
+		  no switching has been done:*/
+		  while (switching) {
+			//start by saying: no switching is done:
+			switching = false;
+			rows = table.getElementsByTagName("TR");
+			/*Loop through all table rows (except the
+			first, which contains table headers):*/
+			for (i = 1; i < (rows.length - 1); i++) {
+			  //start by saying there should be no switching:
+			  shouldSwitch = false;
+			  /*Get the two elements you want to compare,
+			  one from current row and one from the next:*/
+			  x = rows[i].getElementsByTagName("TD")[n];
+			  y = rows[i + 1].getElementsByTagName("TD")[n];
+			  /*check if the two rows should switch place,
+			  based on the direction, asc or desc:*/
+			  if (dir == "asc") {
+				if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+				  //if so, mark as a switch and break the loop:
+				  shouldSwitch= true;
+				  break;
+				}
+			  } else if (dir == "desc") {
+				if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+				  //if so, mark as a switch and break the loop:
+				  shouldSwitch= true;
+				  break;
+				}
+			  }
+			}
+			if (shouldSwitch) {
+			  /*If a switch has been marked, make the switch
+			  and mark that a switch has been done:*/
+			  rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+			  switching = true;
+			  //Each time a switch is done, increase this count by 1:
+			  switchcount ++; 
+			} else {
+			  /*If no switching has been done AND the direction is "asc",
+			  set the direction to "desc" and run the while loop again.*/
+			  if (switchcount == 0 && dir == "asc") {
+				dir = "desc";
+				switching = true;
+			  }
+			}
+		  }
 		}
 	</script>
 {% endblock %}

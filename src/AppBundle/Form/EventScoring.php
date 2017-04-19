@@ -10,18 +10,12 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class EventRegistrantsEdit extends AbstractType
+class EventScoring extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 	    $builder
-			->add('score', SubmitType::class, array('label' => "Apply Strategy"))
-		    ->add('parties', CollectionType::class, array(
-			    'entry_type' => PartyEdit::class,
-		    ))
-		    ->add('update', SubmitType::class, array('label' => "Updated Approval Status"))
-		    ->add('update_and_email', SubmitType::class, array('label' => "Updated Approved and Email"))
-		    ;
+			->add('score', SubmitType::class, array('label' => "Apply Strategy"));
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -33,6 +27,6 @@ class EventRegistrantsEdit extends AbstractType
 
     public function getBlockPrefix()
     {
-        return 'app_bundle_event_registrants';
+        return 'app_bundle_event_scoring';
     }
 }
