@@ -11,13 +11,14 @@
     {{ form_widget(form) }}
     {{ form_end(form) }}
 
-	{% set collapseId = 0 %}
+	{% set commentCollapseId = 0 %}
+	{% set eventCollapseId = 0 %}
 
 	<table>
 		<tr>
 			<th>Name</th>
-			<th># Events Registered To</th>
-			<th># Events Selected To</th>
+			<th># Events Registered For</th>
+			<th># Events Selected For</th>
 			<th># Events Attended</th>
 			<th># Administrative Comments</th>
 			<th>Link to Registrant</th>
@@ -25,16 +26,22 @@
 		</tr>
 		{% for registrant in registrants %}
 			<tr>
-				<td>{{ registrant.getfullName() }}</td>
-				<td>{{ registrant.getNumTimesApplied() }}</td>
-				<td>{{ registrant.getNumTimesInvited() }}</td>
-				<td>{{ registrant.getNumTimesAttended() }}</td>
-				<td><button>TODO: comments</button></td>
-				<td><a href="registrants/{{ registrant.getRegistrantEmail() }}">Registrant Page</a></td>
-				<td><button data-toggle="collapse" data-target=".collapse{{ collapseId }}">Expand</button></td>
+				<td>{{ registrant.getfullName }}</td>
+				<td>{{ registrant.getNumTimesApplied }}</td>
+				<td>{{ registrant.getNumTimesInvited }}</td>
+				<td>{{ registrant.getNumTimesAttended }}</td>
+				<td>{% if registrant.getComments == "" %}none{% else %}<button data-toggle="collapse" data-target=".comment-collapse-{{ commentCollapseId }}">View</button>{% endif %}</td>
+				<td><a href="registrants/{{ registrant.getRegistrantEmail }}">Registrant Page</a></td>
+				<td><button data-toggle="collapse" data-target=".event-collapse-{{ eventCollapseId }}">Expand</button></td>
 			</tr>
 
-			<tr class="collapse{{ collapseId }} collapse">
+			<tr class="comment-collapse-{{ commentCollapseId }} collapse">
+				<td></td>
+				<th>Comments:</th>
+				<td colspan="5"><textarea readonly rows="4" cols="50">{{ registrant.getComments }}</textarea></td>
+			</tr>
+
+			<tr class="event-collapse-{{ eventCollapseId }} collapse">
 				<td></td>
 				<th class="event-name">Event</th>
 				<th>Event Type</th>
@@ -44,21 +51,22 @@
 				<th># party members attended</th>
 			</tr>
 			
-			{% set parties = registrant.getParties() %}
+			{% set parties = registrant.getParties %}
 			{% set numParties = parties|length %}
 			{% for party in parties %}
-				{% set event = party.getOrgEvent() %}
-					<tr class="collapse{{ collapseId }} collapse">
+				{% set event = party.getOrgEvent %}
+					<tr class="event-collapse-{{ eventCollapseId }} collapse">
 						<td></td>
-						<td>{{ event.getOrgEventName() }}</td>
-						<td>{{ event.getOrgEventType() }}</td>
-						<td>{{ event.getDate().format('M d, Y') }}</td>
-						<td>{{ party.getNumSeats() }}</td>
-						<td>{% if party.getConfirmedAttending() %}yes{% else %}no{% endif %}</td>
-						<td>{{ party.getNumActuallyAttended() }}</td>
+						<td>{{ event.getOrgEventName }}</td>
+						<td>{{ event.getOrgEventType }}</td>
+						<td>{{ event.getDate.format('M d, Y') }}</td>
+						<td>{{ party.getNumSeats }}</td>
+						<td>{% if party.getConfirmedAttending %}yes{% else %}no{% endif %}</td>
+						<td>{{ party.getNumActuallyAttended }}</td>
 					</tr>
 			{% endfor %}
-			{% set collapseId = collapseId + 1 %}
+			{% set commentCollapseId = commentCollapseId + 1 %}
+			{% set eventCollapseId = eventCollapseId + 1 %}
 		{% endfor %}
 	</table>
 {% endblock %}
