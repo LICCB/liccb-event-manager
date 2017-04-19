@@ -7,9 +7,6 @@ home:
 event_show:
     path: /event/{id}
     defaults: {_controller: AppBundle:Event:show}
-event_score:
-    path: /event/{id}/score
-    defaults: {_controller: AppBundle:Event:score}
 event_strategy:
     path: /event/{id}/strategy/
     defaults: {_controller: AppBundle:Event:strategy}

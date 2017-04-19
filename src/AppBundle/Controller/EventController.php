@@ -39,7 +39,6 @@ function apply_strategy($answers, $strategy) {
 			}
 		}
 		
-		$score = floatval($score/ $weightSum);
 		return $score;
 	}
 	
@@ -114,119 +113,11 @@ class EventController extends Controller
         return $this->render('event/show.html.twig', array(
 	        'event' => $event,
 	        'form' => $registrantsForm->createView(),
-			'score_form' => $score_form->createView(),
 			'strategy_form' => $strategy_form->createView(),
         ));
 		
     }
 
-	public function scoreAction(Request $request, $id)
-	{
-		$logger = $this->get('logger');
-		$logger->info('test');
-		
-		// Retrieve the event data from the database
-		$event = $this->getDoctrine()
-			->getRepository('AppBundle:Org_event')
-			->find($id);
-			
-		// create the registrants form, same as showAction
-		$registrantsForm = $this->createForm(EventRegistrantsEdit::class, $event);
-	    $registrantsForm->handleRequest($request);
-		
-		// create the scoreForm
-    	$score_form = $this->createForm(EventScoring::class, $event, array(
-			'action' => $this->generateUrl('event_score', array('id' => $id,)),
-			'method' => 'POST',
-		));
-		
-		// create 
-	    $score_form->handleRequest($request);
-		
-		$strategy_form = $this->createForm(EventStrategies::class, array(
-			'action' => $this->generateUrl('event_strategy', array('id' =>$id,)),
-			'method' => 'POST',
-		));
-		$strategy_form->handleRequest($request);
-		
-		if($score_form->isSubmitted() && $score_form->isValid())
-		{
-	    	$event = $registrantsForm->getData();
-			$strategy_data = $strategy_form->getData();
-			$strategy = $strategy_data;
-			//$logger->info($strategy_data['name']);
-			/*
-			** Trying to grab strategy from form in order to apply this strategy to scoring algorithm **
-			
-			$testStrategy1 = array(
-				"id" => $strategy->getId(),
-				"name" => $strategy->getName(),
-				"over18" => $strategy->getOver18(),
-				"over18W" => $strategy->getOver18W(),
-				"swimExperience" => $strategy->getSwimExperience(),
-				"swimExperienceW" => $strategy->getSwimExperienceW(),
-				"boatExperience" => $strategy->getBoatExperience(),
-				"boatExperienceW" => $strategy->getBoatExperienceW(),
-				"cpr" => $strategy->getCpr(),
-				"cprW" => $strategy->getCprW(),
-				"participantType" => $strategy->getParticipantType(),
-				"participantTypeW" => $strategy->getParticipantTypeW(),
-
-			);
-			*/
-		
-			foreach($event->getParties() as $party)
-			{
-
-					$registrant = $party->getRegistrant();
-						$answers = array(
-							"over18" => $registrant->getOver18(),
-							"swimExperience" => $registrant->getHasSwimExperience(),
-							"boatExperience" => $registrant->getHasBoatExperience(),
-							"cpr" => $registrant->getHasCprCertification(), 
-							"participantType" => $registrant->getParticipantType()
-					);
-					
-					$testStrategy1 = array(
-						"id" => 1,
-						"name" => "Test Strategy 1",
-						"over18" => true,
-						"over18W" => -1,
-						"swimExperience" => true,
-						"swimExperienceW" => 10,
-						"boatExperience" => true,
-						"boatExperienceW" => 10,
-						"cpr" => true,
-						"cprW" => 10,
-						"participantType" => "volunteer",
-						"participantTypeW" => 10,
-					);
-		
-
-					$score = apply_strategy($answers, $testStrategy1);	
-					$logger->info('Blah');
-					$logger->info($score);
-					$party->setSelectionScore($score);	
-			}
-
-	    	$em = $this->getDoctrine()->getManager();
-	    	$em->persist($event);
-	    	$em->flush();			
-		
-			return $this->redirectToRoute('event_show', array(
-				'id' => $id
-			));
-		}
-		
-		return $this->render('event/show.html.twig', array(
-			'event' => $event,
-			'form' => $registrantsForm->createView(),
-			'score_form' => $score_form->createView(),
-			'strategy_form' => $strategy_form->createView(),
-        ));
-		
-	}
-			
 	public function strategyAction(Request $request, $id) {
 		
 		// grab event from DB
@@ -234,10 +125,12 @@ class EventController extends Controller
 			->getRepository('AppBundle:Org_event')
 			->find($id);
 		
-		// grab strategies from DB
+		// grab strategies from DB - Might not need
+		/*
 		$strategies = $this->getDoctrine()
 			->getRepository('AppBundle:Strategy')
 			->findAll();	
+		*/
 			
 		// create the registrants form
 		$registrantsForm = $this->createForm(EventRegistrantsEdit::class, $event);
@@ -260,9 +153,13 @@ class EventController extends Controller
 		));
 		$strategy_form->handleRequest($request);
 		
-		// This is all supposed to pre-populate the strategy data, doesn't work RN
+		$apply_button = $strategy_form->get('applyStrategy');
+		$update_button = $strategy_form->get('updateStrategy');
+		$new_button = $strategy_form->get('newStrategy');
 		
-		$data = $score_form->getData();
+		// This is all supposed to pre-populate the strategy data, doesn't work RN
+		if (true) {
+		$data = $strategy_form->getData();
 		$strategy = $data['strategies'];
 			
 		$strategy->setName(data['name']);
@@ -291,26 +188,78 @@ class EventController extends Controller
 		$strategy->setParticipantTypeW(data['participantTypeW']);
 		if (data['participantTypeRequired'])
 			$strategy->setParticipantTypeW(-1);
-		
+		}
 		// End form pre-populate	
 		
 		// Check form is submitted
 		if($strategy_form->isSubmitted() && $strategy_form->isValid())
 		{
+			// If apply is clicked, update all party scores
+			if ($apply_button->isClicked())
+			{
+				
+				foreach($event->getParties() as $party)
+				{
+					$registrant = $party->getRegistrant();
+						$answers = array(
+							"over18" => $registrant->getOver18(),
+							"swimExperience" => $registrant->getHasSwimExperience(),
+							"boatExperience" => $registrant->getHasBoatExperience(),
+							"cpr" => $registrant->getHasCprCertification(), 
+							"participantType" => $registrant->getParticipantType()
+					);
+					
+					$testStrategy1 = array(
+						"id" => 1,
+						"name" => "Test Strategy 1",
+						"over18" => true,
+						"over18W" => -1,
+						"swimExperience" => true,
+						"swimExperienceW" => 10,
+						"boatExperience" => true,
+						"boatExperienceW" => 10,
+						"cpr" => true,
+						"cprW" => 10,
+						"participantType" => "volunteer",
+						"participantTypeW" => 10,
+					);
+		
+
+					$score = apply_strategy($answers, $testStrategy1);	
+					//$logger->info('Blah');
+					$logger->info($score);
+					$party->setSelectionScore($score);	
+				}
+					
+			} else if($update_button->isClicked()) {
+				
+				
+				$strategy = $strategy_form->getData();
+				
+			} else if($new_button->isClicked()) {
+			
+				
+				$strategy = $strategy_form->getData();
+			
+			}
+			
+			
 			$strategy = $strategy_form->getData();
+			
 		}
 		
 			$em = $this->getDoctrine()->getManager();
 			$em->persist($strategy);
+			$em->persist($event);
 	    	$em->flush();	
 		
 		return $this->render('event/show.html.twig', array(
 			'event' => $event,
 			'form' => $registrantsForm->createView(),
-			'score_form' => $score_form->createView(),
 			'strategy_form' => $strategy_form->createView()
         ));
 	}
+	
     public function editAction(Request $request, $id)
 	{   	
 		$event = $this->getDoctrine()
