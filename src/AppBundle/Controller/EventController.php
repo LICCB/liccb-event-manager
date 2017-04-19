@@ -7,7 +7,6 @@ use AppBundle\Form\EventRegistrantsEdit;
 use AppBundle\Form\EventAttendanceEdit;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-
 use Symfony\Component\HttpFoundation\Response;
 
 $testStrategy1 = array(
@@ -120,6 +119,7 @@ class EventController extends Controller
 				foreach($formEvents->getParties() as $formParty) {
 					if ($formParty->getId() == $party->getId()) {
 						$party->setNumActuallyAttended($formParty->getNumActuallyAttended());
+						$party->setThumbs($formParty->getThumbs());
 						break;
 					}
 				}
