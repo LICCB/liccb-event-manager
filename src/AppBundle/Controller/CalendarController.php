@@ -13,6 +13,8 @@ class CalendarController extends Controller
 	
 	public function updateAction ()
 	{
+		$str_json = file_get_contents('php://input');
+		
 		
 	}
 }
