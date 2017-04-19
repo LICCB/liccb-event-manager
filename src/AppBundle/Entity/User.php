@@ -8,7 +8,9 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use FOS\UserBundle\Model\User as BaseUser;
+use AppBundle\Entity\Group;
 
 class User extends BaseUser
 {
@@ -22,9 +24,15 @@ class User extends BaseUser
 	 */
 	private $googleID;
 
+	/*
+	 * @var ???
+	 */
+	protected $groups;
+
 	public function __construct()
 	{
 		parent::__construct();
+		$this->groups = new ArrayCollection();
 	}
 
 	/**
@@ -58,5 +66,14 @@ class User extends BaseUser
 		$this->googleID = $googleID;
 
 		return $this;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function setEmail($email)
+	{
+		parent::setUsername($email);
+		return parent::setEmail($email);
 	}
 }

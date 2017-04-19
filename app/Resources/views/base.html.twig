@@ -43,10 +43,13 @@
 	</div>
 	
 	<div id="navBar" class="sidenav">
-	 <a href="/">View Events</a>
-	 <a href="/register">Register for Event</a>
-	 <a href="/registrants">Manage Registrants</a>
-	 <a href="/splash">Google Sign-in</a>
+		<a href="/">View Events</a>
+		<a href="/register">Register for Event</a>
+		<a href="/registrants">Manage Registrants</a>
+		<a href="/splash">Google Sign-in</a>
+		{% if is_granted('ROLE_ADMIN') %}
+			<a href="{{ path('admin_home') }}">Admin</a>
+		{% endif %}
 	</div>
 
     {% block javascript %}

@@ -1,0 +1,13 @@
+# src/AppBundle/Resources/config/doctrine/Permission.orm.yml
+AppBundle\Entity\Permission:
+    type: entity
+    table: permission
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    oneToMany:
+        permissionRoles:
+            targetEntity: PermissionRole
+            mappedBy: permission

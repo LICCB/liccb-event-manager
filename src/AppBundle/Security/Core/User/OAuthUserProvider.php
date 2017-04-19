@@ -26,9 +26,17 @@ class OAuthUserProvider extends BaseClass
     public function loadUserByOAuthUserResponse(UserResponseInterface $response)
     {
     	$socialID = $response->getUsername();
+    	$socialEmail = $response->getEmail();
     	$user = $this->userManager->findUserBy(array(
     		$this->getProperty($response)=>$socialID
 	    ));
+
+    	if(!($user instanceof  UserInterface)){
+    		$user = $this->userManager->findUserByEmail($socialEmail);
+    		if($user instanceof UserInterface){
+    			$user->setGoogleID($socialID);
+		    }
+	    }
 
     	if($user instanceof UserInterface) {
 		    $checker = new UserChecker();
