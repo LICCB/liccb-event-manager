@@ -195,11 +195,11 @@
 			'maxResults': num_events
 		}).then(function(response){
 			if(response.result.items.length > 0){
-				console.log(response.result.items)
+				console.log(response.result.items);
 				postToServer(response.result.items);
 			}
 			else{
-				console.log("Response is empty")
+				console.log("Response is empty");
 			}
 		});
 	  }
@@ -216,6 +216,7 @@
 		//Create a string from the json infromation
 		var jsonString = JSON.stringify(jsonInformation);
 		
+		console.log(jsonString);
 		//Settings for the post request
 		xRequest.open("POST", postURL, true);
 		xRequest.setRequestHeader("Content-Type", "application/json");

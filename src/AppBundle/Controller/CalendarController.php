@@ -8,13 +8,16 @@ class CalendarController extends Controller
 {
     public function calendarAction()
     {
-        return $this->render('calendar.html.twig',);
+        return $this->render('calendar.html.twig');
     }
 	
 	public function updateAction ()
 	{
 		$str_json = file_get_contents('php://input');
 		
-		
+		//Some function to parse the string
+		//$event = new Org_event();
+		//Parse to get id
+		//$event->setId();
 	}
 }
