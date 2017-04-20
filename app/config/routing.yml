@@ -1,9 +1,47 @@
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation
+
+# FOS User routes
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
+
+# Groups import
+fos_user_group:
+    resource: "@FOSUserBundle/Resources/config/routing/group.xml"
+    prefix: /admin/groups
+
+# HWIOAuth routes
+hwi_oauth_redirect:
+    resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
+    prefix: /connect
+
+hwi_oauth_login:
+    resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
+    prefix: /login
+
+google_login:
+    path: /login/check-google
+
+# Homepage
 home:
     path: /
     defaults: {_controller: AppBundle:Index:index}
+
+# Registrant pages
+single_registrant:
+    path: /registrants/{id}
+    defaults: {_controller: AppBundle:SingleRegistrant:registrant}
+registrants:
+    path: /registrants
+    defaults: {_controller: AppBundle:RegistrantManagement:registrants}
+
+# Splash page
+splash:
+    path: /splash
+    defaults: {_controller: AppBundle:Splash:splash}
+
+# Event pages
 event_show:
     path: /event/{id}
     defaults: {_controller: AppBundle:Event:show}
@@ -13,12 +51,39 @@ event_strategy:
 event_edit:
     path: /event/{id}/edit
     defaults: {_controller: AppBundle:Event:edit}
+
+# Register pages
 register:
     path:      /register
     defaults: {_controller: AppBundle:Register:register}
 registerconfirm:
     path:     /register/confirm
     defaults: {_controller: AppBundle:Register:confirm}
+
+# Event admin page
+admin_home:
+    path: /admin/
+    defaults: {_controller: AppBundle:Admin:index}
+admin_volunteers_add:
+    path: /admin/volunteers/add
+    defaults: {_controller: AppBundle:Volunteers:add}
+
+# Permission Pages
+permission_edit:
+    path: /admin/permission/edit
+    defaults: {_controller: AppBundle:Permission:edit}
+
+# Calendar pages
+calendar:
+    path:      /calendar
+    defaults: {_controller: AppBundle:Calendar:calendar}
+
+# Lookback page
+lookback:
+    path:      /lookback
+    defaults: {_controller: AppBundle:Lookback:lookback}
+
+# Calendar pages
 calendar:
     path:      /calendar
     defaults: {_controller: AppBundle:Calendar:calendar}

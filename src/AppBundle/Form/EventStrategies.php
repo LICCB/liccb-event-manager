@@ -20,11 +20,17 @@ class EventStrategies extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 	    $builder
+			// Strategy Selector
 			->add('strategies', EntityType::class,  array(
 				'class' => 'AppBundle\Entity\Strategy',
-				'choice_label' => 'name'))
+				'choice_label' => 'name',
+				'attr' => array('class' => "Strategy_Button"),
+			))
+				
+			// Name Entry Field
 			->add('name', TextType::class, array(
 				'label' => "Strategy Name:",
+				//'attr' => array('class' => "Strategy_Button"),
 			))
 			
 			->add('over18', ChoiceType::class, array(
@@ -117,9 +123,24 @@ class EventStrategies extends AbstractType
 				'label' => false,
 				'required' => false,
 			))
-			->add('applyStrategy', SubmitType::class, array('label' => "Apply Strategy"))
-			->add('updateStrategy', SubmitType::class, array('label' => "Update"))
-			->add('newStrategy', SubmitType::class, array('label' => "Create New"));
+			
+			// The Buttons
+			->add('applyStrategy', SubmitType::class, array(
+				'label' => "Apply Selected Strategy",
+				'attr' => array('class' => "Strategy_Button"),
+			))
+			->add('updateStrategy', SubmitType::class, array(
+				'label' => "Update Selected Strategy",
+				'attr' => array('class' => "Strategy_Button"),
+			))
+			->add('newStrategy', SubmitType::class, array(
+				'label' => "Create New Strategy",
+				'attr' => array('class' => "Strategy_Button"),
+			))
+			->add('deleteStrategy', SubmitType::class, array(
+				'label' => "Delete Selected Strategy",
+				'attr' => array('class' => "Strategy_Button", 'onclick' => 'return confirm("Are you sure? This action can not be un-done")'),
+			));
     }
 
     public function configureOptions(OptionsResolver $resolver)

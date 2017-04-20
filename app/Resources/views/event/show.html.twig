@@ -18,9 +18,13 @@
 		<button class="accordion">Selection Strategy</button>
 		
 		<div class="panel">
-			{{ form_start(strategy_form) }}
+			{{ form_start(strategy_form, {'action': path('event_strategy',  {'id': event.id}), 'method': 'POST'}) }}
 				{{ form_row(strategy_form.strategies) }}
 				{{ form_row(strategy_form.name) }}
+				{{ form_row(strategy_form.updateStrategy) }}
+				{{ form_row(strategy_form.deleteStrategy) }}
+				{{ form_row(strategy_form.newStrategy) }}
+				
 				
 			<table>
 				<tr>
@@ -62,9 +66,7 @@
 			</table>
 			
 			{{ form_end(strategy_form) }}
-			{{ form_start(score_form) }}	
-			{{ form_end(score_form) }}	
-
+			
 		</div>
 	</div>
 
