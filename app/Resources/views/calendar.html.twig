@@ -165,8 +165,6 @@
             console.log("No calendars found")
           }
         });
-		
-		createEventList(5);
     }
 	
 	/*
@@ -177,11 +175,23 @@
 			var input_name = calendarIds[i] + '_input';
 			/* var input_value = document.forms["calendar_form"][input_name].value; */
 			var input_value = document.getElementById(input_name).checked;
-			console.log(input_value);
-			if(input_value == "true"){
-				createEventList(5, calendarIds[i]);
+			//console.log(input_value);
+			if(input_value == true){
+				console.log("Running check on " + calendarIds[i]);
+				createEventList(100, calendarIds[i]);
 			}
 		}
+	}
+	
+	//Function to make date formats compatible with google's API
+	function ISODateString(d){
+		function pad(n){return n<10 ? '0'+n : n}
+		return d.getUTCFullYear()+'-'
+			+ pad(d.getUTCMonth()+1)+'-'
+			+ pad(d.getUTCDate())+'T'
+			+ pad(d.getUTCHours())+':'
+			+ pad(d.getUTCMinutes())+':'
+			+ pad(d.getUTCSeconds())+'Z'
 	}
 	
 	/*
@@ -190,16 +200,43 @@
 	* up to num_events events from the calendar
 	*/
 	function createEventList(num_events, id) {
+		//Specify that dates need be created at most two months ago
+		var earliestEventDate = new Date();
+		earliestEventDate.setMonth(earliestEventDate.getMonth() - 2);
+		
+		//Use function to make date compatible with Google API
+		var compatibleDate = ISODateString(earliestEventDate);
+		
+		//console.log(compatibleDate);
+		
+		//Create a request for some number of events
 		gapi.client.calendar.events.list({
 			'calendarId': id,
-			'maxResults': num_events
+			'maxResults': num_events,
+			'timeMin': compatibleDate,
+			'singleEvents': true
 		}).then(function(response){
 			if(response.result.items.length > 0){
-				console.log(response.result.items);
+				for(i=0; i<response.result.items.length; i++){
+					//If response has some items in it, discard irrelevant information
+					for(var key in response.result.items[i]) {
+						//This is a long check, but it's just removing elements that aren't strictly necessary, as the API returns a LOT of information
+						if(key != "summary" && key != "id" && key != "description" && key != "location") {
+							//This checks for the start time, which is a different type of object so requires a special case
+							if(key == "start") {
+								response.result.items[i][key] = response.result.items[i][key].dateTime;
+							}
+							else {
+								delete response.result.items[i][key];
+							}
+						}
+					}
+				}
+				//console.log(response.result);
 				postToServer(response.result.items);
 			}
 			else{
-				console.log("Response is empty");
+				console.log("Response is empty for calendar " + id);
 			}
 		});
 	  }
@@ -210,7 +247,7 @@
 	    */
       function postToServer(jsonInformation){
 	    //postURL is the url where the post request will be sent
-	    var postURL = "event-manager.apps.licboathouse.org/calendar/update"
+	    var postURL = "calendar/update"
 	    var xRequest = new XMLHttpRequest();
 		
 		//Create a string from the json infromation
