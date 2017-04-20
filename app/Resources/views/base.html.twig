@@ -44,16 +44,35 @@
 
 	</head>
 	<body>
-	{% block body %}
-	{% endblock %}
-	
-	{% block sidebar %}
-		<div id="sidebar">
+	<div class = "container">
+		<div class ="row">
+			<div id="liccb_heading">
+				<h1>LICCB Event Manager</h1>
+			</div>
+			<br>
+			<hr>
 		</div>
-	{% endblock %}
-
+		<div class="row">
+			<div id="content" class="col-xs-12 col-sm-10 col-md-11 col-lg-11">
+				{% block body %}
+				{% endblock %}
+			</div>
+		
+			<div id="navBar" class="sidenav col-xs-12 col-sm-2 col-md-1 col-lg-1">
+				<a href="/">View Events</a>
+				<a href="/register">Register for Event</a>
+				<a href="/registrants">Manage Registrants</a>
+				<a href="/splash">Google Sign-in</a>
+				{% if is_granted('ROLE_ADMIN') %}
+					<a href="{{ path('admin_home') }}">Admin</a>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+	
     {% block javascript %}
     {% endblock %}
+	
 	</body>
 	<footer>
 	</footer>
