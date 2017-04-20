@@ -12,18 +12,6 @@ class CalendarController extends Controller
     public function calendarAction()
     {
         return $this->render('calendar.html.twig');
-<<<<<<< HEAD
-=======
-    }
-	
-	public function updateAction()
-    {
-        $request = $this->container->get('request');
-        $data = $this->get("request")->getContent();
-        if(!empty($data)){
-			$params = json_decode($data, true, 4);
-		}
->>>>>>> origin/Google-Calendar
     }
 	
 	public function updateAction(Request $request)
