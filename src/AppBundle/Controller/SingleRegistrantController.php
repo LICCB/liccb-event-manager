@@ -4,7 +4,7 @@ namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 use Symfony\Component\HttpFoundation\Request;
@@ -24,9 +24,9 @@ class SingleRegistrantController extends Controller
 		}
 		
 		$form = $this->createFormBuilder($registrant)
-			->add('comments', TextType::class, array(
+			->add('comments', TextareaType::class, array(
 				'label' => 'Comments',
-				'attr' => array('style' => 'width: 500px')))
+				'attr' => array('cols' => '70', 'rows' => '5')))
 			->add('search', SubmitType::class, array(
 				'label' => 'Update comments'))
 			->getForm();
