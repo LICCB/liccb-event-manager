@@ -139,7 +139,11 @@
 			  calendarInput.setAttribute('id', calendar.id + '_input');
 			  calendarInput.setAttribute('name', calendar.id + '_name');
 			  calendarInput.setAttribute('type', 'checkbox');
+<<<<<<< HEAD
 			  
+=======
+			  calendarInput.setAttribute('value', calendar.id);
+>>>>>>> origin/Google-Calendar
 			  
 			  calendar_form.appendChild(inputLabel);
 			  calendar_form.appendChild(linebreak1);
@@ -165,6 +169,7 @@
             console.log("No calendars found")
           }
         });
+<<<<<<< HEAD
     }
 	
 	/*
@@ -194,11 +199,26 @@
 			+ pad(d.getUTCSeconds())+'Z'
 	}
 	
+=======
+		
+		createEventList(5);
+    }
+	
+	function selectCalendars(){
+		for(i=0; i<calendarIds.length; i++){
+			var input_name = calendarIds[i] + '_name';
+			var input_value = document.forms["calendar_form"][input_name].value;
+			console.log(input_value);
+		}
+	}
+	
+>>>>>>> origin/Google-Calendar
 	/*
 	* Unpacks a list of events associated with the calendars
 	* supplied by previous function. Logs results. Only takes
 	* up to num_events events from the calendar
 	*/
+<<<<<<< HEAD
 	function createEventList(num_events, id) {
 		//Specify that dates need be created at most two months ago
 		var earliestEventDate = new Date();
@@ -240,6 +260,28 @@
 			}
 		});
 	  }
+=======
+	function createEventList(num_events) {
+		for(i=0; i<calendarIds.length; i++){
+			console.log(calendarIds[i]);
+			gapi.client.calendar.events.list({
+				'calendarId': calendarIds[i],
+				'maxResults': num_events
+			}).then(function(response){
+				if(response.result.items.length > 0){
+					console.log(response.result.items)
+				}
+				else{
+					console.log("Response is empty")
+				}
+			});
+		}
+	  }
+	  
+
+	
+    </script>
+>>>>>>> origin/Google-Calendar
 
 	   /*
 	    * Function that creates and sends post request to server, including all

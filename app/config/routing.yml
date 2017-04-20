@@ -19,6 +19,12 @@ registerconfirm:
 calendar:
     path:      /calendar
     defaults: {_controller: AppBundle:Calendar:calendar}
+<<<<<<< HEAD
 calendarupdate:
     path:      /calendar/update
     defaults: {_controller: AppBundle:Calendar:update}
+=======
+calendarpost:
+    path:      /calendar/update
+    defaults: {_controller: AppBundle:Calendar:update}
+>>>>>>> origin/Google-Calendar
