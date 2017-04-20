@@ -58,6 +58,11 @@ class Party
     private $numActuallyAttended;
 
     /**
+     * @var string
+     */
+    private $thumbs;
+
+    /**
      * @var \Doctrine\Common\Collections\Collection
      */
     private $party_participant_lists;
@@ -304,6 +309,30 @@ class Party
     public function getNumActuallyAttended()
     {
         return $this->numActuallyAttended;
+    }
+
+    /**
+     * Set thumbs
+     *
+     * @param string $thumbs
+     *
+     * @return Party
+     */
+    public function setThumbs($thumbs)
+    {
+        $this->thumbs = $thumbs;
+
+        return $this;
+    }
+
+    /**
+     * Get thumbs
+     *
+     * @return string
+     */
+    public function getThumbs()
+    {
+        return $this->thumbs;
     }
 
     /**

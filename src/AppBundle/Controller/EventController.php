@@ -4,8 +4,10 @@ namespace AppBundle\Controller;
 
 use AppBundle\Form\EventEdit;
 use AppBundle\Form\EventRegistrantsEdit;
+use AppBundle\Form\EventAttendanceEdit;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 $testStrategy1 = array(
 	//Weight
@@ -72,6 +74,9 @@ class EventController extends Controller
     	$form = $this->createForm(EventRegistrantsEdit::class, $event);
 	    $form->handleRequest($request);
 
+		$attendanceForm = $this->createForm(EventAttendanceEdit::class, $event);
+	    $attendanceForm->handleRequest($request);
+
 	    if($form->isSubmitted() && $form->isValid()){
 	    	$event = $form->getData();
 
@@ -107,9 +112,32 @@ class EventController extends Controller
 		    ));
 	    }
 		
+		if($attendanceForm->isSubmitted() && $attendanceForm->isValid()){
+	    	$formEvents = $attendanceForm->getData();
+
+			foreach($event->getParties() as $party) {
+				foreach($formEvents->getParties() as $formParty) {
+					if ($formParty->getId() == $party->getId()) {
+						$party->setNumActuallyAttended($formParty->getNumActuallyAttended());
+						$party->setThumbs($formParty->getThumbs());
+						break;
+					}
+				}
+			}
+
+	    	$em = $this->getDoctrine()->getManager();
+	    	$em->persist($event);
+	    	$em->flush();
+
+	    	return $this->redirectToRoute('event_show', array(
+	    		'id' => $id
+		    ));
+	    }
+		
         return $this->render('event/show.html.twig', array(
 	        'event' => $event,
-	        'form' => $form->createView()
+	        'form' => $form->createView(),
+			'attendance_form' => $attendanceForm->createView()
         ));
 		
     }
