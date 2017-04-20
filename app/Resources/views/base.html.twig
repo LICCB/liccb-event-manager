@@ -30,13 +30,25 @@
 
 	</head>
 	<body>
-	{% block body %}
-	{% endblock %}
 	
-	{% block sidebar %}
-		<div id="sidebar">
+	<div id="content">
+		<div id="liccb_heading">
+			<h1>LICCB Event Manager</h1>
 		</div>
-	{% endblock %}
+		<br>
+		<hr>
+		
+		{% block body %}
+		{% endblock %}
+	</div>
+	
+	<div id="navBar" class="sidenav">
+	 <a href="/">View Events</a>
+	 <a href="/register">Register for Event</a>
+	 <a href="/registrants">Manage Registrants</a>
+	 <a href="/lookback">Registrant History</a>
+	 <a href="/splash">Google Sign-in</a>
+	</div>
 
     {% block javascript %}
     {% endblock %}

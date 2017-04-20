@@ -14,9 +14,87 @@
     display:table;
 }
 
+.g-signin2{
+  width: 100%;
+  padding-top: 15%;
+  padding-bottom: 15%;
+}
+
+.g-signin2 > div{
+  margin: 0 auto;
+}
+
+/* The side navigation menu */
+.sidenav {
+    height: 100%; /* 100% Full-height */
+    width: 15%; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    top: 0;
+    left: 0;
+    background-color: #bad4ff; /* Blue*/
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 60px; /* Place content 60px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+/* The navigation menu links */
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover, .offcanvas a:focus{
+    color: #f1f1f1;
+}
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
+/* Style for accordion buttons */
+button.accordion {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    text-align: left;
+    border: none;
+    outline: none;
+    transition: 0.4s;
+}
+
+button.accordion.active, button.accordion:hover {
+    background-color: #ddd;
+}
+
+div.panel {
+    padding: 0 18px;
+    background-color: white;
+    display: none;
+}
+
 .parallax { 
     /* The image used */
-    background-image: url("img_parallax.jpg");
+    background-image: url("../images/splash_back.jpg");
 
     /* Set a specific height */
     height: 500px; 
@@ -29,7 +107,7 @@
 }
 
 a:link, a:visited {
-    background-color: #ced6e2;
+    background-color: #b1bbcc;
     color: white;
     padding: 14px 50px;
     text-align: center;
@@ -37,30 +115,20 @@ a:link, a:visited {
     display: inline-block;
 }
 
-
 a:hover, a:active {
-    background-color: red;
+    background-color: #3c4047;
 }
 
-body {
-    background-color: #bdd4f9;
+h1 {
+    font-size:300%;
+	text-align:center;
 }
 
-#content {
-    width: 80%;
-    margin-left:auto;
-    margin-right:auto;
-    background-color:white;
-    text-align:center;
-}
-
-#sidebar {
-	
-}
-
-#background_container {
-    background-repeat:no-repeat;
-    background-size:cover;
+#index_content {
+	margin:auto;
+	width:40%;
+	font-size:18px;
+	background-color:none;
 }
 
 #userTable {
@@ -68,4 +136,14 @@ body {
 	width:60%;
 	overflow:hidden; 
 	overflow-y:scroll;
+}
+
+#content {
+	background-color:white;
+	width:80%;
+	margin-left:15%;
+}
+
+body {
+	background-color:#bad4ff;
 }
