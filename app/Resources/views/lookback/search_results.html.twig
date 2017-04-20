@@ -31,9 +31,9 @@
 			{% set numThumbsDown = 0 %}
 			{% set parties = registrant.getParties %}
 			{% for party in parties %}
-				{% if party.getThumbsUp %}
+				{% if party.getThumbs == "Up" %}
 					{% set numThumbsUp = numThumbsUp + 1 %}
-				{% elseif party.getThumbsDown %}
+				{% elseif party.getThumbs == "Down" %}
 					{% set numThumbsDown = numThumbsDown + 1 %}
 				{% endif %}
 			{% endfor %}
@@ -57,7 +57,7 @@
 			</tr>
 
 			<tr class="event-collapse-{{ eventCollapseId }} collapse">
-				<td></td>
+				<th></th>
 				<th colspan="2">Event</th>
 				<th>Event Type</th>
 				<th>Date</th>
@@ -77,7 +77,7 @@
 					<td>{{ event.getDate.format('M d, Y') }}</td>
 					<td>{{ party.getNumSeats }}</td>
 					<td>{{ party.getNumActuallyAttended }}</td>
-					<td>{% if party.getThumbsUp %}<img display="block" width="4%" height="4%" src="{{ asset('images/thumbs-up.svg') }}" />{% elseif party.getThumbsDown %}<img display="block" width="4%" height="4%" src="{{ asset('images/thumbs-down.svg') }}" />{% else %}no rating{% endif %}</td>
+					<td colspan="2">{% if party.getThumbs == "Up" %}(thumbs up){#<img display="block" width="4%" height="4%" src="{{ asset('images/thumbs-up.svg') }}" />#}{% elseif party.getThumbs == "Down" %}(thumbs down){#<img display="block" width="4%" height="4%" src="{{ asset('images/thumbs-down.svg') }}" />#}{% else %}no rating{% endif %}</td>
 				</tr>
 			{% endfor %}
 			{% set commentCollapseId = commentCollapseId + 1 %}
