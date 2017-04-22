@@ -48,6 +48,11 @@ class Org_event
     private $orgEventDescription;
 
     /**
+     * @var string
+     */
+    private $orgEventGoogleId;
+
+    /**
      * @var \Doctrine\Common\Collections\Collection
      */
     private $parties;
@@ -236,6 +241,30 @@ class Org_event
     public function getOrgEventDescription()
     {
         return $this->orgEventDescription;
+    }
+
+    /**
+     * Set orgEventGoogleId
+     *
+     * @param string $orgEventGoogleId
+     *
+     * @return Org_event
+     */
+    public function setOrgEventGoogleId($orgEventGoogleId)
+    {
+        $this->orgEventGoogleId = $orgEventGoogleId;
+
+        return $this;
+    }
+
+    /**
+     * Get orgEventGoogleId
+     *
+     * @return string
+     */
+    public function getOrgEventGoogleId()
+    {
+        return $this->orgEventGoogleId;
     }
 
     /**
