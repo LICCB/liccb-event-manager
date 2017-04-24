@@ -8,12 +8,12 @@
 
 namespace AppBundle\Entity;
 
-use FOS\UserBundle\Model\Group as Base; // Extend group because it does what we want
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @author Jake Israel <jcmisrael@gmail.com>
  */
-class Permission extends Base {
+class Permission {
 
 	/**
 	 * @var mixed
@@ -21,45 +21,79 @@ class Permission extends Base {
 	protected $id;
 
 	/**
-	 * @var \Doctrine\Common\Collections\Collection
+	 * @var string
 	 */
-	protected $permissionRoles;
+	protected $name;
 
-	public function __construct($name, array $roles = array())
+	/**
+	 * @var ArrayCollection
+	 */
+	protected $roles;
+
+	/**
+	 * Permission constructor.
+	 * @param string $name
+	 * @param ArrayCollection $roles
+	 */
+	public function __construct($name, $roles)
 	{
-		parent::__construct($name, $roles);
-		$this->permissionRoles = new \Doctrine\Common\Collections\ArrayCollection();
+		if(!$roles)
+			$roles = new ArrayCollection();
+		$this->name = $name;
+		$this->roles = $roles;
 	}
 
 	/**
-	 * Returns true or false whether a set of roles contains a valid permission role
-	 *
-	 * @param array $roles
-	 * @return bool
+	 * Override inherited method to do nothing
+	 * @param string $role
+	 * @return $this
 	 */
-	public function hasRoleInArray($roles){
-		foreach ($roles as $role){
-			if($this->hasRole($role)){
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public function setRolesFromArray(\Doctrine\Common\Collections\ArrayCollection $roles)
+	public function addRole($role)
 	{
-		$this->permissionRoles = $roles;
-
-		$rolesArr = array();
-		foreach ($roles as $role){
-			$rolesArr[] = strtoupper($role->getRole());
-		}
-
-		return $this->setRoles($rolesArr);
+		return $this;
 	}
 
-	public function getRolesFromArray(){
-		return $this->permissionRoles;
+	/**
+	 * @return ArrayCollection
+	 */
+	public function getRoles()
+	{
+		return $this->roles;
 	}
 
+	/**
+	 * @param ArrayCollection $roles
+	 */
+	public function setRoles($roles)
+	{
+		$this->roles = $roles;
+
+		return $this;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getId()
+	{
+		return $this->id;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getName()
+	{
+		return $this->name;
+	}
+
+	/**
+	 * @param $name
+	 * @return $this
+	 */
+	public function setName($name)
+	{
+		$this->name = $name;
+		return $this;
+	}
 }
