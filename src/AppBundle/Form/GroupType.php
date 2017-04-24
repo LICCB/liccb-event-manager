@@ -10,7 +10,7 @@ class GroupType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-	    $builder->add('rolesForm',PermissionRoles::class);
+	    $builder->add('rolesForm', PermissionRoles::class);
     }
 
 	public function getParent()
