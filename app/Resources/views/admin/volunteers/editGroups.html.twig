@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	{% if app.session.flashBag.has('error') %}
+		<div class="alert alert-danger">
+			{% for msg in app.session.flashBag.get('error') %}
+				{{ msg }}
+			{% endfor %}
+		</div>
+	{% else %}
+		{{ form_start(form) }}
+		{{ form_widget(form) }}
+		{{ form_end(form) }}
+		<a href="{{ path('admin_volunteers_show', {'user_id': user.id}) }}">Cancel</a>
+	{% endif %}
+{% endblock %}

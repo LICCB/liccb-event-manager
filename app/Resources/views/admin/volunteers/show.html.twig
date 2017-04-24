@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	{% if app.session.flashBag.has('error') %}
+		<div class="alert alert-danger">
+			{% for msg in app.session.flashBag.get('error') %}
+				{{ msg }}
+			{% endfor %}
+		</div>
+	{% else %}
+		{% if app.session.flashBag.has('success') %}
+			<div class="alert alert-success">
+				{% for msg in app.session.flashBag.get('success') %}
+					{{ msg }}
+				{% endfor %}
+			</div>
+		{% endif %}
+		<section>
+			<h3>{{ user.email }}</h3>
+			<section>
+				<h4>Roles</h4>
+				<ul>
+					{%  for role in user.roles %}
+						<li>{{ role }}</li>
+					{% endfor %}
+				</ul>
+			</section>
+			{% if user.groups.count %}
+			<section>
+				<h4>Groups</h4>
+				<ul>
+					{% for group in user.groups %}
+						<li>{{ group.name }}</li>
+					{% endfor %}
+				</ul>
+			</section>
+			{% endif %}
+		</section>
+	{% endif %}
+	<a href="{{ path('admin_volunteers_edit_groups', {'user_id': user.id}) }}">Edit Groups</a>
+	<a href="{{ path('admin_home') }}">Admin Home</a>
+{% endblock %}
