@@ -37,6 +37,8 @@
 			{% endif %}
 		</section>
 	{% endif %}
-	<a href="{{ path('admin_volunteers_edit_groups', {'user_id': user.id}) }}">Edit Groups</a>
+	{% if user %}
+		<a href="{{ path('admin_volunteers_edit_groups', {'user_id': user.id}) }}">Edit Groups</a>
+	{% endif %}
 	<a href="{{ path('admin_home') }}">Admin Home</a>
 {% endblock %}
