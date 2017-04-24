@@ -45,7 +45,7 @@ class GroupController extends BaseController
 	    // Set defaults
 	    $data = array();
 	    $data['name'] = $group->getName();
-	    $data['rolesForm']['roles'] = $roles;
+	    $data['roles'] = $roles;
 
 	    // Set form data_class to null to use an array
 	    $form = $formFactory->createForm(array(
@@ -67,7 +67,7 @@ class GroupController extends BaseController
 
 		    // Convert the ArrayCollection of roles to an array of strings
 		    $rolesArray = array();
-		    foreach ($data['rolesForm']['roles'] as $role){
+		    foreach ($data['roles'] as $role){
 		    	/* @var PermissionRole $role */
 		    	$rolesArray[] = strtoupper($role->getRole());
 		    }
