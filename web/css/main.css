@@ -114,6 +114,7 @@ div.panel {
     background-size: cover;
 }
 
+
 a:link, a:visited {
     background-color: #b1bbcc;
     color: white;
@@ -127,9 +128,16 @@ a:hover, a:active {
     background-color: #3c4047;
 }
 
+.sidenav > a {
+     width: 100%;
+     color: white;
+}
+
+/*
 a {
     width: 100%;
 }
+*/
 
 h1 {
     font-size:300%;
