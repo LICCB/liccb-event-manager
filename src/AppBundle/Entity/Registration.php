@@ -20,6 +20,7 @@ class Registration
 
 	// Step 2
 	private $previous_volunteer;
+	private $role_familiarity;
 
 	// Step 3
 	private $event_selection;
@@ -46,8 +47,6 @@ class Registration
 	private $boathouse_discovery;
 
 	// additional information volunteering
-	private $prior;
-	private $role_familiarity;
 	private $vehicle_capacity;
 
     /**
@@ -62,7 +61,7 @@ class Registration
      */
     public function getId()
     {
-        return $this->id;
+	    return $this->id;
     }
 
     /**
@@ -414,6 +413,23 @@ class Registration
 	 */
     public function setPreviousVolunteer($previousVolunteer){
     	$this->previous_volunteer = $previousVolunteer;
+
+    	return $this;
+    }
+
+	/**
+	 * @return bool
+	 */
+    public function getRoleFamiliarity(){
+    	return $this->role_familiarity;
+    }
+
+	/**
+	 * @param bool $roleFamiliarity
+	 * @return $this
+	 */
+    public function setRoleFamiliarity($roleFamiliarity){
+    	$this->role_familiarity = $roleFamiliarity;
 
     	return $this;
     }

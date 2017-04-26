@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Validator\Constraints\Choice;
 
 class RegistrationForm extends AbstractType {
 
@@ -34,7 +35,15 @@ class RegistrationForm extends AbstractType {
 				        'no' => false,
 			        ),
 			        'expanded' => true,
-			        'multiple' => false
+			        'multiple' => false,
+		        ));
+	        	$builder->add('role_familiarity', ChoiceType::class, array(
+	        		'choices' => array(
+	        			'yes' => true,
+				        'no' => false,
+			        ),
+			        'expanded' => true,
+			        'multiple' => false,
 		        ));
 	        	break;
 	        case 3:
