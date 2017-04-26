@@ -63,6 +63,13 @@
 					<td> {{ form_row(strategy_form.participantTypeW) }} </td>
 					<td> {{ form_row(strategy_form.participantTypeRequired) }}</td>
 				</tr>				
+				<tr>
+					<td> Past Attendance Record </td>
+					<td> {{ form_row(strategy_form.attendance) }} </td>
+					<td> {{ form_row(strategy_form.attendanceW) }} </td>
+					<td> {{ form_row(strategy_form.attendanceRequired) }}</td>
+				</tr>
+				
 			</table>
 			
 			{{ form_end(strategy_form) }}
@@ -129,6 +136,22 @@
 				panel.style.display = "block";
 			}
 		}
+	</script>
+	
+	<script>
+		$(document).ready(function(){
+			var all_strategies = {{ all_strategies|json_encode|raw }};
+		});
+
+		var strats = document.getElementById("strategies");
+		
+		strats.onchange = updateFields;
+
+        function updateFields() {
+			
+			document.strategy_form.Strategy_Field.value = True;	
+		}
+	
 	</script>
 	
 	<script>

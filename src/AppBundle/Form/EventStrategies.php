@@ -24,13 +24,14 @@ class EventStrategies extends AbstractType
 			->add('strategies', EntityType::class,  array(
 				'class' => 'AppBundle\Entity\Strategy',
 				'choice_label' => 'name',
-				'attr' => array('class' => "Strategy_Button"),
+				'label' => 'Strategies:',
+				//'attr' => array('class' => "Strategy_Button"),
 			))
 				
 			// Name Entry Field
 			->add('name', TextType::class, array(
 				'label' => "Strategy Name:",
-				//'attr' => array('class' => "Strategy_Button"),
+				'attr' => array('class' => "Strategy_Field"),
 			))
 			
 			->add('over18', ChoiceType::class, array(
@@ -39,52 +40,58 @@ class EventStrategies extends AbstractType
 					'True' => true,
 					'False' => false,
 				),
+				'attr' => array('class' => "Strategy_Field"),
 			))
 			
 			->add('over18W', IntegerType::class, array(
 				'label' => false,
-				'attr' => array('min' => '0', 'max' => '10', 'required'),
+				'attr' => array('class' => "Strategy_Field", 'min' => '-1', 'max' => '10', 'required'),
 			))
 			
 			->add('over18Required', CheckboxType::class, array(
 				'label' => false,
 				'required' => false,
+				'attr' => array('class' => "Strategy_Field"),
 			))
 			
 			->add('swimExperience', ChoiceType::class, array(
-			'label' => false,
+				'label' => false,
 				'choices' => array(
 					'True' => true,
 					'False' => false,
 				),
+				'attr' => array('class' => "Strategy_Field"),
 			))
 			
 			->add('swimExperienceW', IntegerType::class, array(
 				'label' => false,
-				'attr' => array('min' => '0', 'max' => '10', 'required'),
+				'attr' => array('class' => "Strategy_Field", 'min' => '-1', 'max' => '10', 'required'),
 			))
 
 			->add('swimExperienceRequired', CheckboxType::class, array(
 				'label' => false,
 				'required' => false,
+				//'attr' => array('class' => "Strategy_Field"),
 			))
 			
 			->add('boatExperience', ChoiceType::class, array(
 				'label' => false,
 				'choices' => array(
 					'True' => true,
-					'False' => false,
+					'False' => false,	
 				),
+				'attr' => array('class' => "Strategy_Field"),
 			))
 			
 			->add('boatExperienceW', IntegerType::class, array(
 				'label' => false,
-				'attr' => array('min' => '0', 'max' => '10', 'required'),		
+				'attr' => array('class' => "Strategy_Field", 'min' => '-1', 'max' => '10', 'required'),		
 			))
 			
 			->add('boatExperienceRequired', CheckboxType::class, array(
 				'label' => false,
 				'required' => false,
+				//'attr' => array('class' => "Strategy_Field"),
 			))			
 			
 			->add('Cpr', ChoiceType::class, array(
@@ -93,36 +100,58 @@ class EventStrategies extends AbstractType
 					'True' => true,
 					'False' => false,
 				),
+				'attr' => array('class' => "Strategy_Field"),
 			))
 			
 			->add('CprW', IntegerType::class, array(
 				'label' => false,
-				'attr' => array('min' => '0', 'max' => '10', 'required'),
+				'attr' => array('class' => "Strategy_Field", 'min' => '-1', 'max' => '10', 'required'),
 				
 			))
 			
 			->add('CprRequired', CheckboxType::class, array(
 				'label' => false,
 				'required' => false,
+				//'attr' => array('class' => "Strategy_Field"),
 			))			
 			
 			->add('participantType', ChoiceType::class, array(
 				'label' => false,
 				'choices' => array(
-					'True' => true,
-					'False' => false,
+					'Volunteer' => 'Volunteer',
+					'Public' => 'Public',
 				),
+				'attr' => array('class' => "Strategy_Field"),
 			))
 
 			->add('participantTypeW', IntegerType::class, array(
 				'label' => false,
-				'attr' => array('min' => '0', 'max' => '10', 'required'),
+				'attr' => array('class' => "Strategy_Field", 'min' => '-1', 'max' => '10', 'required'),
 			))
 			
 			->add('participantTypeRequired', CheckboxType::class, array(
 				'label' => false,
 				'required' => false,
+				//'attr' => array('class' => "Strategy_Field"),
 			))
+			
+			->add('attendance', IntegerType::class, array(
+				'label' => false,
+				'attr' => array('class' => "Strategy_Field", 'min' => '0', 'max' => '100', 'required'),
+			))
+
+			->add('attendanceW', IntegerType::class, array(
+				'label' => false,
+				'attr' => array('class' => "Strategy_Field", 'min' => '-1', 'max' => '10', 'required'),
+			))
+			
+			->add('attendanceRequired', CheckboxType::class, array(
+				'label' => false,
+				'required' => false,
+				//'attr' => array('class' => "Strategy_Field"),
+			))
+			
+			
 			
 			// The Buttons
 			->add('applyStrategy', SubmitType::class, array(

@@ -57,6 +57,10 @@ class EventController extends Controller
 			->getRepository('AppBundle:Strategy')
 			->findOneBy(array());	
 			
+		$all_strategies = $this->getDoctrine()
+			->getRepository('AppBundle:Strategy')
+			->findAll();
+			
 		// array to hold prepopulated form data
 		$data = array();
 		$data['name'] = $selected_strategy->getName();
@@ -134,6 +138,7 @@ class EventController extends Controller
 	        'event' => $event,
 	        'form' => $registrantsForm->createView(),
 			'strategy_form' => $strategy_form->createView(),
+			'all_strategies' => $all_strategies,
         ));
 		
     }
@@ -149,6 +154,10 @@ class EventController extends Controller
 		$selected_strategy = $this->getDoctrine()
 			->getRepository('AppBundle:Strategy')
 			->findOneBy(array());			
+			
+		$all_strategies = $this->getDoctrine()
+			->getRepository('AppBundle:Strategy')
+			->findAll();
 			
 		// array to hold prepopulated form data
 		$data = array();
@@ -249,18 +258,6 @@ class EventController extends Controller
 				$strategy_updated = true;
 				$strategy = $data["strategies"];
 				
-				$nameError = new FormError("Strategy names must be unique");
-								
-				$update_strategy_check = $this->getDoctrine()
-					->getRepository('AppBundle:Strategy')
-					->find($data["name"]);
-					
-				if (sizeOf($update_strategy_check) != 0)
-				{
-					$strategy_form->get('name')->addError($nameError);
-					$strategy_updated = false;
-				}
-				
 				if ($strategy_updated)
 				{
 					// Store all form data in selected strategy'
@@ -280,7 +277,7 @@ class EventController extends Controller
 					if ($data["boatExperienceRequired"] == true)
 						$strategy->setBoatExperienceW(-1);
 					
-					$strategy->setCpr($data["CprW"]);
+					$strategy->setCpr($data["Cpr"]);
 					$strategy->setCprW($data["CprW"]);
 					if ($data["CprRequired"] == true)
 						$strategy->setCprW(-1);
@@ -330,7 +327,7 @@ class EventController extends Controller
 				
 				$new_strategy->setCpr($data["Cpr"]);
 				$new_strategy->setCprW($data["CprW"]);
-				if ($data["participantTypeRequired"] == true)
+				if ($data["CprRequired"] == true)
 					$new_strategy->setCprW(-1);
 				
 				$new_strategy->setParticipantType($data["participantType"]);
@@ -360,7 +357,8 @@ class EventController extends Controller
 		return $this->render('event/show.html.twig', array(
 			'event' => $event,
 			'form' => $registrantsForm->createView(),
-			'strategy_form' => $strategy_form->createView()
+			'strategy_form' => $strategy_form->createView(),
+			'all_strategies' => $all_strategies,
         ));
 	}
 	
