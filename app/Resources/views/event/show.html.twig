@@ -103,11 +103,11 @@
 			{% endif %}
 			    <td><a href="../registrants/{{ party.vars.data.Registrant.getRegistrantEmail }}"> {{party.vars.data.Registrant.fullName}}</a></td>
 			    <td>{{ party.vars.value.numSeats }}</td>
-			{% if party.vars.data.selectionStatus == "Emailed" %}
-				<td>{{ form_row(party.selectionStatus, {'disabled': 'disabled'}) }}</td>
-			{% else %}
+			{# {% if party.vars.data.selectionStatus == "Emailed" %}
+				<td>{{ form_row(party.selectionStatus, {'disabled': 'disabled'}) }}</td> 
+			{% else %} #}
 				<td>{{ form_row(party.selectionStatus) }}</td>
-			{% endif %}
+			{#{% endif %} #}
 			    <td>{{ form_row(party.selectionStatusReason) }}</td>
 				<td>{{ party.vars.data.Registrant.participantType }} </td>
 				<td>{{ party.vars.data.Registrant.over18 ? "Yes" : "No"}}</td>
