@@ -25,7 +25,7 @@ class User extends BaseUser
 	private $googleID;
 
 	/*
-	 * @var ???
+	 * @var ArrayCollection
 	 */
 	protected $groups;
 

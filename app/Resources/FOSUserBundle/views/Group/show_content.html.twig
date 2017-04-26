@@ -1,0 +1,14 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<div class="fos_user_group_show">
+    <p>Name: {{ group.getName() }}</p>
+    <section>
+        <h4>Roles:</h4>
+        <ul>
+		    {% for role in group.getRoles() %}
+                <li>{{ role }}</li>
+		    {% endfor %}
+        </ul>
+    </section>
+    <a href="{{ path('fos_user_group_edit', {'groupName': group.getName()}) }}">Edit</a>
+</div>

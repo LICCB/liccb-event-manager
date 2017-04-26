@@ -64,6 +64,12 @@ admin_home:
 admin_volunteers_add:
     path: /admin/volunteers/add
     defaults: {_controller: AppBundle:Volunteers:add}
+admin_volunteers_show:
+    path: /admin/volunteers/{user_id}
+    defaults: {_controller: AppBundle:Volunteers:show}
+admin_volunteers_edit_groups:
+    path: /admin/volunteers/{user_id}/groups/edit
+    defaults: {_controller: AppBundle:Volunteers:editGroups}
 
 # Permission Pages
 permission_edit:
