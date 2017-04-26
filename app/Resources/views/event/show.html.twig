@@ -77,13 +77,14 @@
 		</div>
 	</div>
 
-	{{ form_start(form) }}
+	{{ form_start(form, {'attr': {'id': 'strategy_form'}}) }}
 	<table id="Registrant_Table">
 		<tr>
 			<th onClick="sortTable(0)">Name</th>
 			<th onClick="sortTable(1)"># Seats</th>
 			<th>Selection Status</th>
 			<th>Selection Status Reason</th>
+			<th>Participant Type </th>
 			<th>18+</th>
 			<th>Can Swim?</th>
 			<th>Has Boating Experience</th>
@@ -100,7 +101,7 @@
 			{% else %}
 				<tr>
 			{% endif %}
-			    <td>{{ party.vars.data.Registrant.fullName }}</td>
+			    <td><a href="../registrants/{{ party.vars.data.Registrant.getRegistrantEmail }}"> {{party.vars.data.Registrant.fullName}}</a></td>
 			    <td>{{ party.vars.value.numSeats }}</td>
 			{% if party.vars.data.selectionStatus == "Emailed" %}
 				<td>{{ form_row(party.selectionStatus, {'disabled': 'disabled'}) }}</td>
@@ -108,6 +109,7 @@
 				<td>{{ form_row(party.selectionStatus) }}</td>
 			{% endif %}
 			    <td>{{ form_row(party.selectionStatusReason) }}</td>
+				<td>{{ party.vars.data.Registrant.participantType }} </td>
 				<td>{{ party.vars.data.Registrant.over18 ? "Yes" : "No"}}</td>
 				<td>{{ party.vars.data.Registrant.hasSwimExperience ? "Yes" : "No"}}</td>
 				<td>{{ party.vars.data.Registrant.hasBoatExperience ? "Yes" : "No"}}</td>
@@ -121,6 +123,14 @@
 {% endblock %}
 
 {% block javascript %}
+
+	<script>
+		$(document).ready(function(){
+			var posted_strategies = {{ all_strategies|json_encode|raw }};
+			
+		});
+	</script>
+
 	<script>
 		var acc = document.getElementsByClassName("accordion");
 		acc[0].onclick = function(){
@@ -139,18 +149,30 @@
 	</script>
 	
 	<script>
-		$(document).ready(function(){
-			var all_strategies = {{ all_strategies|json_encode|raw }};
-		});
-
-		var strats = document.getElementById("strategies");
 		
-		strats.onchange = updateFields;
 
-        function updateFields() {
+		var strategy_selector = document.getElementsByClassName("Strategy_Select")[0];
+				
+		console.log("hey");
+        function updateFields() {		
+			var selected_name = strategy_selector.getAttribute("name");
+			var weight = strategy_selector.getAttribute("over18W");
+			var strategy_form = document.getElementById("strategy_form");
 			
-			document.strategy_form.Strategy_Field.value = True;	
+			console.log(selected_name);
+			console.log(weight);
+			
+			// for
+			for (i = 0; i < strategy_form.length; i++) {
+				var my_name = this.getAttribute("id").value;
+				
+				document.getElementById(my_name).value = posted_strategies[selected_name][my_name];
+			}
+			
+			//document.strategy_form.Strategy_Field.value = all_strategies[selected_name][]
 		}
+		
+		strategy_selector.onchange = updateFields;
 	
 	</script>
 	

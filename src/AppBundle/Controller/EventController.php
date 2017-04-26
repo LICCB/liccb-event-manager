@@ -43,10 +43,11 @@ function apply_strategy($answers, $strategy) {
 		
 		return $score;
 	}
-	
+
 class EventController extends Controller
 {
-
+	
+	// Function called when event page is loaded.  This also handles the action of 
     public function showAction(Request $request, $id)
     {
     	$event = $this->getDoctrine()
@@ -114,6 +115,22 @@ class EventController extends Controller
 					    ->setTo($party->getRegistrantEmail())
 					    ->setBody(
 					    	$this->renderView('email/approved.html.twig', array(
+					    		'name' => $party->getRegistrant()->getFullName(),
+							    'event' => $event,
+						    )),
+						    'text/html'
+					    )
+					    ;
+				    $this->get('mailer')->send($message);
+			    	$party->setSelectionStatus("Emailed");
+			    } elseif($registrantsForm->get('update_and_email')->isClicked() && $party->getSelectionStatus() == "Denied") {
+			    	// Send email
+				    $message = \Swift_Message::newInstance()
+					    ->setSubject("LICBoathouse Event Decline")
+					    ->setFrom('event_updates@licboathouse.org')
+					    ->setTo($party->getRegistrantEmail())
+					    ->setBody(
+					    	$this->renderView('email/declined.html.twig', array(
 					    		'name' => $party->getRegistrant()->getFullName(),
 							    'event' => $event,
 						    )),

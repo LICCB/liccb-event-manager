@@ -25,13 +25,13 @@ class EventStrategies extends AbstractType
 				'class' => 'AppBundle\Entity\Strategy',
 				'choice_label' => 'name',
 				'label' => 'Strategies:',
-				//'attr' => array('class' => "Strategy_Button"),
+				'attr' => array('class' => "Strategy_Select", 'id'=> 'strategies'),
 			))
 				
 			// Name Entry Field
 			->add('name', TextType::class, array(
 				'label' => "Strategy Name:",
-				'attr' => array('class' => "Strategy_Field"),
+				'attr' => array('class' => 'Strategy_Field', 'id' => 'strategy_name'),
 			))
 			
 			->add('over18', ChoiceType::class, array(
@@ -45,7 +45,7 @@ class EventStrategies extends AbstractType
 			
 			->add('over18W', IntegerType::class, array(
 				'label' => false,
-				'attr' => array('class' => "Strategy_Field", 'min' => '-1', 'max' => '10', 'required'),
+				'attr' => array('class' => "Strategy_Field", 'id' =>'over18W', 'min' => '-1', 'max' => '10', 'required'),
 			))
 			
 			->add('over18Required', CheckboxType::class, array(
