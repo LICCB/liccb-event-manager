@@ -28,6 +28,16 @@ class RegistrationForm extends AbstractType {
 		        ));
 		        break;
 	        case 2:
+	        	$builder->add('previous_volunteer', ChoiceType::class, array(
+	        		'choices' => array(
+	        			'yes' => true,
+				        'no' => false,
+			        ),
+			        'expanded' => true,
+			        'multiple' => false
+		        ));
+	        	break;
+	        case 3:
 		        $builder->add('event_selection', EntityType::class, array(
 			        'class' => 'AppBundle\Entity\Org_event',
 			        'query_builder' => function(EntityRepository $er){
@@ -40,7 +50,7 @@ class RegistrationForm extends AbstractType {
 			        'choice_label' => 'orgEventName',
 		        ));
 		        break;
-	        case 3:
+	        case 4:
 		        $builder->add('over18', ChoiceType::class, array(
 			        'choices' => array(
 				        'yes' => true,
@@ -74,7 +84,7 @@ class RegistrationForm extends AbstractType {
 			        'multiple' => false,
 		        ));
 		        break;
-	        case 4:
+	        case 5:
 		        $builder->add('full_name', TextType::class);
 		        $builder->add('email', EmailType::class);
 		        $builder->add('phone_number', TextType::class);
@@ -83,7 +93,7 @@ class RegistrationForm extends AbstractType {
 		        $builder->add('boat_seats', IntegerType::class);
 		        $builder->add('pairing_boater', TextType::class);
 		        break;
-	        case 5:
+	        case 6:
 		        $builder->add('event_discovery', ChoiceType::class, array(
 			        'choices' => array(
 				        'LICCB Calendar' => 'calendar',
