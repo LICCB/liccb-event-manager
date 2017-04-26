@@ -414,4 +414,3 @@ class Strategy
         return $this->attendanceW;
     }
 }
-

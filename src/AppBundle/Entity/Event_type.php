@@ -3,9 +3,9 @@
 namespace AppBundle\Entity;
 
 /**
- * User
+ * Event_type
  */
-class User
+class Event_type
 {
     /**
      * @var integer
@@ -15,7 +15,7 @@ class User
     /**
      * @var string
      */
-    private $googleID;
+    private $eventType;
 
 
     /**
@@ -29,26 +29,27 @@ class User
     }
 
     /**
-     * Set googleID
+     * Set eventType
      *
-     * @param string $googleID
+     * @param string $eventType
      *
-     * @return User
+     * @return Event_type
      */
-    public function setGoogleID($googleID)
+    public function setEventType($eventType)
     {
-        $this->googleID = $googleID;
+        $this->eventType = $eventType;
 
         return $this;
     }
 
     /**
-     * Get googleID
+     * Get eventType
      *
      * @return string
      */
-    public function getGoogleID()
+    public function getEventType()
     {
-        return $this->googleID;
+        return $this->eventType;
     }
 }
+
