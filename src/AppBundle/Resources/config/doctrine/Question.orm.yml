@@ -1,4 +1,4 @@
-AppBundle\Entity\Event_type:
+AppBundle\Entity\Question:
     type: entity
     table: null
     repositoryClass: AppBundle\Repository\Event_typeRepository
@@ -9,11 +9,11 @@ AppBundle\Entity\Event_type:
             generator:
                 strategy: AUTO
     manyToMany:
-        questions:
-            targetEntity: Question
-            inversedBy: eventTypes
+        eventTypes:
+            targetEntity: Event_type
+            mappedBy: questions
     fields:
-        eventType:
+        question:
             type: string
-            length: 255
+            length: 1023
     lifecycleCallbacks: {  }
