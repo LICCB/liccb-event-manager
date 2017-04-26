@@ -44,21 +44,9 @@
 
 	</head>
 	<body>
-	<div class = "container">
-		<div class ="row">
-			<div id="liccb_heading">
-				<h1>LICCB Event Manager</h1>
-			</div>
-			<br>
-			<hr>
-		</div>
+	<div class = "container-fluid">
 		<div class="row">
-			<div id="content" class="col-xs-12 col-sm-10 col-md-11 col-lg-11">
-				{% block body %}
-				{% endblock %}
-			</div>
-		
-			<div id="navBar" class="sidenav col-xs-12 col-sm-2 col-md-1 col-lg-1">
+		    <div id="navBar" class="sidenav col-xs-12 col-sm-3 col-md-2 col-lg-2">
 				<a href="/">View Events</a>
 				<a href="/register">Register for Event</a>
 				<a href="/registrants">Manage Registrants</a>
@@ -67,6 +55,18 @@
 					<a href="{{ path('admin_home') }}">Admin</a>
 				{% endif %}
 			</div>
+			
+			<div id="content" class="col-xs-12 col-sm-9 col-md-10 col-lg-10">
+			    <div id="liccb_heading">
+				    <h1>LICCB Event Manager</h1>
+			    </div>
+			    <br>
+			    <hr>
+				{% block body %}
+				{% endblock %}
+			</div>
+            
+			
 		</div>
 	</div>
 	
