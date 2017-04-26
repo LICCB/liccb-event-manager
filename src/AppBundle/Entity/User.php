@@ -65,4 +65,3 @@ class User extends BaseUser
 		return parent::setEmail($email);
 	}
 }
-

@@ -199,4 +199,3 @@ class Participant
         return $this->party_participant_lists;
     }
 }
-
