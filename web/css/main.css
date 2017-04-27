@@ -149,6 +149,22 @@ body {
 }
 
 
-table.no-colors td, th {
+table.no-colors tr {
     background-color: white;
+}
+
+.lookback-comments th {
+    background-color: SkyBlue;
+}
+
+.lookback-comments td {
+    background-color: SkyBlue;
+}
+
+.lookback-events th {
+    background-color: Salmon;
+}
+
+.lookback-events td {
+    background-color: Salmon;
 }
