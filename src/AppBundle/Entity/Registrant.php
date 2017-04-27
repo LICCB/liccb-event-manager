@@ -645,4 +645,3 @@ class Registrant
         return $this->party_participant_lists;
     }
 }
-

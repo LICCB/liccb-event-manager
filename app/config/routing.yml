@@ -6,6 +6,11 @@ app:
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
 
+# Groups import
+fos_user_group:
+    resource: "@FOSUserBundle/Resources/config/routing/group.xml"
+    prefix: /admin/groups
+
 # HWIOAuth routes
 hwi_oauth_redirect:
     resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
@@ -51,6 +56,19 @@ register:
 registerconfirm:
     path:     /register/confirm
     defaults: {_controller: AppBundle:Register:confirm}
+
+# Event admin page
+admin_home:
+    path: /admin/
+    defaults: {_controller: AppBundle:Admin:index}
+admin_volunteers_add:
+    path: /admin/volunteers/add
+    defaults: {_controller: AppBundle:Volunteers:add}
+
+# Permission Pages
+permission_edit:
+    path: /admin/permission/edit
+    defaults: {_controller: AppBundle:Permission:edit}
 
 # Calendar pages
 calendar:

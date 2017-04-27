@@ -26,6 +26,7 @@ class SingleRegistrantController extends Controller
 		$form = $this->createFormBuilder($registrant)
 			->add('comments', TextareaType::class, array(
 				'label' => 'Comments',
+				'required' => false,
 				'attr' => array('cols' => '70', 'rows' => '5')))
 			->add('search', SubmitType::class, array(
 				'label' => 'Update comments'))
