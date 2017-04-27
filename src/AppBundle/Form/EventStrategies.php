@@ -34,6 +34,7 @@ class EventStrategies extends AbstractType
 				'attr' => array('class' => 'Strategy_Field', 'id' => 'strategy_name'),
 			))
 			
+			// Prefer registrants over 18?
 			->add('over18', ChoiceType::class, array(
 				'label' => false,
 				'choices' => array(
@@ -43,17 +44,20 @@ class EventStrategies extends AbstractType
 				'attr' => array('class' => "Strategy_Field"),
 			))
 			
+			// Weight of over18
 			->add('over18W', IntegerType::class, array(
 				'label' => false,
 				'attr' => array('class' => "Strategy_Field", 'id' =>'over18W', 'min' => '-1', 'max' => '10', 'required'),
 			))
 			
+			// Is being over 18 mandatory for participation?
 			->add('over18Required', CheckboxType::class, array(
 				'label' => false,
 				'required' => false,
 				'attr' => array('class' => "Strategy_Field"),
 			))
 			
+			// Prefer registrants with swim experience
 			->add('swimExperience', ChoiceType::class, array(
 				'label' => false,
 				'choices' => array(
@@ -63,17 +67,20 @@ class EventStrategies extends AbstractType
 				'attr' => array('class' => "Strategy_Field"),
 			))
 			
+			// Weight of swimExperience
 			->add('swimExperienceW', IntegerType::class, array(
 				'label' => false,
 				'attr' => array('class' => "Strategy_Field", 'min' => '-1', 'max' => '10', 'required'),
 			))
 
+			// Is swim experience mandatory for participation?
 			->add('swimExperienceRequired', CheckboxType::class, array(
 				'label' => false,
 				'required' => false,
 				//'attr' => array('class' => "Strategy_Field"),
 			))
 			
+			// Prefer registrants with boating experience?
 			->add('boatExperience', ChoiceType::class, array(
 				'label' => false,
 				'choices' => array(
@@ -82,18 +89,21 @@ class EventStrategies extends AbstractType
 				),
 				'attr' => array('class' => "Strategy_Field"),
 			))
-			
+
+			// Weight of boatExperience
 			->add('boatExperienceW', IntegerType::class, array(
 				'label' => false,
 				'attr' => array('class' => "Strategy_Field", 'min' => '-1', 'max' => '10', 'required'),		
 			))
 			
+			// Is boating experience mandatory for participation
 			->add('boatExperienceRequired', CheckboxType::class, array(
 				'label' => false,
 				'required' => false,
 				//'attr' => array('class' => "Strategy_Field"),
 			))			
 			
+			// Prefer registrants with CPR Certification?
 			->add('Cpr', ChoiceType::class, array(
 				'label' => false,
 				'choices' => array(
@@ -103,18 +113,21 @@ class EventStrategies extends AbstractType
 				'attr' => array('class' => "Strategy_Field"),
 			))
 			
+			// Weight of Cpr
 			->add('CprW', IntegerType::class, array(
 				'label' => false,
 				'attr' => array('class' => "Strategy_Field", 'min' => '-1', 'max' => '10', 'required'),
 				
 			))
-			
+
+			// Is CPR certification mandatory for participation
 			->add('CprRequired', CheckboxType::class, array(
 				'label' => false,
 				'required' => false,
 				//'attr' => array('class' => "Strategy_Field"),
 			))			
 			
+			// Prefer Public or Volunteer Participants?
 			->add('participantType', ChoiceType::class, array(
 				'label' => false,
 				'choices' => array(
@@ -124,27 +137,32 @@ class EventStrategies extends AbstractType
 				'attr' => array('class' => "Strategy_Field"),
 			))
 
+			// Weight participantType
 			->add('participantTypeW', IntegerType::class, array(
 				'label' => false,
 				'attr' => array('class' => "Strategy_Field", 'min' => '-1', 'max' => '10', 'required'),
 			))
 			
+			// Is the chosen participant type mandatory for participation?
 			->add('participantTypeRequired', CheckboxType::class, array(
 				'label' => false,
 				'required' => false,
 				//'attr' => array('class' => "Strategy_Field"),
 			))
 			
+			// What percentage of events they've been invited to in the past is an acceptable attendance record?
 			->add('attendance', IntegerType::class, array(
 				'label' => false,
 				'attr' => array('class' => "Strategy_Field", 'min' => '0', 'max' => '100', 'required'),
 			))
 
+			// Weight of attendance
 			->add('attendanceW', IntegerType::class, array(
 				'label' => false,
 				'attr' => array('class' => "Strategy_Field", 'min' => '-1', 'max' => '10', 'required'),
 			))
 			
+			// Is having an attendance record greater than or equal to 'attendance' mandatory for participation?
 			->add('attendanceRequired', CheckboxType::class, array(
 				'label' => false,
 				'required' => false,
