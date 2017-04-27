@@ -50,13 +50,13 @@
 				<td><button data-toggle="collapse" data-target=".event-collapse-{{ eventCollapseId }}">Expand</button></td>
 			</tr>
 
-			<tr class="comment-collapse-{{ commentCollapseId }} collapse">
+			<tr class="comment-collapse-{{ commentCollapseId }} collapse lookback-comments">
 				<td></td>
 				<th>Comments:</th>
 				<td colspan="7"><textarea readonly rows="4" cols="50">{{ registrant.getComments }}</textarea></td>
 			</tr>
 
-			<tr class="event-collapse-{{ eventCollapseId }} collapse">
+			<tr class="event-collapse-{{ eventCollapseId }} collapse lookback-events">
 				<th></th>
 				<th colspan="2">Event</th>
 				<th>Event Type</th>
@@ -70,7 +70,7 @@
 			{# {% set numParties = parties|length %} #}
 			{% for party in parties %}
 				{% set event = party.getOrgEvent %}
-				<tr class="event-collapse-{{ eventCollapseId }} collapse">
+				<tr class="event-collapse-{{ eventCollapseId }} collapse lookback-events">
 					<td></td>
 					<td colspan="2">{{ event.getOrgEventName }}</td>
 					<td>{{ event.getOrgEventType }}</td>
