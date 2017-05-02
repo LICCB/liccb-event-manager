@@ -15,6 +15,13 @@ class RegistrationFlow extends FormFlow {
                 'label' => 'registrationType',
                 'form_type' => 'AppBundle\Form\RegistrationForm',
             ),
+	        array(
+	        	'label' => 'volunteerExperience',
+		        'form_type' => 'AppBundle\Form\RegistrationForm',
+		        'skip' => function($estimatedCurrentStepNumber, FormFlowInterface $flow){
+			        return $flow->getFormData()->getRegistrationType() !== 'volunteer';
+		        },
+	        ),
             array(
                 'label' => 'eventSelection',
                 'form_type' => 'AppBundle\Form\RegistrationForm',

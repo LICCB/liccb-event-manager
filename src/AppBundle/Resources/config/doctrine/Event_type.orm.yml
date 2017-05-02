@@ -1,0 +1,19 @@
+AppBundle\Entity\Event_type:
+    type: entity
+    table: null
+    repositoryClass: AppBundle\Repository\Event_typeRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    manyToMany:
+        questions:
+            targetEntity: Question
+            inversedBy: eventTypes
+    fields:
+        eventType:
+            type: string
+            length: 255
+    lifecycleCallbacks: {  }

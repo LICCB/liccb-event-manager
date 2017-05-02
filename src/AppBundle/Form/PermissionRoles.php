@@ -24,9 +24,9 @@ class PermissionRoles extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-	    /**$resolver->setDefaults(array(
+	    $resolver->setDefaults(array(
 	    	'data_class' => Permission::class
-	    ));*/
+	    ));
     }
 
     public function getBlockPrefix()

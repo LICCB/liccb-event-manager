@@ -45,9 +45,6 @@ splash:
 event_show:
     path: /event/{id}
     defaults: {_controller: AppBundle:Event:show}
-event_score:
-    path: /event/{id}/score
-    defaults: {_controller: AppBundle:Event:score}
 event_strategy:
     path: /event/{id}/strategy/
     defaults: {_controller: AppBundle:Event:strategy}
@@ -68,34 +65,28 @@ admin_home:
     path: /admin/
     defaults: {_controller: AppBundle:Admin:index}
 admin_volunteers_add:
-    path: /admin/volunteers/add
     defaults: {_controller: AppBundle:Volunteers:add}
+    path: /admin/volunteers/add
+admin_volunteers_show:
+    path: /admin/volunteers/{user_id}
+    defaults: {_controller: AppBundle:Volunteers:show}
+admin_volunteers_edit_groups:
+    defaults: {_controller: AppBundle:Volunteers:editGroups}
+    path: /admin/volunteers/{user_id}/groups/edit
 
 # Permission Pages
-permission_edit:
     path: /admin/permission/edit
+permission_edit:
     defaults: {_controller: AppBundle:Permission:edit}
-
-# Calendar pages
-calendar:
-    path:      /calendar
-    defaults: {_controller: AppBundle:Calendar:calendar}
 
 # Lookback page
 lookback:
     path:      /lookback
     defaults: {_controller: AppBundle:Lookback:lookback}
 
-# Calendar pages
 calendar:
     path:      /calendar
     defaults: {_controller: AppBundle:Calendar:calendar}
-registrants:
-    path: /registrants
-    defaults: {_controller: AppBundle:RegistrantManagement:registrants}
-single_registrant:
-    path: /registrants/{id}
-    defaults: {_controller: AppBundle:SingleRegistrant:registrant}
-splash:
-    path: /splash
-    defaults: {_controller: AppBundle:Splash:splash}
+calendarupdate:
+    path:      /calendar/update
+    defaults: {_controller: AppBundle:Calendar:update}

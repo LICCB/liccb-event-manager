@@ -8,8 +8,12 @@ use AppBundle\Form\EventScoring;
 use AppBundle\Form\EventStrategies;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Entity\Strategy;
+use Symfony\Component\Form\FormError;
 
+// Global Function Called to apply strategy to a given registrants answers
 function apply_strategy($answers, $strategy) {
+		// An array used to associate weight values with the answer provided by registrants
 		$reference = array(
 			"over18W" => "over18",
 			"swimExperienceW" => "swimExperience",
@@ -18,73 +22,107 @@ function apply_strategy($answers, $strategy) {
 			"participantTypeW" => "participantType"
 		);
 
-		$score = floatval(0.0001);
-		$weightSum = floatval(0.0001);
+		$score = 0;
+		// $weightSum = 0; // Was using this value for normalization but it didn't work
 
-		
+		// Loop through answers provided by registrant
 		foreach ($answers as $key => $value) {
+			// if their answer value matches the expected value given by the strategy
 			if ($value == $strategy[$key])
 			{
+				// If the weight of that answer is not set to -1 (-1 indicates mandatory in this algorithm)
 				if($strategy[$key."W"] != -1)
 				{
-					$score+= floatval($strategy[$key."W"]);
+					// Add the weight of the given question to the registrants current score
+					$score+= $strategy[$key."W"];
 				}
-				$weightSum += floatval($strategy[$key."W"]);
-			} else {
+				// $weightSum += $strategy[$key."W"];
+			} else { // their answer value does not match the expected value
+				// If the weight IS set to -1, it's mandatory
 				if ($strategy[$key."W"] == -1)
 				{
-					$score = 0;
+					$score = 0; // this registrant is not elligible to participate, according to this strategy
 					break;
 				}	
 			}
-		}
-		
-		$score = floatval($score/ $weightSum);
+		}		
 		return $score;
 	}
-	
+
 class EventController extends Controller
 {
-
+	
+	// Function called when event page is loaded and when selection statuses are updated
     public function showAction(Request $request, $id)
     {
+		// Get the event associated with $id
     	$event = $this->getDoctrine()
 		    ->getRepository('AppBundle:Org_event')
 		    ->find($id);
 			
+		// Get the first strategy in the database, couldn't find a clean way save the last strategy used
+		$selected_strategy = $this->getDoctrine()
+			->getRepository('AppBundle:Strategy')
+			->findOneBy(array());	
+			
+		// Get all of the strategies - used to pass data to javascript when the page is rendered
+		$all_strategies = $this->getDoctrine()
+			->getRepository('AppBundle:Strategy')
+			->findAll();
+			
+		// collect all data from the first strategy into an array
+		$data = array();
+		$data['name'] = $selected_strategy->getName();
+		$data['over18'] = $selected_strategy->getOver18();
+		$data['over18W'] = $selected_strategy->getOver18W();
+		if ($data['over18W'] == -1)
+			$data['over18Required'] = true;
+		
+		$data['swimExperience'] = $selected_strategy->getSwimExperience();
+		$data['swimExperienceW'] = $selected_strategy->getSwimExperienceW();
+		if ($data['swimExperienceW'] == -1)
+			$data['swimExperienceRequired'] = true;
+		
+		$data['boatExperience'] = $selected_strategy->getBoatExperience();
+		$data['boatExperienceW'] = $selected_strategy->getBoatExperienceW();
+		if ($data['boatExperienceW'] == -1)
+			$data['boatExperienceRequired'] = true;
+		
+		$data['Cpr'] = $selected_strategy->getCpr();
+		$data['CprW'] = $selected_strategy->getCprW();
+		if ($data['CprW'] == -1)
+			$data['CprRequired'] = true;
+		
+		$data['participantType'] = $selected_strategy->getParticipantType();
+		$data['participantTypeW'] = $selected_strategy->getParticipantTypeW();
+		if ($data['participantTypeW'] == -1)
+			$data['participantTypeRequired'] = true;
+		
+		// Create registrant selection form
     	$registrantsForm = $this->createForm(EventRegistrantsEdit::class, $event);
 	    $registrantsForm->handleRequest($request);
 		
-		/*
-		$score_form = $this->createForm(EventScoring::class, $event, array(
-			'action' => $this->generateUrl('event_score', array('id' => $id,)),
-			'method' => 'POST',
-		));
-		
-	    $score_form->handleRequest($request);
-		*/
-		
-		$strategy_form = $this->createForm(EventStrategies::class, array(
+		// Create the strategy form, passes $data to the form to prepopulate fields with the first strategy
+		$strategy_form = $this->createForm(EventStrategies::class, $data, array(
 			'action' => $this->generateUrl('event_strategy', array('id' =>$id,)),
 			'method' => 'POST',
 		));
 		
 		$strategy_form->handleRequest($request);
-		/*
-		$data = $strategy_form->getData();
-		$strategy = $data['strategies'];
-		$strategy_id_temp = $strategy->getId();
-		*/
 
+		// On Submission of registrants form - if data is valid
 	    if($registrantsForm->isSubmitted() && $registrantsForm->isValid()){
 	    	$event = $registrantsForm->getData();
 
+			// Loop through all parties in event
 		    foreach($event->getParties() as $party){
 				
+				// If party does not have a selection status, give them status emailed - not sure why jake did this
 			    if($party->getSelectionStatus() == null){
-			    	$party->setSelectionStatus("Emailed"); // Temporary hack
+			    	$party->setSelectionStatus("Emailed");
 			    } elseif($registrantsForm->get('update_and_email')->isClicked() && $party->getSelectionStatus() == "Approved") {
-			    	// Send email
+			    	
+					// Send approval email to registrant if they are 'Approved'
 				    $message = \Swift_Message::newInstance()
 					    ->setSubject("LICBoathouse Event Approval")
 					    ->setFrom('event_updates@licboathouse.org')
@@ -99,9 +137,27 @@ class EventController extends Controller
 					    ;
 				    $this->get('mailer')->send($message);
 			    	$party->setSelectionStatus("Emailed");
+			    } elseif($registrantsForm->get('update_and_email')->isClicked() && $party->getSelectionStatus() == "Denied") {
+			    	
+					// Send decline email to registrant if they are 'Denied'
+				    $message = \Swift_Message::newInstance()
+					    ->setSubject("LICBoathouse Event Decline")
+					    ->setFrom('event_updates@licboathouse.org')
+					    ->setTo($party->getRegistrantEmail())
+					    ->setBody(
+					    	$this->renderView('email/declined.html.twig', array(
+					    		'name' => $party->getRegistrant()->getFullName(),
+							    'event' => $event,
+						    )),
+						    'text/html'
+					    )
+					    ;
+				    $this->get('mailer')->send($message);
+			    	$party->setSelectionStatus("Emailed");
 			    }
 			}
 
+			// Finalizes changes to database
 	    	$em = $this->getDoctrine()->getManager();
 	    	$em->persist($event);
 	    	$em->flush();
@@ -111,73 +167,99 @@ class EventController extends Controller
 		    ));
 	    }
 		
+		// Pass all necessary values to page and render
         return $this->render('event/show.html.twig', array(
 	        'event' => $event,
 	        'form' => $registrantsForm->createView(),
-			'score_form' => $score_form->createView(),
 			'strategy_form' => $strategy_form->createView(),
+			'all_strategies' => $all_strategies,
         ));
 		
     }
-
-	public function scoreAction(Request $request, $id)
-	{
+	
+	// Function called when the strategy_form is submitted, handles (create, update, delete, and apply) strategy actions
+	public function strategyAction(Request $request, $id) {
 		$logger = $this->get('logger');
-		$logger->info('test');
 		
-		// Retrieve the event data from the database
+		// Get the event associated with $id
 		$event = $this->getDoctrine()
 			->getRepository('AppBundle:Org_event')
 			->find($id);
 			
-		// create the registrants form, same as showAction
+		// Get the first strategy in the database, couldn't find a clean way save the last strategy used
+		$selected_strategy = $this->getDoctrine()
+			->getRepository('AppBundle:Strategy')
+			->findOneBy(array());			
+			
+		// Get all of the strategies - used to pass data to javascript when the page is rendered
+		$all_strategies = $this->getDoctrine()
+			->getRepository('AppBundle:Strategy')
+			->findAll();
+			
+		// collect all data from the first strategy into an array
+		$data = array();
+		$data['name'] = $selected_strategy->getName();
+		$data['over18'] = $selected_strategy->getOver18();
+		$data['over18W'] = $selected_strategy->getOver18W();
+		if ($data['over18W'] == -1)
+			$data['over18Required'] = true;
+		
+		$data['swimExperience'] = $selected_strategy->getSwimExperience();
+		$data['swimExperienceW'] = $selected_strategy->getSwimExperienceW();
+		if ($data['swimExperienceW'] == -1)
+			$data['swimExperienceRequired'] = true;
+		
+		$data['boatExperience'] = $selected_strategy->getBoatExperience();
+		$data['boatExperienceW'] = $selected_strategy->getBoatExperienceW();
+		if ($data['boatExperienceW'] == -1)
+			$data['boatExperienceRequired'] = true;
+		
+		$data['Cpr'] = $selected_strategy->getCpr();
+		$data['CprW'] = $selected_strategy->getCprW();
+		if ($data['CprW'] == -1)
+			$data['CprRequired'] = true;
+		
+		$data['participantType'] = $selected_strategy->getParticipantType();
+		$data['participantTypeW'] = $selected_strategy->getParticipantTypeW();
+		if ($data['participantTypeW'] == -1)
+			$data['participantTypeRequired'] = true;
+		
+			
+			
+		// create the registrants form
 		$registrantsForm = $this->createForm(EventRegistrantsEdit::class, $event);
 	    $registrantsForm->handleRequest($request);
-		
-		// create the scoreForm
-    	$score_form = $this->createForm(EventScoring::class, $event, array(
-			'action' => $this->generateUrl('event_score', array('id' => $id,)),
-			'method' => 'POST',
-		));
-		
-		// create 
-	    $score_form->handleRequest($request);
-		
-		$strategy_form = $this->createForm(EventStrategies::class, array(
-			'action' => $this->generateUrl('event_strategy', array('id' =>$id,)),
-			'method' => 'POST',
-		));
+				
+		// create the strategy form
+		$strategy_form = $this->createForm(EventStrategies::class, $data);
 		$strategy_form->handleRequest($request);
 		
-		if($score_form->isSubmitted() && $score_form->isValid())
-		{
-	    	$event = $registrantsForm->getData();
-			$strategy_data = $strategy_form->getData();
-			$strategy = $strategy_data;
-			//$logger->info($strategy_data['name']);
-			/*
-			** Trying to grab strategy from form in order to apply this strategy to scoring algorithm **
-			
-			$testStrategy1 = array(
-				"id" => $strategy->getId(),
-				"name" => $strategy->getName(),
-				"over18" => $strategy->getOver18(),
-				"over18W" => $strategy->getOver18W(),
-				"swimExperience" => $strategy->getSwimExperience(),
-				"swimExperienceW" => $strategy->getSwimExperienceW(),
-				"boatExperience" => $strategy->getBoatExperience(),
-				"boatExperienceW" => $strategy->getBoatExperienceW(),
-				"cpr" => $strategy->getCpr(),
-				"cprW" => $strategy->getCprW(),
-				"participantType" => $strategy->getParticipantType(),
-				"participantTypeW" => $strategy->getParticipantTypeW(),
-
-			);
-			*/
 		
-			foreach($event->getParties() as $party)
-			{
-
+		// Retrieve the form's buttons
+		$apply_button = $strategy_form->get('applyStrategy');
+		$update_button = $strategy_form->get('updateStrategy');
+		$new_button = $strategy_form->get('newStrategy');
+		$delete_button = $strategy_form->get('deleteStrategy');
+		
+		// Check form is submitted
+		if($strategy_form->isSubmitted() && $strategy_form->isValid())
+		{
+			$data = $strategy_form->getData();
+			
+			$strategy;
+			$strategy_updated = false;
+			$new_strategy;
+			$is_new_strategy = false;
+			$is_deleted = false;
+			
+			// If apply is clicked, update all party scores according to the strategy selected
+			if ($apply_button->isClicked()) {
+				
+				$strategy = $data["strategies"];
+				
+				foreach($event->getParties() as $party)
+				{
+					// put all relevant registrant answers into an arrray
 					$registrant = $party->getRegistrant();
 						$answers = array(
 							"over18" => $registrant->getOver18(),
@@ -186,131 +268,141 @@ class EventController extends Controller
 							"cpr" => $registrant->getHasCprCertification(), 
 							"participantType" => $registrant->getParticipantType()
 					);
-					
-					$testStrategy1 = array(
-						"id" => 1,
-						"name" => "Test Strategy 1",
-						"over18" => true,
-						"over18W" => -1,
-						"swimExperience" => true,
-						"swimExperienceW" => 10,
-						"boatExperience" => true,
-						"boatExperienceW" => 10,
-						"cpr" => true,
-						"cprW" => 10,
-						"participantType" => "volunteer",
-						"participantTypeW" => 10,
+					// A simple array to make it easier to apply the strategy, 
+					$ChosenStrategy = array(
+						"name" => $strategy->getName(),
+						"over18" => $strategy->getOver18(),
+						"over18W" =>  $strategy->getOver18W(),
+						"swimExperience" =>  $strategy->getSwimExperience(),
+						"swimExperienceW" =>  $strategy->getSwimExperienceW(),
+						"boatExperience" =>  $strategy->getBoatExperience(),
+						"boatExperienceW" =>  $strategy->getBoatExperienceW(),
+						"cpr" =>  $strategy->getCpr(),
+						"cprW" =>  $strategy->getCprW(),
+						"participantType" =>  $strategy->getParticipantType(),
+						"participantTypeW" =>  $strategy->getParticipantTypeW(),
 					);
-		
-
-					$score = apply_strategy($answers, $testStrategy1);	
-					$logger->info('Blah');
+					
+					// calculate the score for the current party/registrant
+					$score = apply_strategy($answers, $ChosenStrategy);	
+					//$logger->info('Blah');
 					$logger->info($score);
+					// Update the partyies score 
 					$party->setSelectionScore($score);	
+				}
 			}
-
-	    	$em = $this->getDoctrine()->getManager();
-	    	$em->persist($event);
-	    	$em->flush();			
+			// If update is clicked, update the current strategy using the form
+			if($update_button->isClicked()) {
+				$strategy_updated = true;
+				$strategy = $data["strategies"];
+				
+				
+				if ($strategy_updated)
+				{
+					// Store all form data in selected strategy'
+					$strategy->setName($data["name"]);
+					$strategy->setOver18($data["over18"]);
+					$strategy->setOver18W($data["over18W"]);
+					if ($data["over18Required"] == true)
+						$strategy->setOver18W(-1);
+					
+					$strategy->setSwimExperience($data["swimExperience"]);
+					$strategy->setSwimExperienceW($data["swimExperienceW"]);
+					if ($data["swimExperienceRequired"] == true)
+						$strategy->setSwimExperienceW(-1);
+					
+					$strategy->setBoatExperience($data["boatExperience"]);
+					$strategy->setBoatExperienceW($data["boatExperienceW"]);
+					if ($data["boatExperienceRequired"] == true)
+						$strategy->setBoatExperienceW(-1);
+					
+					$strategy->setCpr($data["Cpr"]);
+					$strategy->setCprW($data["CprW"]);
+					if ($data["CprRequired"] == true)
+						$strategy->setCprW(-1);
+					
+					$strategy->setParticipantType($data["participantType"]);
+					$strategy->setParticipantTypeW($data["participantTypeW"]);
+					if ($data["participantTypeRequired"] == true)
+						$strategy->setParticipantTypeW(-1);
+				}
+				
+			}
+			// If new is clicked, create a new strategy with the given form data
+			if($new_button->isClicked()) {
+				$logger->info("new strategy button clicked");
+				$is_new_strategy = true;
+				$new_strategy = new Strategy();
+								
+				$nameError = new FormError("Strategy names must be unique");
+								
+				$new_strategy_check = $this->getDoctrine()
+					->getRepository('AppBundle:Strategy')
+					->find($data["name"]);
+					
+				if (sizeOf($new_strategy_check) != 0)
+				{
+					$strategy_form->get('name')->addError($nameError);
+					$is_new_strategy = false;
+				}
+				
+				// Store all form data in the new strategy'
+				$new_strategy->setOwner("Temporary_Owner");
+				$new_strategy->setName($data["name"]);
+				$new_strategy->setOver18($data["over18"]);
+				$new_strategy->setOver18W($data["over18W"]);
+				if ($data["over18Required"] == true)
+					$new_strategy->setOver18W(-1);
+				
+				$new_strategy->setSwimExperience($data["swimExperience"]);
+				$new_strategy->setSwimExperienceW($data["swimExperienceW"]);
+				if ($data["swimExperienceRequired"] == true)
+					$new_strategy->setSwimExperienceW(-1);
+				
+				$new_strategy->setBoatExperience($data["boatExperience"]);
+				$new_strategy->setBoatExperienceW($data["boatExperienceW"]);
+				if ($data["boatExperienceRequired"] == true)
+					$new_strategy->setBoatExperienceW(-1);
+				
+				$new_strategy->setCpr($data["Cpr"]);
+				$new_strategy->setCprW($data["CprW"]);
+				if ($data["CprRequired"] == true)
+					$new_strategy->setCprW(-1);
+				
+				$new_strategy->setParticipantType($data["participantType"]);
+				$new_strategy->setParticipantTypeW($data["participantTypeW"]);
+				if ($data["participantTypeRequired"] == true)
+					$new_strategy->setParticipantTypeW(-1);
+			}			
+			// If delete is clicked, delete the selected strategy.
+			if($delete_button->isClicked()) {
+				$strategy = $data['strategies'];
+				$is_deleted = true;
 		
-			return $this->redirectToRoute('event_show', array(
-				'id' => $id
-			));
+			}			
 		}
 		
-		return $this->render('event/show.html.twig', array(
-			'event' => $event,
-			'form' => $registrantsForm->createView(),
-			'score_form' => $score_form->createView(),
-			'strategy_form' => $strategy_form->createView(),
-        ));
-		
-	}
-			
-	public function strategyAction(Request $request, $id) {
-		
-		// grab event from DB
-		$event = $this->getDoctrine()
-			->getRepository('AppBundle:Org_event')
-			->find($id);
-		
-		// grab strategies from DB
-		$strategies = $this->getDoctrine()
-			->getRepository('AppBundle:Strategy')
-			->findAll();	
-			
-		// create the registrants form
-		$registrantsForm = $this->createForm(EventRegistrantsEdit::class, $event);
-	    $registrantsForm->handleRequest($request);
-		
-		
-		/* Might not need score form at all
-    	$score_form = $this->createForm(EventScoring::class, $event, array(
-			'action' => $this->generateUrl('event_score', array('id' => $id,)),
-			'method' => 'POST',
-		));
-	    $score_form->handleRequest($request);
-		
-		*/
-		
-		// create the strategy form
-		$strategy_form = $this->createForm(EventStrategies::class, $event, array(
-			'action' => $this->generateUrl('event_strategy', array('id' =>$id,)),
-			'method' => 'POST',
-		));
-		$strategy_form->handleRequest($request);
-		
-		// This is all supposed to pre-populate the strategy data, doesn't work RN
-		
-		$data = $score_form->getData();
-		$strategy = $data['strategies'];
-			
-		$strategy->setName(data['name']);
-		
-		$strategy->setOver18(data['over18']);
-		$strategy->setOver18W(data['over18W']);
-		if (data['over18Required'])
-			$strategy->setOver18W(-1);
-		
-		$strategy->setSwimExperience(data['swimExpereince']);
-		$strategy->setSwimExperienceW(data['swimExpereinceW']);
-		if (data['over18Required'])
-			$strategy->setSwimExperienceW(-1);
-		
-		$strategy->setBoatExpereince(data['boatExperience']);
-		$strategy->setBoatExperienceW(data['boatExperienceW']);
-		if (data['over18Required'])
-			$strategy->setBoatExperienceW(-1);
-		
-		$strategy->setCpr(data['Cpr']);
-		$strategy->setCprW(data['CprW']);
-		if (data['over18Required'])
-			$strategy->setCprW(-1);
-		
-		$strategy->setParticipantType(data['participantType']);
-		$strategy->setParticipantTypeW(data['participantTypeW']);
-		if (data['participantTypeRequired'])
-			$strategy->setParticipantTypeW(-1);
-		
-		// End form pre-populate	
-		
-		// Check form is submitted
-		if($strategy_form->isSubmitted() && $strategy_form->isValid())
-		{
-			$strategy = $strategy_form->getData();
-		}
-		
-			$em = $this->getDoctrine()->getManager();
+		// Flush necessary changes to the database
+		$em = $this->getDoctrine()->getManager();
+		if ($strategy_updated)
 			$em->persist($strategy);
-	    	$em->flush();	
+		if ($is_new_strategy)
+			$em->persist($new_strategy);
+		if ($is_deleted)
+			$em->remove($strategy);
+		$em->persist($event);
+		$em->flush();	
 		
+		// Pass all necessary values to page and render
 		return $this->render('event/show.html.twig', array(
 			'event' => $event,
 			'form' => $registrantsForm->createView(),
-			'score_form' => $score_form->createView(),
-			'strategy_form' => $strategy_form->createView()
+			'strategy_form' => $strategy_form->createView(),
+			'all_strategies' => $all_strategies,
         ));
 	}
+	
+	// displays edit page and updates any changes made to the event details in the form upon clicking save
     public function editAction(Request $request, $id)
 	{   	
 		$event = $this->getDoctrine()

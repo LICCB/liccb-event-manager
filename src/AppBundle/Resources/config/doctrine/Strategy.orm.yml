@@ -44,4 +44,10 @@ AppBundle\Entity\Strategy:
         participantTypeW:
             type: integer
             column: participant_type_w
+        attendance:
+            type: integer
+            column: attendance
+        attendanceW:
+            type: integer
+            column: attendance_w
     lifecycleCallbacks: {  }

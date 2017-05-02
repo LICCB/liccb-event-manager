@@ -59,4 +59,9 @@ AppBundle\Entity\Party:
             type: integer
             nullable: true
             column: num_actually_attended
+        thumbs:
+            type: string
+            length: 127
+            column: thumbs
+            nullable: true
     lifecycleCallbacks: {  }
