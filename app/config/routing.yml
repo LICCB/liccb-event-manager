@@ -86,7 +86,7 @@ lookback:
 
 calendar:
     path:      /calendar
+    defaults: {_controller: AppBundle:Calendar:calendar}
 calendarupdate:
     path:      /calendar/update
-    defaults: {_controller: AppBundle:Calendar:calendar}
     defaults: {_controller: AppBundle:Calendar:update}

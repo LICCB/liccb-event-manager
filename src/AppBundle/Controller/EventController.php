@@ -20,7 +20,8 @@ function apply_strategy($answers, $strategy) {
 			"swimExperienceW" => "swimExperience",
 			"boatExperienceW" => "boatExperience",
 			"cprW" => "cpr",
-			"participantTypeW" => "participantType"
+			"participantTypeW" => "participantType",
+			"attendanceW" => "attendance"
 		);
 
 		$score = 0;
@@ -29,7 +30,7 @@ function apply_strategy($answers, $strategy) {
 		// Loop through answers provided by registrant
 		foreach ($answers as $key => $value) {
 			// if their answer value matches the expected value given by the strategy
-			if ($value == $strategy[$key])
+			if ($value >= $strategy[$key])
 			{
 				// If the weight of that answer is not set to -1 (-1 indicates mandatory in this algorithm)
 				if($strategy[$key."W"] != -1)
@@ -74,32 +75,40 @@ class EventController extends Controller
 		// collect all data from the first strategy into an array
 		$data = array();
 		if ($selected_strategy != NULL) {
-		$data['name'] = $selected_strategy->getName();
-		$data['over18'] = $selected_strategy->getOver18();
-		$data['over18W'] = $selected_strategy->getOver18W();
-		if ($data['over18W'] == -1)
-			$data['over18Required'] = true;
-		
-		$data['swimExperience'] = $selected_strategy->getSwimExperience();
-		$data['swimExperienceW'] = $selected_strategy->getSwimExperienceW();
-		if ($data['swimExperienceW'] == -1)
-			$data['swimExperienceRequired'] = true;
-		
-		$data['boatExperience'] = $selected_strategy->getBoatExperience();
-		$data['boatExperienceW'] = $selected_strategy->getBoatExperienceW();
-		if ($data['boatExperienceW'] == -1)
-			$data['boatExperienceRequired'] = true;
-		
-		$data['Cpr'] = $selected_strategy->getCpr();
-		$data['CprW'] = $selected_strategy->getCprW();
-		if ($data['CprW'] == -1)
-			$data['CprRequired'] = true;
-		
-		$data['participantType'] = $selected_strategy->getParticipantType();
-		$data['participantTypeW'] = $selected_strategy->getParticipantTypeW();
-		if ($data['participantTypeW'] == -1)
-			$data['participantTypeRequired'] = true;
+			$data['name'] = $selected_strategy->getName();
+			$data['over18'] = $selected_strategy->getOver18();
+			$data['over18W'] = $selected_strategy->getOver18W();
+			if ($data['over18W'] == -1)
+				$data['over18Required'] = true;
+			
+			$data['swimExperience'] = $selected_strategy->getSwimExperience();
+			$data['swimExperienceW'] = $selected_strategy->getSwimExperienceW();
+			if ($data['swimExperienceW'] == -1)
+				$data['swimExperienceRequired'] = true;
+			
+			$data['boatExperience'] = $selected_strategy->getBoatExperience();
+			$data['boatExperienceW'] = $selected_strategy->getBoatExperienceW();
+			if ($data['boatExperienceW'] == -1)
+				$data['boatExperienceRequired'] = true;
+			
+			$data['Cpr'] = $selected_strategy->getCpr();
+			$data['CprW'] = $selected_strategy->getCprW();
+			if ($data['CprW'] == -1)
+				$data['CprRequired'] = true;
+			
+			$data['participantType'] = $selected_strategy->getParticipantType();
+			$data['participantTypeW'] = $selected_strategy->getParticipantTypeW();
+			if ($data['participantTypeW'] == -1) {
+				$data['participantTypeRequired'] = true;
+			}
+			
+			$data['attendance'] = $selected_strategy->getAttendance();
+			$data['attendanceW'] = $selected_strategy->getAttendanceW();
+			if ($data['attendanceW'] == -1) {
+				$data['attendanceRequired'] = true;
+			}
 		}
+
 		
 		// Create registrant selection form
     	$registrantsForm = $this->createForm(EventRegistrantsEdit::class, $event);
@@ -228,31 +237,39 @@ class EventController extends Controller
 			
 		// collect all data from the first strategy into an array
 		$data = array();
-		$data['name'] = $selected_strategy->getName();
-		$data['over18'] = $selected_strategy->getOver18();
-		$data['over18W'] = $selected_strategy->getOver18W();
-		if ($data['over18W'] == -1)
-			$data['over18Required'] = true;
+		if ($selected_strategy != NULL) {
+			$data['name'] = $selected_strategy->getName();
+			$data['over18'] = $selected_strategy->getOver18();
+			$data['over18W'] = $selected_strategy->getOver18W();
+			if ($data['over18W'] == -1)
+				$data['over18Required'] = true;
+			
+			$data['swimExperience'] = $selected_strategy->getSwimExperience();
+			$data['swimExperienceW'] = $selected_strategy->getSwimExperienceW();
+			if ($data['swimExperienceW'] == -1)
+				$data['swimExperienceRequired'] = true;
+			
+			$data['boatExperience'] = $selected_strategy->getBoatExperience();
+			$data['boatExperienceW'] = $selected_strategy->getBoatExperienceW();
+			if ($data['boatExperienceW'] == -1)
+				$data['boatExperienceRequired'] = true;
+			
+			$data['Cpr'] = $selected_strategy->getCpr();
+			$data['CprW'] = $selected_strategy->getCprW();
+			if ($data['CprW'] == -1)
+				$data['CprRequired'] = true;
+			
+			$data['participantType'] = $selected_strategy->getParticipantType();
+			$data['participantTypeW'] = $selected_strategy->getParticipantTypeW();
+			if ($data['participantTypeW'] == -1)
+				$data['participantTypeRequired'] = true;
+			
+			$data['attendance'] = $selected_strategy->getAttendance();
+			$data['attendanceW'] = $selected_strategy->getAttendanceW();
+			if ($data['attendanceW'] == -1)
+				$data['attendanceRequired'] = true;
+		}
 		
-		$data['swimExperience'] = $selected_strategy->getSwimExperience();
-		$data['swimExperienceW'] = $selected_strategy->getSwimExperienceW();
-		if ($data['swimExperienceW'] == -1)
-			$data['swimExperienceRequired'] = true;
-		
-		$data['boatExperience'] = $selected_strategy->getBoatExperience();
-		$data['boatExperienceW'] = $selected_strategy->getBoatExperienceW();
-		if ($data['boatExperienceW'] == -1)
-			$data['boatExperienceRequired'] = true;
-		
-		$data['Cpr'] = $selected_strategy->getCpr();
-		$data['CprW'] = $selected_strategy->getCprW();
-		if ($data['CprW'] == -1)
-			$data['CprRequired'] = true;
-		
-		$data['participantType'] = $selected_strategy->getParticipantType();
-		$data['participantTypeW'] = $selected_strategy->getParticipantTypeW();
-		if ($data['participantTypeW'] == -1)
-			$data['participantTypeRequired'] = true;
 		
 			
 			
@@ -275,16 +292,17 @@ class EventController extends Controller
 		$new_button = $strategy_form->get('newStrategy');
 		$delete_button = $strategy_form->get('deleteStrategy');
 		
+		$strategy_updated = false;
+		$is_new_strategy = false;
+		$is_deleted = false;
+
 		// Check form is submitted
 		if($strategy_form->isSubmitted() && $strategy_form->isValid())
 		{
 			$data = $strategy_form->getData();
 			
 			$strategy;
-			$strategy_updated = false;
 			$new_strategy;
-			$is_new_strategy = false;
-			$is_deleted = false;
 			
 			// If apply is clicked, update all party scores according to the strategy selected
 			if ($apply_button->isClicked()) {
@@ -295,12 +313,18 @@ class EventController extends Controller
 				{
 					// put all relevant registrant answers into an arrray
 					$registrant = $party->getRegistrant();
-						$answers = array(
-							"over18" => $registrant->getOver18(),
-							"swimExperience" => $registrant->getHasSwimExperience(),
-							"boatExperience" => $registrant->getHasBoatExperience(),
-							"cpr" => $registrant->getHasCprCertification(), 
-							"participantType" => $registrant->getParticipantType()
+					if ($registrant->getNumTimesInvited() == 0) {
+						$my_attendance = 0;
+					} else {
+						$my_attendance = $registrant->getNumTimesAttended() / $registrant->getNumTimesInvited() * 100;
+					}
+					$answers = array(
+						"over18" => $registrant->getOver18(),
+						"swimExperience" => $registrant->getHasSwimExperience(),
+						"boatExperience" => $registrant->getHasBoatExperience(),
+						"cpr" => $registrant->getHasCprCertification(), 
+						"participantType" => $registrant->getParticipantType(),
+						"attendance" => $my_attendance
 					);
 					// A simple array to make it easier to apply the strategy, 
 					$ChosenStrategy = array(
@@ -315,6 +339,8 @@ class EventController extends Controller
 						"cprW" =>  $strategy->getCprW(),
 						"participantType" =>  $strategy->getParticipantType(),
 						"participantTypeW" =>  $strategy->getParticipantTypeW(),
+						"attendance" => $strategy->getAttendance(),
+						"attendanceW" => $strategy->getAttendanceW()
 					);
 					
 					// calculate the score for the current party/registrant
@@ -359,6 +385,12 @@ class EventController extends Controller
 					$strategy->setParticipantTypeW($data["participantTypeW"]);
 					if ($data["participantTypeRequired"] == true)
 						$strategy->setParticipantTypeW(-1);
+					
+					$strategy->setAttendance($data["attendance"]);
+					$strategy->setAttendanceW($data["attendanceW"]);
+					if ($data["attendanceRequired"] == true)
+						$strategy->setAttendanceW(-1);
+					
 				}
 				
 			}
@@ -407,6 +439,11 @@ class EventController extends Controller
 				$new_strategy->setParticipantTypeW($data["participantTypeW"]);
 				if ($data["participantTypeRequired"] == true)
 					$new_strategy->setParticipantTypeW(-1);
+				
+				$new_strategy->setAttendance($data["attendance"]);
+				$new_strategy->setAttendanceW($data["attendanceW"]);
+				if ($data["attendanceRequired"] == true)
+					$new_strategy->setAttendanceW(-1);
 			}			
 			// If delete is clicked, delete the selected strategy.
 			if($delete_button->isClicked()) {
