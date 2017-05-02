@@ -19,15 +19,19 @@ class Registration
 	private $registration_type;
 
 	// Step 2
-	private $event_selection;
+	private $previous_volunteer;
+	private $role_familiarity;
 
 	// Step 3
+	private $event_selection;
+
+	// Step 4
     private $over18;
 	private $can_swim;
 	private $boat_experience;
 	private $cpr_certification;
 
-	// Step 4
+	// Step 5
 	private $full_name;
 	private $email;
 	private $phone_number;
@@ -36,15 +40,13 @@ class Registration
 	private $boat_seats;
 	private $pairing_boater;
 
-	// Step 5
+	// Step 6
 	private $event_discovery;
 
-	// Step 6
+	// Step 7
 	private $boathouse_discovery;
 
 	// additional information volunteering
-	private $prior;
-	private $role_familiarity;
 	private $vehicle_capacity;
 
     /**
@@ -59,7 +61,7 @@ class Registration
      */
     public function getId()
     {
-        return $this->id;
+	    return $this->id;
     }
 
     /**
@@ -396,5 +398,39 @@ class Registration
     public function getEventDiscovery()
     {
         return $this->event_discovery;
+    }
+
+	/**
+	 * @return bool
+	 */
+    public function getPreviousVolunteer(){
+    	return $this->previous_volunteer;
+    }
+
+	/**
+	 * @param bool $previousVolunteer
+	 * @return $this
+	 */
+    public function setPreviousVolunteer($previousVolunteer){
+    	$this->previous_volunteer = $previousVolunteer;
+
+    	return $this;
+    }
+
+	/**
+	 * @return bool
+	 */
+    public function getRoleFamiliarity(){
+    	return $this->role_familiarity;
+    }
+
+	/**
+	 * @param bool $roleFamiliarity
+	 * @return $this
+	 */
+    public function setRoleFamiliarity($roleFamiliarity){
+    	$this->role_familiarity = $roleFamiliarity;
+
+    	return $this;
     }
 }
