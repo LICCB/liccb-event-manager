@@ -76,17 +76,14 @@ permission_edit:
     path: /admin/permission/edit
     defaults: {_controller: AppBundle:Permission:edit}
 
-# Calendar pages
-calendar:
-    path:      /calendar
-    defaults: {_controller: AppBundle:Calendar:calendar}
-
 # Lookback page
 lookback:
     path:      /lookback
     defaults: {_controller: AppBundle:Lookback:lookback}
 
-# Calendar pages
 calendar:
     path:      /calendar
     defaults: {_controller: AppBundle:Calendar:calendar}
+calendarupdate:
+    path:      /calendar/update
+    defaults: {_controller: AppBundle:Calendar:update}
