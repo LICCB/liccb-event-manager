@@ -1,0 +1,53 @@
+AppBundle\Entity\Strategy:
+    type: entity
+    table: null
+    repositoryClass: AppBundle\Repository\StrategyRepository
+    id:
+        name:
+            type: string
+            id: true
+            length: 255
+            column: name
+    fields:
+        owner:
+            type: string
+            length: 255
+            column: owner
+        over18:
+            type: boolean
+            column: over_18
+        over18W:
+            type: integer
+            column: over_18_w
+        swimExperience:
+            type: boolean
+            column: swim_experience
+        swimExperienceW:
+            type: integer
+            column: swim_experience_w
+        boatExperience:
+            type: boolean
+            column: boat_experience
+        boatExperienceW:
+            type: integer
+            column: boat_experience_w
+        cpr:
+            type: boolean
+            column: cpr
+        cprW:
+            type: integer
+            column: cpr_w
+        participantType:
+            type: string
+            length: 255
+            column: participant_type
+        participantTypeW:
+            type: integer
+            column: participant_type_w
+        attendance:
+            type: integer
+            column: attendance
+        attendanceW:
+            type: integer
+            column: attendance_w
+    lifecycleCallbacks: {  }

@@ -1,0 +1,235 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+	<h1>{{ event.orgEventName }}</h1>
+	<ul>
+		<li>Type: {{ event.orgEventType }}</li>
+		<li>Capacity: {{ event.capacity }}</li>
+		<li>Date: {{ event.date|date("m/d/Y") }}</li>
+		<li>Signup Start: {{ event.signupStart|date("m/d/Y") }}</li>
+		<li>Signup End: {{ event.signupEnd|date("m/d/Y") }}</li>
+		<li>Event Description: {{ event.orgEventDescription }}</li>
+	</ul>
+	
+	<a href="{{ path('event_edit', {'id': event.id}) }}">Edit</a>
+
+	<div class="panel-group" id="accordion">
+		<button class="accordion">Selection Strategy</button>
+		
+		<div class="panel">
+			{{ form_start(strategy_form, {'action': path('event_strategy',  {'id': event.id}), 'method': 'POST'}) }}
+				{{ form_row(strategy_form.strategies) }}
+				{{ form_row(strategy_form.name) }}
+				{{ form_row(strategy_form.updateStrategy) }}
+				{{ form_row(strategy_form.deleteStrategy) }}
+				{{ form_row(strategy_form.newStrategy) }}
+				
+				
+			<table>
+				<tr>
+					<th> Property Name</th>
+					<th> Expected Answer </th>
+					<th> Weight </th>
+					<th> Mantadory </th>
+				</tr>
+				<tr>
+					<td> Over 18? </td>
+					<td> {{ form_row(strategy_form.over18)}} </td>
+					<td> {{ form_row(strategy_form.over18W) }} </td>
+					<td> {{ form_row(strategy_form.over18Required) }}</td>
+				</tr>
+				<tr>
+					<td> Swim Experience? </td>
+					<td> {{ form_row(strategy_form.swimExperience)}} </td>
+					<td> {{ form_row(strategy_form.swimExperienceW)}} </td>
+					<td> {{ form_row(strategy_form.swimExperienceRequired) }}</td>
+				</tr>
+				<tr>
+					<td> Boat Experience? </td>
+					<td> {{ form_row(strategy_form.boatExperience) }} </td>
+					<td> {{ form_row(strategy_form.boatExperienceW) }} </td>
+					<td> {{ form_row(strategy_form.boatExperienceRequired) }}</td>
+				</tr>	
+				<tr>
+					<td> CPR Certified? </td>
+					<td> {{ form_row(strategy_form.Cpr) }} </td>
+					<td> {{ form_row(strategy_form.CprW) }} </td>
+					<td> {{ form_row(strategy_form.CprRequired) }}</td>
+				</tr>
+				<tr>
+					<td> Volunteer or Public Participant? </td>
+					<td> {{ form_row(strategy_form.participantType) }} </td>
+					<td> {{ form_row(strategy_form.participantTypeW) }} </td>
+					<td> {{ form_row(strategy_form.participantTypeRequired) }}</td>
+				</tr>				
+				<tr>
+					<td> Past Attendance Record </td>
+					<td> {{ form_row(strategy_form.attendance) }} </td>
+					<td> {{ form_row(strategy_form.attendanceW) }} </td>
+					<td> {{ form_row(strategy_form.attendanceRequired) }}</td>
+				</tr>
+				
+			</table>
+			
+			{{ form_end(strategy_form) }}
+			
+		</div>
+	</div>
+
+	{{ form_start(form, {'attr': {'id': 'strategy_form'}}) }}
+	<table id="Registrant_Table">
+		<tr>
+			<th onClick="sortTable(0)">Name</th>
+			<th onClick="sortTable(1)"># Seats</th>
+			<th>Selection Status</th>
+			<th>Selection Status Reason</th>
+			<th>Participant Type </th>
+			<th>18+</th>
+			<th>Can Swim?</th>
+			<th>Has Boating Experience</th>
+			<th>Has CPR Certification</th>
+			<th onClick="sortTable(8)">Evaluation</th>
+		</tr>
+		{% for party in form.parties %}
+			{% if party.vars.value.selectionStatus == "Approved" %}
+				<tr class="bg-success">
+			{% elseif party.vars.value.selectionStatus == "Denied" %}
+				<tr class="bg-danger">
+			{% elseif party.vars.value.selectionStatus == "Emailed" %}
+				<tr class="bg-info">
+			{% else %}
+				<tr>
+			{% endif %}
+			    <td><a href="../registrants/{{ party.vars.data.Registrant.getRegistrantEmail }}"> {{party.vars.data.Registrant.fullName}}</a></td>
+			    <td>{{ party.vars.value.numSeats }}</td>
+			{# {% if party.vars.data.selectionStatus == "Emailed" %}
+				<td>{{ form_row(party.selectionStatus, {'disabled': 'disabled'}) }}</td> 
+			{% else %} #}
+				<td>{{ form_row(party.selectionStatus) }}</td>
+			{#{% endif %} #}
+			    <td>{{ form_row(party.selectionStatusReason) }}</td>
+				<td>{{ party.vars.data.Registrant.participantType }} </td>
+				<td>{{ party.vars.data.Registrant.over18 ? "Yes" : "No"}}</td>
+				<td>{{ party.vars.data.Registrant.hasSwimExperience ? "Yes" : "No"}}</td>
+				<td>{{ party.vars.data.Registrant.hasBoatExperience ? "Yes" : "No"}}</td>
+				<td>{{ party.vars.data.Registrant.hasCprCertification ? "Yes" : "No"}}</td>
+				<td>{{ party.vars.value.selectionScore }}</td>
+			</tr>
+		{% endfor %}
+	</table>
+	{{ form_end(form) }}
+
+{% endblock %}
+
+{% block javascript %}
+
+	<script>
+		$(document).ready(function(){
+			var posted_strategies = {{ all_strategies|json_encode|raw }};
+			
+		});
+	</script>
+
+	<script>
+		var acc = document.getElementsByClassName("accordion");
+		acc[0].onclick = function(){
+			/* Toggle between adding and removing the "active" class,
+			to highlight the button that controls the panel */
+			this.classList.toggle("active");
+	
+			/* Toggle between hiding and showing the active panel */
+			var panel = this.nextElementSibling;
+			if (panel.style.display === "block") {
+				panel.style.display = "none";
+			} else {
+				panel.style.display = "block";
+			}
+		}
+	</script>
+	
+	<script>
+		
+
+		var strategy_selector = document.getElementsByClassName("Strategy_Select")[0];
+				
+		console.log("hey");
+        function updateFields() {		
+			var selected_name = strategy_selector.getAttribute("name");
+			var weight = strategy_selector.getAttribute("over18W");
+			var strategy_form = document.getElementById("strategy_form");
+			
+			console.log(selected_name);
+			console.log(weight);
+			
+			// for
+			for (i = 0; i < strategy_form.length; i++) {
+				var my_name = this.getAttribute("id").value;
+				
+				document.getElementById(my_name).value = posted_strategies[selected_name][my_name];
+			}
+			
+			//document.strategy_form.Strategy_Field.value = all_strategies[selected_name][]
+		}
+		
+		strategy_selector.onchange = updateFields;
+	
+	</script>
+	
+	<script>
+		function sortTable(n) {
+		  var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+		  table = document.getElementById("Registrant_Table");
+		  switching = true;
+		  //Set the sorting direction to ascending:
+		  dir = "asc"; 
+		  /*Make a loop that will continue until
+		  no switching has been done:*/
+		  while (switching) {
+			//start by saying: no switching is done:
+			switching = false;
+			rows = table.getElementsByTagName("TR");
+			/*Loop through all table rows (except the
+			first, which contains table headers):*/
+			for (i = 1; i < (rows.length - 1); i++) {
+			  //start by saying there should be no switching:
+			  shouldSwitch = false;
+			  /*Get the two elements you want to compare,
+			  one from current row and one from the next:*/
+			  x = rows[i].getElementsByTagName("TD")[n];
+			  y = rows[i + 1].getElementsByTagName("TD")[n];
+			  /*check if the two rows should switch place,
+			  based on the direction, asc or desc:*/
+			  if (dir == "asc") {
+				if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+				  //if so, mark as a switch and break the loop:
+				  shouldSwitch= true;
+				  break;
+				}
+			  } else if (dir == "desc") {
+				if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+				  //if so, mark as a switch and break the loop:
+				  shouldSwitch= true;
+				  break;
+				}
+			  }
+			}
+			if (shouldSwitch) {
+			  /*If a switch has been marked, make the switch
+			  and mark that a switch has been done:*/
+			  rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+			  switching = true;
+			  //Each time a switch is done, increase this count by 1:
+			  switchcount ++; 
+			} else {
+			  /*If no switching has been done AND the direction is "asc",
+			  set the direction to "desc" and run the while loop again.*/
+			  if (switchcount == 0 && dir == "asc") {
+				dir = "desc";
+				switching = true;
+			  }
+			}
+		  }
+		}
+	</script>
+{% endblock %}

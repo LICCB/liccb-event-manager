@@ -1,0 +1,9 @@
+# src/AppBundle/Resources/config/doctrine/Group.orm.yml
+AppBundle\Entity\Group:
+    type: entity
+    table: fos_group
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO

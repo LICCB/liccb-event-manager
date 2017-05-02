@@ -40,7 +40,7 @@ twig:
 # Doctrine Configuration
 doctrine:
     dbal:
-        driver:   pdo_pgsql
+        driver:   pdo_mysql
         host:     "%database_host%"
         port:     "%database_port%"
         dbname:   "%database_name%"
@@ -73,3 +73,43 @@ assetic:
     use_controller: '%kernel.debug%'
     filters:
         cssrewrite: ~
+
+# Doctrine Migrations Config
+doctrine_migrations:
+    dir_name: "%kernel.root_dir%/DoctrineMigrations"
+    namespace: AppBundle\Migrations
+    table_name: migration_versions
+    name: Application Migrations
+
+# FOSUser config
+fos_user:
+    db_driver: orm
+    firewall_name: main
+    user_class: AppBundle\Entity\User
+    from_email:
+        address: "%mailer_user%"
+        sender_name: "%mailer_user%"
+    group:
+        group_class: AppBundle\Entity\Group
+        form:
+            type: AppBundle\Form\GroupType
+
+
+# HWI OAuth Config
+hwi_oauth:
+    firewall_names: [main]
+    connect:
+        account_connector: app.provider.oauth
+    http_client:
+        timeout: 5
+    fosub:
+        properties:
+            google: googleID
+    resource_owners:
+        google:
+            type:           google
+            client_id:      "%google_client_id%"
+            client_secret:  "%google_client_secret%"
+            scope:              "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile"
+            paths:
+                email: email

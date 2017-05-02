@@ -1,0 +1,25 @@
+# src/AppBundle/Resources/config/doctrine/User.orm.yml
+AppBundle\Entity\User:
+    type: entity
+    table: fos_user
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    manyToMany:
+        groups:
+            targetEntity: AppBundle\Entity\Group
+            joinTable:
+                name: fos_user_group
+                joinColumns:
+                    user_id:
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    group_id:
+                        referencedColumnName: id
+    fields:
+        googleID:
+            type: string
+            nullable: true
+            column: google_id

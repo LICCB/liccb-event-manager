@@ -1,0 +1,15 @@
+# src/AppBundle/Resources/config/doctrine/Permission.orm.yml
+AppBundle\Entity\PermissionRole:
+    type: entity
+    table: permission_role
+    id:
+        id:
+           type: integer
+           generator:
+               strategy: AUTO
+    fields:
+        name:
+            column: name
+            type:   string
+            length: 255
+            unique: true

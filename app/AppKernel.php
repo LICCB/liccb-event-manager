@@ -18,6 +18,9 @@ class AppKernel extends Kernel
             new AppBundle\AppBundle(),
             new Craue\FormFlowBundle\CraueFormFlowBundle(),
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
+	        new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
+	        new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
+	        new FOS\UserBundle\FOSUserBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

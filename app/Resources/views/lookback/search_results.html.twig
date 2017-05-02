@@ -1,0 +1,87 @@
+{# app/Resources/views/lookback/search_results.html.twig #}
+{# Variables: page_title, stylesheet, body, javascript, user_entries#}
+{% extends 'base.html.twig' %}
+
+{% block page_title %}Lookback Search Results{% endblock %}
+
+{% block body %}
+	<h1>Lookback Search</h1>
+
+	{{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+
+	{% set commentCollapseId = 0 %}
+	{% set eventCollapseId = 0 %}
+
+	<table class="no-colors">
+		<tr class="">
+			<th>Name</th>
+			<th># Events Registered For</th>
+			<th># Events Selected For</th>
+			<th># Events Attended</th>
+			<th># Thumbs Up</th>
+			<th># Thumbs Down</th>
+			<th># Administrative Comments</th>
+			<th>Link to Registrant</th>
+			<th>Events Attended</th>
+		</tr>
+		{% for registrant in registrants %}
+			{% set numThumbsUp = 0 %}
+			{% set numThumbsDown = 0 %}
+			{% set parties = registrant.getParties %}
+			{% for party in parties %}
+				{% if party.getThumbs == "Up" %}
+					{% set numThumbsUp = numThumbsUp + 1 %}
+				{% elseif party.getThumbs == "Down" %}
+					{% set numThumbsDown = numThumbsDown + 1 %}
+				{% endif %}
+			{% endfor %}
+
+			<tr>
+				<td>{{ registrant.getfullName }}</td>
+				<td>{{ registrant.getNumTimesApplied }}</td>
+				<td>{{ registrant.getNumTimesInvited }}</td>
+				<td>{{ registrant.getNumTimesAttended }}</td>
+				<td>{{ numThumbsUp }}</td>
+				<td>{{ numThumbsDown }}</td>
+				<td>{% if registrant.getComments == "" %}none{% else %}<button data-toggle="collapse" data-target=".comment-collapse-{{ commentCollapseId }}">View</button>{% endif %}</td>
+				<td><a href="registrants/{{ registrant.getRegistrantEmail }}">Registrant Page</a></td>
+				<td><button data-toggle="collapse" data-target=".event-collapse-{{ eventCollapseId }}">Expand</button></td>
+			</tr>
+
+			<tr class="comment-collapse-{{ commentCollapseId }} collapse lookback-comments">
+				<td></td>
+				<th>Comments:</th>
+				<td colspan="7"><textarea readonly rows="4" cols="50">{{ registrant.getComments }}</textarea></td>
+			</tr>
+
+			<tr class="event-collapse-{{ eventCollapseId }} collapse lookback-events">
+				<th></th>
+				<th colspan="2">Event</th>
+				<th>Event Type</th>
+				<th>Date</th>
+				<th>Party Size</th>
+				<th># party members attended</th>
+				<th colspan="3">Thumbs Up/Down</th>
+			</tr>
+			
+			{% set parties = registrant.getParties %}
+			{# {% set numParties = parties|length %} #}
+			{% for party in parties %}
+				{% set event = party.getOrgEvent %}
+				<tr class="event-collapse-{{ eventCollapseId }} collapse lookback-events">
+					<td></td>
+					<td colspan="2">{{ event.getOrgEventName }}</td>
+					<td>{{ event.getOrgEventType }}</td>
+					<td>{{ event.getDate.format('M d, Y') }}</td>
+					<td>{{ party.getNumSeats }}</td>
+					<td>{{ party.getNumActuallyAttended }}</td>
+					<td colspan="2">{% if party.getThumbs == "Up" %}(thumbs up){#<img display="block" width="4%" height="4%" src="{{ asset('images/thumbs-up.svg') }}" />#}{% elseif party.getThumbs == "Down" %}(thumbs down){#<img display="block" width="4%" height="4%" src="{{ asset('images/thumbs-down.svg') }}" />#}{% else %}no rating{% endif %}</td>
+				</tr>
+			{% endfor %}
+			{% set commentCollapseId = commentCollapseId + 1 %}
+			{% set eventCollapseId = eventCollapseId + 1 %}
+		{% endfor %}
+	</table>
+{% endblock %}

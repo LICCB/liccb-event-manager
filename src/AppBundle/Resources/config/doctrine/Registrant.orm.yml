@@ -1,0 +1,82 @@
+AppBundle\Entity\Registrant:
+    type: entity
+    table: null
+    repositoryClass: AppBundle\Repository\RegistrantRepository
+    id:
+        registrantEmail:
+            type: string
+            id: true
+            length: 255
+            column: registrant_email
+
+    oneToMany:
+        parties:
+            targetEntity: Party
+            mappedBy: registrant
+        party_participant_lists:
+            targetEntity: Party_participant_list
+            mappedBy: registrant
+
+    fields:
+        over18:
+            type: boolean
+            column: over_18
+        hasSwimExperience:
+            type: boolean
+            column: has_swim_experience
+        hasBoatExperience:
+            type: boolean
+            column: has_boat_experience
+        hasCprCertification:
+            type: boolean
+            column: has_cpr_certification
+        fullName:
+            type: string
+            length: 255
+            column: full_name
+        phone:
+            type: string
+            length: 20
+        emergencyContactName:
+            type: string
+            length: 255
+            column: emergency_contact_name
+        emergencyContactPhone:
+            type: string
+            length: 20
+            column: emergency_contact_phone
+        participantType:
+            type: string
+            length: 255
+            column: participant_type
+        zip:
+            type: integer
+        numTimesApplied:
+            type: integer
+            column: num_times_applied
+        numTimesInvited:
+            type: integer
+            column: num_times_invited
+        numTimesConfirmed:
+            type: integer
+            column: num_times_confirmed
+        numTimesAttended:
+            type: integer
+            column: num_times_attended
+        comments:
+            type: string
+            length: 2047
+            nullable: true
+            column: comments
+        isPriorVolunteer:
+            type: boolean
+            column: is_prior_volunteer
+        roleFamiliarity:
+            type: boolean
+            nullable: true
+            column: role_familiarity
+        vehicleCapacity:
+            type: integer
+            nullable: true
+            column: vehicle_capacity
+    lifecycleCallbacks: {  }
