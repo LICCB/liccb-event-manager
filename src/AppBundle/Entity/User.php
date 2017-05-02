@@ -53,9 +53,6 @@ class User extends BaseUser
         return $this;
     }
 
-		return $this;
-	}
-
 	/**
 	 * {@inheritdoc}
 	 */

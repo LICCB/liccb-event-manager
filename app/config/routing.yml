@@ -75,8 +75,8 @@ admin_volunteers_edit_groups:
     path: /admin/volunteers/{user_id}/groups/edit
 
 # Permission Pages
-    path: /admin/permission/edit
 permission_edit:
+    path: /admin/permission/edit
     defaults: {_controller: AppBundle:Permission:edit}
 
 # Lookback page

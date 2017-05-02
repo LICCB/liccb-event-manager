@@ -159,3 +159,23 @@ h1 {
 body {
 	background-color:#bad4ff;
 }
+
+table.no-colors tr {
+    background-color: white;
+}
+
+.lookback-comments th {
+    background-color: lightgray;
+}
+
+.lookback-comments td {
+    background-color: lightgray;
+}
+
+.lookback-events th {
+    background-color: lightgray;
+}
+
+.lookback-events td {
+    background-color: lightgray;
+}

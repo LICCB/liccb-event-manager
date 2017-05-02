@@ -6,6 +6,7 @@ use AppBundle\Form\EventEdit;
 use AppBundle\Form\EventRegistrantsEdit;
 use AppBundle\Form\EventScoring;
 use AppBundle\Form\EventStrategies;
+use AppBundle\Form\EventAttendanceEdit;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Strategy;
@@ -73,6 +74,7 @@ class EventController extends Controller
 			
 		// collect all data from the first strategy into an array
 		$data = array();
+		if ($selected_strategy != NULL) {
 		$data['name'] = $selected_strategy->getName();
 		$data['over18'] = $selected_strategy->getOver18();
 		$data['over18W'] = $selected_strategy->getOver18W();
@@ -98,6 +100,7 @@ class EventController extends Controller
 		$data['participantTypeW'] = $selected_strategy->getParticipantTypeW();
 		if ($data['participantTypeW'] == -1)
 			$data['participantTypeRequired'] = true;
+		}
 		
 		$data['attendance'] = $selected_strategy->getAttendance();
 		$data['attendanceW'] = $selected_strategy->getAttendanceW();
@@ -115,6 +118,10 @@ class EventController extends Controller
 		));
 		
 		$strategy_form->handleRequest($request);
+
+		// create the attendance form
+		$attendanceForm = $this->createForm(EventAttendanceEdit::class, $event);
+	    $attendanceForm->handleRequest($request);
 
 		// On Submission of registrants form - if data is valid
 	    if($registrantsForm->isSubmitted() && $registrantsForm->isValid()){
@@ -172,6 +179,28 @@ class EventController extends Controller
 	    		'id' => $id
 		    ));
 	    }
+
+		if($attendanceForm->isSubmitted() && $attendanceForm->isValid()){
+	    	$formEvents = $attendanceForm->getData();
+
+			foreach($event->getParties() as $party) {
+				foreach($formEvents->getParties() as $formParty) {
+					if ($formParty->getId() == $party->getId()) {
+						$party->setNumActuallyAttended($formParty->getNumActuallyAttended());
+						$party->setThumbs($formParty->getThumbs());
+						break;
+					}
+				}
+			}
+
+	    	$em = $this->getDoctrine()->getManager();
+	    	$em->persist($event);
+	    	$em->flush();
+
+	    	return $this->redirectToRoute('event_show', array(
+	    		'id' => $id
+		    ));
+	    }
 		
 		// Pass all necessary values to page and render
         return $this->render('event/show.html.twig', array(
@@ -179,6 +208,7 @@ class EventController extends Controller
 	        'form' => $registrantsForm->createView(),
 			'strategy_form' => $strategy_form->createView(),
 			'all_strategies' => $all_strategies,
+			'attendance_form' => $attendanceForm->createView(),
         ));
 		
     }
@@ -245,6 +275,10 @@ class EventController extends Controller
 		// create the strategy form
 		$strategy_form = $this->createForm(EventStrategies::class, $data);
 		$strategy_form->handleRequest($request);
+
+		// create the attendance form
+		$attendanceForm = $this->createForm(EventAttendanceEdit::class, $event);
+	    $attendanceForm->handleRequest($request);
 		
 		
 		// Retrieve the form's buttons
@@ -430,6 +464,7 @@ class EventController extends Controller
 			'form' => $registrantsForm->createView(),
 			'strategy_form' => $strategy_form->createView(),
 			'all_strategies' => $all_strategies,
+			'attendance_form' => $attendanceForm->createView(),
         ));
 	}
 	
