@@ -133,22 +133,17 @@
 		{% for party in attendance_form.parties %}
 			{% if party.vars.value.selectionStatus == "Approved" %}
 				<tr class="bg-success">
-			{% elseif party.vars.value.selectionStatus == "Denied" %}
-				<tr class="bg-danger">
-			{% elseif party.vars.value.selectionStatus == "Emailed" %}
-				<tr class="bg-info">
-			{% else %}
-				<tr>
-			{% endif %}
-			    <td>{{ party.vars.data.Registrant.fullName }}</td>
+                <td>{{ party.vars.data.Registrant.fullName }}</td>
 			    <td>{{ party.vars.value.numSeats }}</td>
 				<td>{{ form_row(party.numActuallyAttended,
 					{'attr': { 'min': 0, 'max': party.vars.value.numSeats }}) }}</td>
 				<td>{{ form_row(party.thumbs) }}</td>
-			</tr>
+                </tr>
+			{% endif %}
 		{% endfor %}
 	</table>
-	{{ form_end(attendance_form) }}
+    {{ form_row(attendance_form.update, {'label': 'Update'}) }}
+	{{ form_end(attendance_form, {'render_rest': false}) }}
 
 {% endblock %}
 
