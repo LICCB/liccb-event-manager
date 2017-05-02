@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: jake
- * Date: 4/1/17
- * Time: 4:06 PM
- */
 
 namespace AppBundle\Entity;
 
@@ -14,15 +8,15 @@ use AppBundle\Entity\Group;
 
 class User extends BaseUser
 {
-	/*
-	 * @var int
-	 */
-	protected $id;
+    /**
+     * @var integer
+     */
+    private $id;
 
-	/*
-	 * @var string
-	 */
-	private $googleID;
+    /**
+     * @var string
+     */
+    private $googleID;
 
 	/*
 	 * @var ArrayCollection
@@ -35,35 +29,29 @@ class User extends BaseUser
 		$this->groups = new ArrayCollection();
 	}
 
-	/**
-	 * Get id
-	 *
-	 * @return int
-	 */
-	public function getId()
-	{
-		return $this->id;
-	}
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
-	/**
-	 * Get googleID
-	 *
-	 * @return string
-	 */
-	public function getGoogleID(){
-		return $this->googleID;
-	}
+    /**
+     * Set googleID
+     *
+     * @param string $googleID
+     *
+     * @return User
+     */
+    public function setGoogleID($googleID)
+    {
+        $this->googleID = $googleID;
 
-	/**
-	 * Set googleID
-	 *
-	 * @param string $googleID
-	 *
-	 * @return User
-	 */
-	public function setGoogleID($googleID)
-	{
-		$this->googleID = $googleID;
+        return $this;
+    }
 
 		return $this;
 	}

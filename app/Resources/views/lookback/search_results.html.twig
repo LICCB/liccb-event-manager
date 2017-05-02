@@ -11,67 +11,77 @@
     {{ form_widget(form) }}
     {{ form_end(form) }}
 
-	{# Contain whole thing in variable sized scrollable window #}
-	<div class="panel-group" id="accordion">
-    {% for registrant in registrants %}
-		{# Contain each user entry in dropdown configuration in unordered list#}
-		<button class="accordion">{{ registrant.getfullName() }}</button>
-		<div class="panel">
-			<table>
-				<tr>
-					<td># Events applied to: {{ registrant.getNumTimesApplied() }}</td>
-					<td># Events invited to: {{ registrant.getNumTimesInvited() }}</td>
-				</tr>
-				<tr>
-					<td># Events confimed attending: {{ registrant.getNumTimesConfirmed() }}</td>
-					<td># Events attended: {{ registrant.getNumTimesAttended() }}</td>
-				<tr>
-					<td>Administrative comments:</td>
-					<td><a href="registrants/{{ registrant.getRegistrantEmail() }}">Registrant Page</a></td>
-				</tr>
-			</table>
-			{% set parties = registrant.getParties() %}
-			{% set numParties = parties|length %}
+	{% set commentCollapseId = 0 %}
+	{% set eventCollapseId = 0 %}
+
+	<table class="no-colors">
+		<tr class="">
+			<th>Name</th>
+			<th># Events Registered For</th>
+			<th># Events Selected For</th>
+			<th># Events Attended</th>
+			<th># Thumbs Up</th>
+			<th># Thumbs Down</th>
+			<th># Administrative Comments</th>
+			<th>Link to Registrant</th>
+			<th>Events Attended</th>
+		</tr>
+		{% for registrant in registrants %}
+			{% set numThumbsUp = 0 %}
+			{% set numThumbsDown = 0 %}
+			{% set parties = registrant.getParties %}
 			{% for party in parties %}
-				{% set event = party.getOrgEvent() %}
-				<table>
-					<tr>
-						<td class="event-name"><h4>Event: {{ event.getOrgEventName() }}</h4></td>
-						<td>Event Type: {{ event.getOrgEventType() }}</td>
-						<td>Date: {{ event.getDate().format('M d, Y') }}</td>
-					</tr>
-					<tr>
-						<td>Party Size: {{ party.getNumSeats() }}</td>
-						<td>Party confirmed attending: {% if party.getConfirmedAttending() %}yes{% else %}no{% endif %}</td>
-						<td># party members attended: {{ party.getNumActuallyAttended() }}</td>
-					</tr>
-				</table>
+				{% if party.getThumbs == "Up" %}
+					{% set numThumbsUp = numThumbsUp + 1 %}
+				{% elseif party.getThumbs == "Down" %}
+					{% set numThumbsDown = numThumbsDown + 1 %}
+				{% endif %}
 			{% endfor %}
-		</div>
-	{% endfor %}
-	</div>
-{% endblock %}
 
-{% block javascript %}
-	<script>
-		var acc = document.getElementsByClassName("accordion");
-		var i;
+			<tr>
+				<td>{{ registrant.getfullName }}</td>
+				<td>{{ registrant.getNumTimesApplied }}</td>
+				<td>{{ registrant.getNumTimesInvited }}</td>
+				<td>{{ registrant.getNumTimesAttended }}</td>
+				<td>{{ numThumbsUp }}</td>
+				<td>{{ numThumbsDown }}</td>
+				<td>{% if registrant.getComments == "" %}none{% else %}<button data-toggle="collapse" data-target=".comment-collapse-{{ commentCollapseId }}">View</button>{% endif %}</td>
+				<td><a href="registrants/{{ registrant.getRegistrantEmail }}">Registrant Page</a></td>
+				<td><button data-toggle="collapse" data-target=".event-collapse-{{ eventCollapseId }}">Expand</button></td>
+			</tr>
 
-		for (i = 0; i < acc.length; i++) {
-			acc[i].onclick = function(){
-				/* Toggle between adding and removing the "active" class,
-				to highlight the button that controls the panel */
-				this.classList.toggle("active");
-	
-				/* Toggle between hiding and showing the active panel */
+			<tr class="comment-collapse-{{ commentCollapseId }} collapse lookback-comments">
+				<td></td>
+				<th>Comments:</th>
+				<td colspan="7"><textarea readonly rows="4" cols="50">{{ registrant.getComments }}</textarea></td>
+			</tr>
 
-				var panel = this.nextElementSibling;
-				if (panel.style.display === "block") {
-					panel.style.display = "none";
-				} else {
-					panel.style.display = "block";
-				}
-			}
-		}
-	</script>
+			<tr class="event-collapse-{{ eventCollapseId }} collapse lookback-events">
+				<th></th>
+				<th colspan="2">Event</th>
+				<th>Event Type</th>
+				<th>Date</th>
+				<th>Party Size</th>
+				<th># party members attended</th>
+				<th colspan="3">Thumbs Up/Down</th>
+			</tr>
+			
+			{% set parties = registrant.getParties %}
+			{# {% set numParties = parties|length %} #}
+			{% for party in parties %}
+				{% set event = party.getOrgEvent %}
+				<tr class="event-collapse-{{ eventCollapseId }} collapse lookback-events">
+					<td></td>
+					<td colspan="2">{{ event.getOrgEventName }}</td>
+					<td>{{ event.getOrgEventType }}</td>
+					<td>{{ event.getDate.format('M d, Y') }}</td>
+					<td>{{ party.getNumSeats }}</td>
+					<td>{{ party.getNumActuallyAttended }}</td>
+					<td colspan="2">{% if party.getThumbs == "Up" %}(thumbs up){#<img display="block" width="4%" height="4%" src="{{ asset('images/thumbs-up.svg') }}" />#}{% elseif party.getThumbs == "Down" %}(thumbs down){#<img display="block" width="4%" height="4%" src="{{ asset('images/thumbs-down.svg') }}" />#}{% else %}no rating{% endif %}</td>
+				</tr>
+			{% endfor %}
+			{% set commentCollapseId = commentCollapseId + 1 %}
+			{% set eventCollapseId = eventCollapseId + 1 %}
+		{% endfor %}
+	</table>
 {% endblock %}

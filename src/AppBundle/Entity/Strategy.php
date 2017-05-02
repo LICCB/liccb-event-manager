@@ -67,6 +67,16 @@ class Strategy
      */
     private $participantTypeW;
 
+    /**
+     * @var integer
+     */
+    private $attendance;
+
+    /**
+     * @var integer
+     */
+    private $attendanceW;
+
 
     /**
      * Set name
@@ -355,5 +365,52 @@ class Strategy
     {
         return $this->participantTypeW;
     }
-}
 
+    /**
+     * Set attendance
+     *
+     * @param integer $attendance
+     *
+     * @return Strategy
+     */
+    public function setAttendance($attendance)
+    {
+        $this->attendance = $attendance;
+
+        return $this;
+    }
+
+    /**
+     * Get attendance
+     *
+     * @return integer
+     */
+    public function getAttendance()
+    {
+        return $this->attendance;
+    }
+
+    /**
+     * Set attendanceW
+     *
+     * @param integer $attendanceW
+     *
+     * @return Strategy
+     */
+    public function setAttendanceW($attendanceW)
+    {
+        $this->attendanceW = $attendanceW;
+
+        return $this;
+    }
+
+    /**
+     * Get attendanceW
+     *
+     * @return integer
+     */
+    public function getAttendanceW()
+    {
+        return $this->attendanceW;
+    }
+}
