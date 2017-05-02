@@ -45,6 +45,9 @@ splash:
 event_show:
     path: /event/{id}
     defaults: {_controller: AppBundle:Event:show}
+event_strategy:
+    path: /event/{id}/strategy/
+    defaults: {_controller: AppBundle:Event:strategy}
 event_edit:
     path: /event/{id}/edit
     defaults: {_controller: AppBundle:Event:edit}
@@ -62,18 +65,18 @@ admin_home:
     path: /admin/
     defaults: {_controller: AppBundle:Admin:index}
 admin_volunteers_add:
-    path: /admin/volunteers/add
     defaults: {_controller: AppBundle:Volunteers:add}
+    path: /admin/volunteers/add
 admin_volunteers_show:
     path: /admin/volunteers/{user_id}
     defaults: {_controller: AppBundle:Volunteers:show}
 admin_volunteers_edit_groups:
-    path: /admin/volunteers/{user_id}/groups/edit
     defaults: {_controller: AppBundle:Volunteers:editGroups}
+    path: /admin/volunteers/{user_id}/groups/edit
 
 # Permission Pages
-permission_edit:
     path: /admin/permission/edit
+permission_edit:
     defaults: {_controller: AppBundle:Permission:edit}
 
 # Lookback page
@@ -83,7 +86,7 @@ lookback:
 
 calendar:
     path:      /calendar
-    defaults: {_controller: AppBundle:Calendar:calendar}
 calendarupdate:
     path:      /calendar/update
+    defaults: {_controller: AppBundle:Calendar:calendar}
     defaults: {_controller: AppBundle:Calendar:update}
