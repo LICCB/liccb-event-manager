@@ -72,6 +72,7 @@ class EventController extends Controller
 			
 		// collect all data from the first strategy into an array
 		$data = array();
+		if ($selected_strategy != NULL) {
 		$data['name'] = $selected_strategy->getName();
 		$data['over18'] = $selected_strategy->getOver18();
 		$data['over18W'] = $selected_strategy->getOver18W();
@@ -97,6 +98,7 @@ class EventController extends Controller
 		$data['participantTypeW'] = $selected_strategy->getParticipantTypeW();
 		if ($data['participantTypeW'] == -1)
 			$data['participantTypeRequired'] = true;
+		}
 		
 		// Create registrant selection form
     	$registrantsForm = $this->createForm(EventRegistrantsEdit::class, $event);
